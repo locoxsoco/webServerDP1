@@ -20,8 +20,6 @@ import Clases
 import Annealing
 import Metaheuristico
 from datetime import datetime, date, time, timedelta
-@app.route('/postjson', methods=['POST'])
-def post():
+@app.route('/getjson', methods=['GET'])
+def get():
     return (str(Annealing.main()))
-
-app.run(host='0.0.0.0', port=5000)
