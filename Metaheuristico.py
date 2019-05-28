@@ -66,7 +66,7 @@ class Annealer(object):
                         break
         self.state = (self.listaPuertas, self.listaZonas,self.listaVuelos)
         best_state = deepcopy(self.state)
-        best_energy = self.energy()
+        best_energy = self.energy(False) #CAMBIAR PARA EXPNUM
         
         x= best_state
         y=best_energy
@@ -79,63 +79,49 @@ class Annealer(object):
         #print("Resultado: " + str(y))
 
     def move(self):
-        selector =round(random.random()*2)
-        indiceArea = round(random.random())
+        selector =round(random.random())
         itera =0
         if(selector == 0):
-            while (True):
-                itera +=1
-                if(itera >= 100):
+            #asignacion vuelo
+            indiceArea = round(random.random()*(len(self.state[0]+self.state[1])-1))
+            area = (self.state[0]+self.state[1])[indiceArea]
+
+            if(area.vuelos.cantidad == 0):
+                return
+            indiceVuelo = round(random.random()*(area.vuelos.cantidad-1))+1
+            cont = 1
+            p = area.vuelos.inicio
+            while(p is not None):
+                if (p.ocupado):
+                    if (cont == indiceVuelo):
+                        break
+                    cont +=1                              
+                p=p.sig
+
+            p.vuelo.setTiempoLlegada (p.vuelo.tiempoEstimado)
+            for puerta in self.state[0]:
+                if (puerta != area and puerta.insertarVuelo(p.vuelo,p.vuelo.tiempoEstimado)!=-1):
+                    area.removeVuelo(p)
                     return
-                
-                if(indiceArea == 0):
-                    indicePuertas = round(random.random()*(len(self.state[0])-1))
-                    
-                    area = self.state[0][indicePuertas]
-                else:
-                    indiceZonas = round(random.random()*(len(self.state[1])-1))
-                    
-                    area = self.state[1][indiceZonas]
+            for zona in self.state[1]:
+                if (zona != area and zona.insertarVuelo(p.vuelo,p.vuelo.tiempoEstimado)!=-1):
+                    area.removeVuelo(p)
+                    return
+            iter2 = 1 
+            while (True):
+                p.vuelo.tiempoLlegada += timedelta(minutes = 1)
+                for puerta in self.state[0]:
+                    if (puerta.insertarVuelo(p.vuelo,p.vuelo.tiempoLlegada)!=-1):
+                        area.removeVuelo(p)
+                        return
 
-                if(area.vuelos.cantidad == 0):
-                    continue
-                indiceVuelo = round(random.random()*area.vuelos.cantidad)+1
-                cont = 1
-                p = area.vuelos.inicio
-                while(p is not None):
-                    asignado = False
-                    if (p.ocupado):
-                        if(cont == indiceVuelo):
-                            p.vuelo.setTiempoLlegada (p.vuelo.tiempoEstimado)
-                            for puerta in self.state[0]:
-                                if (puerta != area and puerta.insertarVuelo(p.vuelo,p.vuelo.tiempoEstimado)!=-1):
-                                    area.removeVuelo(p)
-                                    return
-                            for zona in self.state[1]:
-                                if (zona != area and zona.insertarVuelo(p.vuelo,p.vuelo.tiempoEstimado)!=-1):
-                                    area.removeVuelo(p)
-                                    return
-                            iter2 = 0    
-                            while (True):
-                                p.vuelo.tiempoLlegada += timedelta(minutes = 1)
-                                for puerta in self.state[0]:
-                                    if (puerta.insertarVuelo(p.vuelo,p.vuelo.tiempoLlegada)!=-1):
-                                        area.removeVuelo(p)
-                                        return
-
-                                for zona in self.state[1]:
-                                    if (zona.insertarVuelo(p.vuelo,p.vuelo.tiempoLlegada)!=-1):
-                                        area.removeVuelo(p)
-                                        return 
-                                iter2 +=1
-                                if (iter2 > 100 ):
-                                    return
-                        cont +=1                              
-                    p=p.sig
-        elif (selector == 1):
-            pass
-        else:   
-            pass
+                for zona in self.state[1]:
+                    if (zona.insertarVuelo(p.vuelo,p.vuelo.tiempoLlegada)!=-1):
+                        area.removeVuelo(p)
+                        return 
+                iter2 +=1
+                if (iter2 > 60 ):
+                    return
 
     def energy(self,fin=True):
         """Calculate state's energy"""
@@ -155,9 +141,9 @@ class Annealer(object):
         for i in self.state[2]:
             costoVuelos += (i.tiempoLlegada - i.tiempoEstimado).total_seconds() ** 2
             xd += (i.tiempoLlegada - i.tiempoEstimado).total_seconds()
-        #if (fin):
-            #print (self.maxTiempo, self.minTiempo)
-        #    print ("Hora asignada y hora estimada (L) : "+ str(xd/3600))
+        if (fin):
+            print (self.maxTiempo, self.minTiempo)
+            print ("Hora asignada y hora estimada (L) : "+ str(xd/3600))
         xd=0        
         costoAreas = 0
         for puerta in self.state[0]:
@@ -174,8 +160,8 @@ class Annealer(object):
             costoAreas += parCastigo * costoPuerta
             xd +=costoPuerta
         
-        #if (fin):
-        #    print("Tiempo sin uso de Puertas (P*U) : "+ str(xd/3600))
+        if (fin):
+            print("Tiempo sin uso de Puertas (P*U) : "+ str(xd/3600))
         xd=0
         for zona in self.state[1]:
             costoZona = 0
@@ -188,8 +174,8 @@ class Annealer(object):
                 c+=1 
             costoAreas += costoZona
             xd +=costoZona
-        #if (fin):
-        #    print("Tiempo sin uso de Zonas (U) "+ str(xd/3600))
+        if (fin):
+            print("Tiempo sin uso de Zonas (U) "+ str(xd/3600))
         return costoAreas + costoVuelos
 
     def anneal(self):
@@ -242,5 +228,5 @@ class Annealer(object):
         self.state = deepcopy(best_state)
 
         #print("Final: ") 
-        self.energy()
+        self.energy(False) #CAMBIAR PARA EXPNUM
         return best_state, best_energy
