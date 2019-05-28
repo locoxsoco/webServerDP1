@@ -253,9 +253,9 @@ class Area:
 
     def imprimirLista(self):
         if(self.idArea % 2 ==0):
-            print ("{ \"tipo\": \""+ "puerta\", ",end="")
+            print ("{ \"tipo\": \""+ "puerta "+str(self.idArea//2) + "\", ",end="")
         else:
-            print ("{ \"tipo\": \""+ "zona\", ", end ="")
+            print ("{ \"tipo\": \""+ "zona "+str(self.idArea//2) + "\", ", end ="")
         print ("\"vuelos\": [ ",end="")
         p=self.vuelos.inicio
         f = 0
