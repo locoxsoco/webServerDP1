@@ -13,14 +13,13 @@ class Annealer(object):
     # parámetros
     Tmax = 25000.0
     Tmin = 2.5
-    steps = 1000
-    updates = 100
-    user_exit = False
-    max_iter = 5000
+    steps = 4000
 
-    best_state = None
-    best_energy = None
-    start = None
+    max_accepts = 50
+    max_improve = 20
+    reheat =1.25
+    max_iter = 100
+    listaTabu = []
 
     def __init__(self,x,y,z):
         """
@@ -70,15 +69,8 @@ class Annealer(object):
         
         x= best_state
         y=best_energy
-        #print("Puertas")
-        #for i in x[0]:
-        #    i.imprimirLista()
-        #print("Zonas:")
-        #for i in x[1]:
-        #    i.imprimirLista()
-        #print("Resultado: " + str(y))
 
-    def move(self):
+    def move(self,tabu = False):
         selector =round(random.random())
         itera =0
         if(selector == 0):
@@ -91,12 +83,22 @@ class Annealer(object):
             indiceVuelo = round(random.random()*(area.vuelos.cantidad-1))+1
             cont = 1
             p = area.vuelos.inicio
+
+            
+            #Tabu
+            if (tabu):
+                if(("Insert", area.idArea, indiceVuelo) in self.listaTabu):
+                    return
+                else: 
+                    self.listaTabu.append(("Insert", area.idArea, indiceVuelo))
+
             while(p is not None):
                 if (p.ocupado):
                     if (cont == indiceVuelo):
                         break
                     cont +=1                              
                 p=p.sig
+
 
             p.vuelo.setTiempoLlegada (p.vuelo.tiempoEstimado)
             for puerta in self.state[0]:
@@ -122,6 +124,66 @@ class Annealer(object):
                 iter2 +=1
                 if (iter2 > 60 ):
                     return
+        else:
+            #intercambio de intervalos
+            indiceArea = round(random.random()*(len(self.state[0]+self.state[1])-1))
+            area = (self.state[0]+self.state[1])[indiceArea]
+
+            if(area.vuelos.cantidad == 0):
+                return
+            indiceVuelo = round(random.random()*(area.vuelos.cantidad-1))+1
+            cont = 1
+            p = area.vuelos.inicio
+            while(p is not None):
+                if (p.ocupado):
+                    if (cont == indiceVuelo):
+                        break
+                    cont +=1                              
+                p=p.sig
+
+            
+            indiceArea2 = round(random.random()*(len(self.state[0]+self.state[1])-1))
+            if(indiceArea2 == indiceArea): 
+                return
+            area2 = (self.state[0]+self.state[1])[indiceArea2]
+            if(area2.vuelos.cantidad == 0):
+                return
+
+            #Tabu
+            if (tabu):
+                if(("Exchange", area.idArea, indiceVuelo, area2.idArea) in self.listaTabu):
+                    return
+                else: 
+                    self.listaTabu.append(("Exchange", area.idArea, indiceVuelo, area2.idArea))
+
+            p2 = area2.vuelos.inicio
+            while(p2 is not None):
+                if (p2.ocupado):
+                    if ((p2.tiempoInicio < p.tiempoFin and p2.tiempoInicio > p.tiempoInicio) or \
+                        (p2.tiempoFin < p.tiempoFin and p2.tiempoFin > p.tiempoInicio) or \
+                        (p.tiempoInicio < p2.tiempoFin and p.tiempoInicio > p2.tiempoInicio)or 
+                        (p.tiempoFin < p2.tiempoFin and p.tiempoFin > p2.tiempoInicio)):
+                        break
+                p2=p2.sig
+            if (p2 is None):
+                return
+            A = Clases.Intervalo (p)
+            B = Clases.Intervalo (p2)
+            while not ((A.t2 >= B.t1 and A.t3 <= B.t4) and \
+                (B.t2 >= A.t1 and B.t3 <= A.t4)):    
+                if (A.t2 < B.t1):
+                    if (not B.extendLeft()):
+                        return
+                if (B.t2 < A.t1):
+                    if (not A.extendLeft()):
+                        return
+                if (A.t3>B.t4):
+                    if (not B.extendRight()):
+                        return
+                if (B.t3>A.t4):
+                    if (not A.extendRight()):
+                        returnarea.exchange(area2, A, B)
+
 
     def energy(self,fin=True):
         """Calculate state's energy"""
@@ -142,7 +204,7 @@ class Annealer(object):
             costoVuelos += (i.tiempoLlegada - i.tiempoEstimado).total_seconds() ** 2
             xd += (i.tiempoLlegada - i.tiempoEstimado).total_seconds()
         if (fin):
-            print (self.maxTiempo, self.minTiempo)
+            #print (self.maxTiempo, self.minTiempo)
             print ("Hora asignada y hora estimada (L) : "+ str(xd/3600))
         xd=0        
         costoAreas = 0
@@ -200,6 +262,7 @@ class Annealer(object):
         best_state = deepcopy(self.state)
         best_energy = E
         trials, accepts, improves = 0, 0, 0
+        unaccepts, unimproves = 0,0
 
         # Attempt moves to new states
         while step < self.steps:
@@ -213,16 +276,39 @@ class Annealer(object):
                 # Restore previous state
                 self.state = deepcopy(prevState)
                 E = prevEnergy
+                unaccepts += 1
             else:
                 # Accept new state and compare to best state
                 accepts += 1
                 if dE < 0.0:
                     improves += 1
+                else: 
+                    unimproves +=1
                 prevState = deepcopy(self.state)
                 prevEnergy = E
                 if E < best_energy:
                     best_state = deepcopy(self.state)
                     best_energy = E
+            #Iterative Tabu Search        
+            if (unaccepts > self.max_accepts or unimproves > self.max_improve):
+                unaccepts = 0
+                unimproves = 0
+                self.listaTabu = []
+                iters =0
+                while(iters <= self.max_iter):
+                    self.move(True)
+                    E = self.energy(False)
+                    dE = E-prevEnergy
+                    if dE < 0.0 :
+                        prevState = deepcopy(self.state)
+                        prevEnergy = E
+                        if (E < best_energy):
+                            best_state = deepcopy(self.state)
+                            best_energy = E
+                    iters+=1
+                T = T * self.reheat
+            if (T<= 0.001):
+                break
 
         # Return best state and energy
         self.state = deepcopy(best_state)

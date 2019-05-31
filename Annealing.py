@@ -14,10 +14,14 @@ s = StringIO()
 sys.stdout = s
 
 def main ():
-
+    start = time.time()
+    f= open("Llamadas a API.txt","a+")
     corrida ()
-    #sys.stdout = sys.__stdout__
+    sys.stdout = sys.__stdout__
+    end = time. time()
+    f.write("Tiempo de ejecución: " + str((end-start))+ " segundos.")
     return(s.getvalue())
+    #sys.stdout = sys.__stdout__
 
 def corrida():
     #r2 = requests.get(url='https://aviation-edge.com/v2/public/timetable?key=a24d93-2501aa&iataCode=LIM&type=arrival')
@@ -67,7 +71,9 @@ def corrida():
         try:
             vuelo.addIcao(jsonVuelo['icaoNumber'])
         except:
-            pass
+            vuelo.addIata(jsonVuelo['iataNumber'])
+        if(vuelo.icao == "None"):
+            vuelo.addNumeroVuelo(jsonVuelo['number'])
 
         jsonAerolinea = flight['airline']
         aerolinea =Clases.TAerolinea()
@@ -101,11 +107,9 @@ def corrida():
     x,y = ann.anneal()
 
     print ("[", end="")
-    #print("Puertas")
     for i in x[0]:
         i.imprimirLista()
         print (", ",end="")
-    #print("Zonas:")
     cont =0
     for i in x[1]:
         if(cont ==0):
@@ -113,11 +117,8 @@ def corrida():
         else:
             print(", ",end="")
         i.imprimirLista() 
-    #print("Resultado: " + str(y))
     print (" ]")
 
-    end = time. time()
-    #print("Tiempo de ejecución: " + str((end-start)))
     return y
 
 if __name__ == '__main__':
