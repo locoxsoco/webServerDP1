@@ -72,7 +72,6 @@ class Annealer(object):
 
     def move(self,tabu = False):
         selector =round(random.random())
-        itera =0
         if(selector == 0):
             #asignacion vuelo
             indiceArea = round(random.random()*(len(self.state[0]+self.state[1])-1))
@@ -82,15 +81,15 @@ class Annealer(object):
                 return
             indiceVuelo = round(random.random()*(area.vuelos.cantidad-1))+1
             cont = 1
-            p = area.vuelos.inicio
-
-            
+            p = area.vuelos.inicio            
             #Tabu
             if (tabu):
                 if(("Insert", area.idArea, indiceVuelo) in self.listaTabu):
                     return
                 else: 
                     self.listaTabu.append(("Insert", area.idArea, indiceVuelo))
+                    if (len(self.listaTabu)>50):
+                        self.listaTabu.remove(self.listaTabu[0])
 
             while(p is not None):
                 if (p.ocupado):
@@ -155,6 +154,9 @@ class Annealer(object):
                     return
                 else: 
                     self.listaTabu.append(("Exchange", area.idArea, indiceVuelo, area2.idArea))
+                    if (len(self.listaTabu)>50):
+                        self.listaTabu.remove(self.listaTabu[0])
+
 
             p2 = area2.vuelos.inicio
             while(p2 is not None):
@@ -182,8 +184,8 @@ class Annealer(object):
                         return
                 if (B.t3>A.t4):
                     if (not A.extendRight()):
-                        returnarea.exchange(area2, A, B)
-
+                        return
+            #area.exchange(area2, A, B) 
 
     def energy(self,fin=True):
         """Calculate state's energy"""
@@ -194,8 +196,8 @@ class Annealer(object):
                 self.maxTiempo = i.tiempoLlegada
             if(self.minTiempo > i.tiempoLlegada):
                 self.minTiempo = i.tiempoLlegada
-        maxTiempo = self.maxTiempo + timedelta(hours=2)
-        minTiempo =self.minTiempo - timedelta(hours=1)
+        # maxTiempo = self.maxTiempo + timedelta(hours=2)
+        # minTiempo =self.minTiempo - timedelta(hours=1)
 
         costoVuelos = 0
         parCastigo = 900000
@@ -293,7 +295,6 @@ class Annealer(object):
             if (unaccepts > self.max_accepts or unimproves > self.max_improve):
                 unaccepts = 0
                 unimproves = 0
-                self.listaTabu = []
                 iters =0
                 while(iters <= self.max_iter):
                     self.move(True)

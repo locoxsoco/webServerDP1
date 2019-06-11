@@ -1,15 +1,14 @@
 from datetime import datetime, date,time, timedelta
 from io import StringIO
-from copy import deepcopy
-
+from copy import deepcopy,copy
 import sys
 
 class Avion :
-    def __init__ (self,reg_number=None,icao=None,tipoAvion=None,tAerolinea=None):
+    def __init__ (self,numeroRegistro=None,icao=None,tipoAvion=None,tAerolinea=None):
         pass
     
-    def addRegNumber (self,reg_number):
-        self.regNumber = reg_number
+    def addNumeroRegistro (self,numeroRegistro):
+        self.numeroRegistro = numeroRegistro
 
     def addIata(self, iata):
         self.iata = iata
@@ -27,11 +26,14 @@ class Aeropuerto:
     def __init__ (self, iata=None, icao=None):
         pass
 
-    def addIata(self, iata):
-        self.iata = iata
+    def addIdAeropuerto(self, idAeropuerto):
+        self.idAeropuerto = idAeropuerto
 
-    def addIcao(self, icao):
-        self.icao = icao
+    def addPais (self, pais):
+        self.pais = pais
+
+    def addNombre(self,nombre):
+        self.nombre = nombre
 
 class TAerolinea:
     def __init__ (self,idAerolinea=None, iata=None,icao=None):
@@ -50,11 +52,8 @@ class TAerolinea:
         self.nombre = nombre
 
 class TipoAvion:
-    def __init__(self,regNumber = None,capacidad = None,largo = None,ancho = None): 
+    def __init__(self, modelo, pais, idTipoAvion): 
         pass
-
-    def addRegNumber (self,reg_number):
-        self.regNumber = reg_number
 
     def addCapacidad(self,capacidad):
         self.capacidad = capacidad
@@ -72,7 +71,6 @@ class Vuelo:
         numeroVuelo=None,estaEnTierra=None,latitud=None,longitud=None, \
         altura=None, direccion=None, velocidadHorizontal=None, velocidadVertical=None,
         aeropuertoOrigen = None):
-        self.asignado = False
         self.area=None
         self.estado=estado
         self.avion=avion
@@ -90,7 +88,7 @@ class Vuelo:
         self.velocidadHorizontal = velocidadHorizontal
         self.velocidadVertical = velocidadVertical
         self.aeropuertoOrigen = aeropuertoOrigen
-        self.idVuelo = 0
+        self.tamano = None
 
     def setEstado(self,estado):
         self.estado = estado
@@ -113,6 +111,9 @@ class Vuelo:
 
     def addIcao(self, icao):
         self.icao = icao
+
+    def setTamano (self,tamano):
+        self.tamano = tamano
 
     def addNumeroVuelo(self,numeroVuelo):
         self.numeroVuelo=numeroVuelo
@@ -141,20 +142,19 @@ class Vuelo:
     def addAeropuertoOrigen(self,aeropuertoOrigen):
         self.aeropuertoOrigen = aeropuertoOrigen 
 
-    def asignarPuerta (self, flagArea, area): 
-        self.flagArea = flagArea # 1: zona, 0: puerta
+    def asignarPuerta (self, area): 
         self.area = area # puntero a puerta o zona
-        self.asignado=True
 
     def asignarIDVuelo(self):
         Vuelo.nVuelo +=1
         self.idVuelo = Vuelo.nVuelo
 
-    def printData(self):
-        #print("Numero de vuelo: " + str(self.numeroVuelo)+ " | ", end='')
-        #if (self.area is not None):
-        #    print("Puerta: " + str(self.area.idArea)+ " | ", end='')
-        #print("tiempoEstimado: " + str(self.tiempoEstimado) +" | tiempoLlegada: " + str(self.tiempoLlegada) )
+    def printJson (self):
+        # print ("{", end="")
+        # print("{ \"numeroVuelo\": \""+ str(self.icao) \
+        #     + "\", \"TiempoEstimado\": \""+ str(self.tiempoEstimado) \
+        #     + "\", \"TiempoLlegada\": \""+ str(self.tiempoLlegada) + "\" }",end="") 
+        # print ("}", end="")
         pass
 
 class BloqueVuelo:
@@ -183,7 +183,6 @@ class ListaVuelos:
     def __init__ (self):
         self.inicio = BloqueVuelo()
 
-        dia = datetime.now()
         self.tiempoInicio= datetime(year=2019,month =1,day=1,\
             hour=0,minute=0,second=0)
         self.tiempoFin= datetime(year=2020,month =1,day=1,\
@@ -242,21 +241,27 @@ class ListaVuelos:
         else: 
             return -1
 
-class Area:
-    def __init__ (self, idArea=0, largo=0.0, ancho=0.0, coordenadaXCentro=0.0, \
-        coordenadaYCentro=0.0):
+class Area: 
+    def __init__ (self, tipoArea, tamano, idArea, coordenadaXCentro=0.0, coordenadaYCentro=0.0):
         self.idArea = idArea
-        self.largo = largo
-        self.ancho = ancho
+        self.tipoArea = tipoArea
+        self.tamano = tamano
         self.vuelos = ListaVuelos()
-        #self.tiempoLibre = self.vuelos.tiempoLibre
-
+        
+    def insertarVuelo(self, vuelo,tiempo):
+        if(self.tamano != vuelo.tamano):
+            return -1
+        bloque = BloqueVuelo()        
+        bloque.addVuelo(vuelo,tiempo)
+        insercion = self.vuelos.insertarBloque(bloque)
+        if (insercion != -1 ):
+            bloque.vuelo.asignarPuerta (self)
+            return 1
+        else:
+            return -1
 
     def imprimirLista(self):
-        if(self.idArea % 2 ==0):
-            print ("{ \"tipo\": \""+ "puerta "+str(self.idArea//2) + "\", ",end="")
-        else:
-            print ("{ \"tipo\": \""+ "zona "+str(self.idArea//2 + 1) + "\", ", end ="")
+        print ("{ \"tipo\": \""+ self.tamano + " "+str(self.idArea) + "\", ",end="")
         print ("\"vuelos\": [ ",end="")
         p=self.vuelos.inicio
         f = 0
@@ -349,35 +354,16 @@ class Area:
 ############################################################################
 
 class Zona(Area):
-    def __init__ (self, idArea=0, largo=0.0, ancho=0.0, coordenadaXCentro=0.0, \
-        coordenadaYCentro=0):
-        Area.__init__(self, idArea, largo,ancho,coordenadaXCentro, coordenadaYCentro)
-
-    def insertarVuelo(self, vuelo,tiempo):
-        bloque = BloqueVuelo()
-        bloque.addVuelo(vuelo,tiempo)
-        insercion = self.vuelos.insertarBloque(bloque)
-        if (insercion != -1 ):
-            bloque.vuelo.asignarPuerta (1, self)
-            return 1
-        else:
-            return -1
+    def __init__ (self, tipoArea, tamano, idArea=0, coordenadaXCentro=0.0, \
+        coordenadaYCentro=0.0):
+        Area.__init__(self,  tipoArea,tamano, idArea,  coordenadaXCentro, coordenadaYCentro)
 
 class Puerta(Area):
-    def __init__ (self, idArea=0, largo=0.0, ancho=0.0, coordenadaXCentro=0.0, \
+    def __init__ (self, tipoArea, tamano, idArea=0, coordenadaXCentro=0.0, \
         coordenadaYCentro=0.0, velocidadDesembarco = 0.0):
-        Area.__init__(self, idArea, largo,ancho, coordenadaXCentro, coordenadaYCentro)
+        Area.__init__(self, tipoArea,tamano, idArea,  coordenadaXCentro, coordenadaYCentro)
         self.velocidadDesembarco = velocidadDesembarco
 
-    def insertarVuelo(self, vuelo,tiempo):
-        bloque = BloqueVuelo()        
-        bloque.addVuelo(vuelo,tiempo)
-        insercion = self.vuelos.insertarBloque(bloque)
-        if (insercion != -1 ):
-            bloque.vuelo.asignarPuerta (0, self)
-            return 1
-        else:
-            return -1
 
 class Manga: 
     def __init__(self):
@@ -450,71 +436,80 @@ class Intervalo(object):
         
 
 def insertarIntervalo(area1, A, B):
+    area1.imprimirLista()
     if (A.inicio.ant is None):
+        area1.vuelos.inicio.definirEspacioVacio( \
+            area1.vuelos.inicio.tiempoInicio, B.t2)
         if (B.t1==B.t2):
-            area1.vuelos.inicio.definirEspacioVacio( \
-                area1.vuelos.inicio.tiempoInicio, B.t1)
             B.inicio.ant = area1.vuelos.inicio
             area1.vuelos.inicio.sig = B.inicio
         else: 
-            area1.vuelos.inicio.definirEspacioVacio( \
-                area1.vuelos.inicio.tiempoInicio, B.t2)
             B.inicio.sig.ant = area1.vuelos.inicio
             area1.vuelos.inicio.sig = B.inicio.sig
     else:
-        if (B.t1==B.t2):
-            if (A.t1 < B.t1):
+        if (B.t1==B.t2):# no hay espacio vacio en B
+            if (A.t1 == A.t2):# Ninguno tiene espacio vacío
+                A.inicio.ant.definirEspacioVacio(A.inicio.ant.tiempoInicio, B.t1)#nuevo
+                B.inicio.ant = A.inicio.ant
+                A.inicio.ant.sig = B.inicio
+            else: # entre A y B hay espacio vacío
                 bloqueVacio = BloqueVuelo()
                 bloqueVacio.definirEspacioVacio(A.t1, B.t1)
-                area1.vuelos.cantBloques += 1
                 A.inicio.ant.sig = bloqueVacio
                 bloqueVacio.ant = A.inicio.ant
                 bloqueVacio.sig = B.inicio
                 B.inicio.ant = bloqueVacio
+        else:# hay espacio vacio en B
+            # if (A.t1 < B.t1):# entre A y B hay espacio vacío
+            if (A.t1 != A.t2): 
+                A.inicio.definirEspacioVacio(A.t1, B.t2)
+                A.inicio.sig = B.inicio.sig#modificado
+                B.inicio.sig.ant = A.inicio#modificado
             else:
-                A.inicio.ant.sig = B.inicio
-                #cantBloques
-                B.inicio.ant = A.inicio.ant
-        else:
-            if(A.t1 < B.t1):
-                B.inicio.definirEspacioVacio(A.t1, B.t2)
-                area1.vuelos.cantBloques += 1
-                A.inicio.ant.sig = B.inicio
-                B.inicio.ant = A.inicio.ant
-            else:
-                A.inicio.ant.sig = B.inicio.sig
-                #cantBloques
-                B.inicio.ant = A.inicio.ant
-        
+                bloqueVacio = BloqueVuelo()
+                bloqueVacio.definirEspacioVacio(A.t1, B.t2)
+                bloqueVacio.sig = B.inicio.sig #modificado
+                bloqueVacio.ant = A.inicio.ant 
+                A.inicio.ant.sig = bloqueVacio
+                B.inicio.sig.ant = bloqueVacio #modificado
+            # else:
+                # A.inicio.ant.sig = B.inicio
+                # B.inicio.ant = A.inicio.ant
 
     if (A.fin.sig is None):
+        A.fin.definirEspacioVacio(B.t3, A.fin.tiempoFin)
         if(B.t3 == B.t4):
-            A.fin.definirEspacioVacio(B.t4, A.fin.tiempoFin)
             B.fin.sig = A.fin
             A.fin.ant = B.fin
         else:
-            A.fin.definirEspacioVacio(B.t3, A.fin.tiempoFin)
             B.fin.ant.sig = A.fin
             A.fin.ant = B.fin.ant
     else:
         if(B.t3 == B.t4):
-            if(A.t4 < B.t4):
+            if(A.t3 == A.t4):
+                A.fin.sig.definirEspacioVacio(B.t4, A.fin.sig.tiempoFin)#nuevo
+                A.fin.sig.ant = B.fin
+                B.fin.sig = A.fin.sig
+            else:
                 bloqueVacio = BloqueVuelo()
                 bloqueVacio.definirEspacioVacio(A.t4, B.t4)
-                area1.vuelos.cantBloques+=1
                 A.fin.sig.ant = bloqueVacio
                 bloqueVacio.sig = A.fin.sig
                 bloqueVacio.ant = B.fin
                 A.fin.sig = bloqueVacio
-            else:
-                A.fin.sig.ant = B.fin
-                B.fin.sig = A.fin.sig
         else:
-            if(A.t4 < B.t4):
-                B.fin.definirEspacioVacio(B.t3, A.t4)
-                area1.vuelos.cantBloques += 1
-                A.fin.sig.ant = B.fin
-                B.fin.sig = A.fin.sig
+            #if(B.t4 < A.t4):
+            if(A.t4 != A.t3):
+                A.fin.definirEspacioVacio(B.t3,A.t4)
+                A.fin.ant = B.fin.ant #modificado
+                B.fin.ant.sig = A.fin #modificado 
             else:
-                A.fin.sig.ant = B.fin.ant
-                B.fin.sig = A.fin.sig
+                bloqueVacio = BloqueVuelo()
+                bloqueVacio.definirEspacioVacio(B.t3, A.t4)
+                bloqueVacio.ant = B.fin.ant #modificado
+                bloqueVacio.sig = A.fin.sig 
+                A.fin.sig.ant = bloqueVacio
+                B.fin.ant.sig = bloqueVacio #modificado
+            # else:
+            #     A.fin.sig.ant = B.fin
+            #     B.fin.sig = A.fin.sig
