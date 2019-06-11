@@ -17,9 +17,9 @@ def main ():
     start = time.time()
     corrida ()
     end = time. time()
-    
+
     f= open("Llamadas a API.txt","a+")
-    fWrite = open ("jsonAsignacion.txt", "w+")
+    fWrite = open ("jsonAsignacion.txt", "w")
     f.write("Fecha: "+ str(datetime.now()) + " - Tiempo de ejecucion: " + str((end-start))+ " segundos.\n")
     fWrite.write(s.getvalue())
     fWrite.close()
