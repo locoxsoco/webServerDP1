@@ -29,7 +29,7 @@ def main ():
 def corrida():
     #r2 = requests.get(url='https://aviation-edge.com/v2/public/timetable?key=a24d93-2501aa&iataCode=LIM&type=arrival')
     #data = r2.json()
-    
+    listaA = []
     with open("ArrivalLima190504.txt") as json_file:  
         data = json.loads(json_file.read().replace("\'", "\""))
 
@@ -99,6 +99,8 @@ def corrida():
 
     nPuertas = 20
     nZonas = 52
+    a= open("xd.txt","w")
+    a.write()
     
     listaZonas = []
     listaPuertas = []
@@ -113,18 +115,22 @@ def corrida():
     ann = Metaheuristico.Annealer(listaVuelos,listaPuertas,listaZonas)
     x,y = ann.anneal()
 
-    print ("[ [", end="")
-    for i in x[0]:
-        i.imprimirLista()
-        print (", ",end="")
-    cont =0
-    for i in x[1]:
-        if(cont ==0):
-            cont =1
-        else:
-            print(", ",end="")
-        i.imprimirLista() 
-    print (" ], ", end="")
+    print ("[ ")
+    for i in range(len(listaVuelos)):
+        print(json.dumps(listaVuelos[i]),end=", ")
+    print ("]")
+    # print ("[ [", end="")
+    # for i in x[0]:
+    #     i.imprimirLista()
+    #     print (", ",end="")
+    # cont =0
+    # for i in x[1]:
+    #     if(cont ==0):
+    #         cont =1
+    #     else:
+    #         print(", ",end="")
+    #     i.imprimirLista() 
+    # print (" ], ", end="")
     print (json.dumps(data_canceled),end="")
     # cont = 0
     # for i in data_canceled:
