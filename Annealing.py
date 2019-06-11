@@ -31,12 +31,16 @@ def corrida():
         data = json.loads(json_file.read().replace("\'", "\""))
 
     data_filtered = list(filter(lambda x : x['status'] != 'landed' and x['status'] != 'cancelled', data))
+    data_canceled = list (filter(lambda x: x['status'] == 'cancelled',data))
     listaVuelos = []
+    tamanos = ["Pequeño", "Mediano", "Grande"]
     Clases.Vuelo.nVuelo =0
-    i =0
+    i = 0
     for flight in data_filtered:
         i +=1
         vuelo = Clases.Vuelo()
+        #aleatorizar la muestra
+        vuelo.setTamano(tamanos[round(random.random()*2)])
         jsonDestino = flight ['arrival']
         anho = int(jsonDestino['scheduledTime'][0:4])
         mes = int(jsonDestino['scheduledTime'][5:7])
@@ -67,7 +71,6 @@ def corrida():
         jsonVuelo = flight['flight']
         vuelo.addNumeroVuelo(jsonVuelo['number'])
         vuelo.addIata(jsonVuelo['iataNumber'])
-
         try:
             vuelo.addIcao(jsonVuelo['icaoNumber'])
         except:
@@ -93,20 +96,21 @@ def corrida():
 
     nPuertas = 20
     nZonas = 52
+    
     listaZonas = []
     listaPuertas = []
     for i in range(1,nPuertas+1):
-        area2 = Clases.Puerta(2*i,random.random()*79+1, random.random()*59+1,random.random()*499+1,random.random()*499+1,10)
+        area2 = Clases.Puerta("Puerta",tamanos[round(random.random()*2)],i, random.random()*499+1,random.random()*499+1,10)
         listaPuertas.append(area2)
         
     for i in range(1,nZonas +1):
-        area = Clases.Zona(2*i-1,random.random()*79+1, random.random()*59+1,random.random()*499+1, random.random()*499+1)
+        area = Clases.Zona("Zona", tamanos[round(random.random()*2)], i, random.random()*499+1, random.random()*499+1)
         listaZonas.append(area)
 
     ann = Metaheuristico.Annealer(listaVuelos,listaPuertas,listaZonas)
     x,y = ann.anneal()
 
-    print ("[", end="")
+    print ("{ [", end="")
     for i in x[0]:
         i.imprimirLista()
         print (", ",end="")
@@ -117,8 +121,18 @@ def corrida():
         else:
             print(", ",end="")
         i.imprimirLista() 
-    print (" ]")
+    print (" ] }, {", end="")
+    print (json.dumps(data_canceled),end="")
+    # cont = 0
+    # for i in data_canceled:
+    #     if (cont ==0):
+    #         cont = 1
+    #     else:
+    #         print(", ",end ="") 
+    #         i.printJson()
 
+    print ("} ",end="")
+    
     return y
 
 if __name__ == '__main__':

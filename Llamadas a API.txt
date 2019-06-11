@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 Tiempo de ejecución: 283.8698537349701 segundos.Tiempo de ejecución: 251.70020532608032 segundos.
+=======
+Tiempo de ejecuci�n: 146.14931678771973 segundos.
+>>>>>>> cb6522f0a54c13856355231aba8fe2efffec58b7
