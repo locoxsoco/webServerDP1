@@ -22,4 +22,6 @@ import Metaheuristico
 from datetime import datetime, date, time, timedelta
 @app.route('/getjson', methods=['GET'])
 def get():
-    return (str(Annealing.main()))
+    f = open("jsonAsignacion.txt","r")
+    return (f.read()) 
+    # return (str(Annealing.main()))

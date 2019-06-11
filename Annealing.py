@@ -14,13 +14,18 @@ s = StringIO()
 sys.stdout = s
 
 def main ():
-    start = time.time()
-    f= open("Llamadas a API.txt","a+")
-    corrida ()
-    sys.stdout = sys.__stdout__
-    end = time. time()
-    f.write("Tiempo de ejecución: " + str((end-start))+ " segundos.")
-    return(s.getvalue())
+    try:
+        start = time.time()
+        f= open("Llamadas a API.txt","a+")
+        fWrite = open ("jsonAsignacion.txt", "w+")
+        corrida ()
+        end = time. time()
+        f.write("Fecha: "+ str(datetime.now()) + " - Tiempo de ejecucion: " + str((end-start))+ " segundos.\n")
+        fWrite.write(s.getvalue())
+        fWrite.close()
+    except:
+        pass
+    #return(s.getvalue())
     #sys.stdout = sys.__stdout__
 
 def corrida():
@@ -110,7 +115,7 @@ def corrida():
     ann = Metaheuristico.Annealer(listaVuelos,listaPuertas,listaZonas)
     x,y = ann.anneal()
 
-    print ("{ [", end="")
+    print ("[ [", end="")
     for i in x[0]:
         i.imprimirLista()
         print (", ",end="")
@@ -121,7 +126,7 @@ def corrida():
         else:
             print(", ",end="")
         i.imprimirLista() 
-    print (" ] }, {", end="")
+    print (" ], ", end="")
     print (json.dumps(data_canceled),end="")
     # cont = 0
     # for i in data_canceled:
@@ -131,7 +136,7 @@ def corrida():
     #         print(", ",end ="") 
     #         i.printJson()
 
-    print ("} ",end="")
+    print ("] ",end="")
     
     return y
 

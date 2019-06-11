@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-Tiempo de ejecuci贸n: 283.8698537349701 segundos.Tiempo de ejecuci贸n: 251.70020532608032 segundos.
-=======
-Tiempo de ejecuci髇: 146.14931678771973 segundos.
->>>>>>> cb6522f0a54c13856355231aba8fe2efffec58b7
-Tiempo de ejecuci贸n: 493.2445967197418 segundos.Tiempo de ejecuci贸n: 484.1786136627197 segundos.
+Fecha: 2019-06-11 16:40:08.144927 - Tiempo de ejecucion: 100.88090991973877 segundos.
+Fecha: 2019-06-11 16:42:33.062372 - Tiempo de ejecucion: 84.90639543533325 segundos.
+Fecha: 2019-06-11 16:44:06.108792 - Tiempo de ejecucion: 81.43704915046692 segundos.
