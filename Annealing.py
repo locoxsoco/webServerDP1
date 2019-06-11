@@ -14,17 +14,15 @@ s = StringIO()
 sys.stdout = s
 
 def main ():
-    try:
-        start = time.time()
-        f= open("Llamadas a API.txt","a+")
-        fWrite = open ("jsonAsignacion.txt", "w+")
-        corrida ()
-        end = time. time()
-        f.write("Fecha: "+ str(datetime.now()) + " - Tiempo de ejecucion: " + str((end-start))+ " segundos.\n")
-        fWrite.write(s.getvalue())
-        fWrite.close()
-    except:
-        pass
+    start = time.time()
+    corrida ()
+    end = time. time()
+    
+    f= open("Llamadas a API.txt","a+")
+    fWrite = open ("jsonAsignacion.txt", "w+")
+    f.write("Fecha: "+ str(datetime.now()) + " - Tiempo de ejecucion: " + str((end-start))+ " segundos.\n")
+    fWrite.write(s.getvalue())
+    fWrite.close()
     #return(s.getvalue())
     #sys.stdout = sys.__stdout__
 
