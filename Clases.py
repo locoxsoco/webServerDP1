@@ -23,8 +23,12 @@ class Avion :
         self.tAerolinea = tAerolinea
 
 class Aeropuerto:
-    def __init__ (self, iata=None, icao=None):
+    def __init__ (self):
+        self.iata = None
         pass
+
+    def addIata(self,iata):
+        self.iata = iata
 
     def addIdAeropuerto(self, idAeropuerto):
         self.idAeropuerto = idAeropuerto
@@ -52,17 +56,14 @@ class TAerolinea:
         self.nombre = nombre
 
 class TipoAvion:
-    def __init__(self, modelo, pais, idTipoAvion): 
+    def __init__(self, idTipoAvion= 0): 
         pass
 
     def addCapacidad(self,capacidad):
         self.capacidad = capacidad
 
-    def addLargo(self,largo):
-        self.largo = largo
-
-    def addAncho(self,ancho):
-        self.ancho=ancho
+    def addTamano (self, tamano):
+        self.tamano = tamano
 
 class Vuelo:    
     nVuelo = 0    
@@ -88,7 +89,6 @@ class Vuelo:
         self.velocidadHorizontal = velocidadHorizontal
         self.velocidadVertical = velocidadVertical
         self.aeropuertoOrigen = aeropuertoOrigen
-        self.tamano = None
 
     def setEstado(self,estado):
         self.estado = estado
@@ -99,7 +99,7 @@ class Vuelo:
     def setTiempoEstimado (self,tiempoEstimado):
         self.tiempoEstimado = tiempoEstimado
 
-    def addTiempoProgramado (self,tiempoProgramado):
+    def setTiempoProgramado (self,tiempoProgramado):
         # no se usa, ahora todo será addTiempoEstimado
         self.tiempoProgramado=tiempoProgramado
 
@@ -111,9 +111,6 @@ class Vuelo:
 
     def addIcao(self, icao):
         self.icao = icao
-
-    def setTamano (self,tamano):
-        self.tamano = tamano
 
     def addNumeroVuelo(self,numeroVuelo):
         self.numeroVuelo=numeroVuelo
@@ -142,7 +139,7 @@ class Vuelo:
     def addAeropuertoOrigen(self,aeropuertoOrigen):
         self.aeropuertoOrigen = aeropuertoOrigen 
 
-    def asignarPuerta (self, area): 
+    def asignarPuerta (self, area):
         self.area = area # puntero a puerta o zona
 
     def asignarIDVuelo(self):
@@ -249,7 +246,7 @@ class Area:
         self.vuelos = ListaVuelos()
         
     def insertarVuelo(self, vuelo,tiempo):
-        if(self.tamano != vuelo.tamano):
+        if(self.tamano != vuelo.avion.tipoAvion.tamano):
             return -1
         bloque = BloqueVuelo()        
         bloque.addVuelo(vuelo,tiempo)
@@ -272,7 +269,10 @@ class Area:
                 else:
                     print(", ",end="")
             #if (p.ocupado):
-                print("{ \"numeroVuelo\": \""+ str(p.vuelo.icao) \
+                print("{ \"numeroVuelo\": \""+ str(p.vuelo.iata) \
+                    + "\", \"nombreAerolinea\": \""+ str(p.vuelo.avion.tAerolinea.nombre) \
+                    + "\", \"estado\": \""+ str(p.vuelo.estado) \
+                    + "\", \"iataProcedencia\": \""+ str(p.vuelo.aeropuertoOrigen.iata) \
                     + "\", \"TiempoEstimado\": \""+ str(p.vuelo.tiempoEstimado) \
                     + "\", \"TiempoLlegada\": \""+ str(p.vuelo.tiempoLlegada) + "\" }",end="") 
             #else:
