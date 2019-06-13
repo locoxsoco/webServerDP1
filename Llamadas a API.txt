@@ -6,3 +6,4 @@ Fecha: 2019-06-11 18:14:42.127136 - Tiempo de ejecucion: 91.47736978530884 segun
 Fecha: 2019-06-11 18:17:16.490175 - Tiempo de ejecucion: 94.35263991355896 segundos.
 Fecha: 2019-06-12 13:03:39.673707 - Tiempo de ejecucion: 165.8691680431366 segundos.
 Fecha: 2019-06-12 13:23:36.562568 - Tiempo de ejecucion: 229.82300114631653 segundos.
+Fecha: 2019-06-12 23:34:11.397422 - Tiempo de ejecucion: 183.05368661880493 segundos.

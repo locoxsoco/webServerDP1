@@ -11,7 +11,7 @@ from datetime import datetime, date, timedelta
 from io import StringIO
 
 s = StringIO()
-#sys.stdout = s
+sys.stdout = s
 
 def main ():
     start = time.time()
@@ -106,7 +106,8 @@ def corrida():
         vuelo.asignarIDVuelo()
         listaVuelos.append(vuelo)
 
-    
+    listaVuelos.sort(key= lambda x: x.tiempoEstimado)
+
     # Creación de zonas y puertas
     nPuertas = 20
     nZonas = 52
