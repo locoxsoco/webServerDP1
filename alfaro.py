@@ -3,10 +3,10 @@ from __future__ import division
 from __future__ import print_function
 #!flask/bin/python
 from flask import Flask
-app = Flask(__name__)
+application = Flask(__name__)
 from flask import Flask
 from flask import request
-app = Flask(__name__)
+application = Flask(__name__)
 import multiprocessing as mp
 import math
 import random
@@ -20,7 +20,7 @@ import Clases
 import Main
 import Metaheuristico
 from datetime import datetime, date, time, timedelta
-@app.route('/getjson', methods=['GET'])
+@application.route('/getjson', methods=['GET'])
 def get():
     # f = open("jsonAsignacion.txt","r")
     # return (f.read()) 

@@ -1,4 +1,4 @@
-from alfaro import app
+from alfaro import application
 
 if __name__ == "__main__":
-    app.run()
+    application.run()
