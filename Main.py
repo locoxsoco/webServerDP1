@@ -124,14 +124,9 @@ def corrida():
 
     ann = Metaheuristico.Annealer(listaVuelos,listaPuertas,listaZonas)
     x,y = ann.anneal()
-    # a = x[0]+x[1]
-    # z=0
-    # for k in a:
-    #    z += k.vuelos.cantidad
-    # print ( "Cantidad: ", z) 
 
     x[2].sort(key= lambda y: y.tiempoEstimado)
-    data_ignored.sort(key= lambda y: y['arrival']['estimatedTime'][0:19])
+    #data_ignored.sort(key= lambda y: y['arrival']['estimatedTime'][0:19])
     print ("[ [", end="")
     for i in range(len(x[2])):
         if (i!=0):
