@@ -26,43 +26,24 @@ class Annealer(object):
         Método FIFO para alcanzar una solución mas o menos óptima
         """
 
-        #print ("Original: ")
-        self.listaVuelos = deepcopy(x)
-        self.listaPuertas = deepcopy(y)
-        self.listaZonas = deepcopy(z)
-        self.listaAreas = self.listaPuertas + self.listaZonas
-        self.maxTiempo = self.listaVuelos[0].tiempoEstimado
-        self.minTiempo = self.listaVuelos[0].tiempoEstimado
+        self.listaVuelos = (x)
+        self.listaPuertas = (y)
+        self.listaZonas = (z)
 
-        j=0
         for vuelo in self.listaVuelos:
             asignado = False
-            j+=1
-            for puerta in self.listaPuertas:
-                if (puerta.insertarVuelo(vuelo,vuelo.tiempoEstimado)!=-1):
-                    asignado = True
-                    break
-            if (asignado):
-                continue
-            for zona in self.listaZonas:
-                if (zona.insertarVuelo(vuelo,vuelo.tiempoEstimado)!=-1):
+            for puertaZona in (self.listaPuertas+self.listaZonas):
+                if (puertaZona.insertarVuelo(vuelo,vuelo.tiempoEstimado)!=-1):
                     asignado = True
                     break
                     
             while(not asignado):
-                vuelo.tiempoLlegada += timedelta(minutes = 1)
-                
-                for puerta in self.listaPuertas:
-                    if (puerta.insertarVuelo(vuelo,vuelo.tiempoLlegada)!=-1):
+                vuelo.setTiempoLlegada (vuelo.tiempoLlegada + timedelta(minutes = 1))                
+                for puertaZona in (self.listaPuertas+self.listaZonas):
+                    if (puertaZona.insertarVuelo(vuelo,vuelo.tiempoLlegada)!=-1):
                         asignado = True                        
                         break
-                if (asignado):
-                    asignado = True
-                    break
-                for zona in self.listaZonas:
-                    if (zona.insertarVuelo(vuelo,vuelo.tiempoLlegada)!=-1):
-                        asignado = True
-                        break
+                        
         self.state = (self.listaPuertas, self.listaZonas,self.listaVuelos)
         best_state = deepcopy(self.state)
         best_energy = self.energy(False) #CAMBIAR PARA EXPNUM
@@ -71,7 +52,8 @@ class Annealer(object):
         y=best_energy
 
     def move(self,tabu = False):
-        selector =round(random.random())
+        # selector =round(random.random())
+        selector = 1
         if(selector == 0):
             #asignacion vuelo
             indiceArea = round(random.random()*(len(self.state[0]+self.state[1])-1))
@@ -84,10 +66,10 @@ class Annealer(object):
             p = area.vuelos.inicio            
             #Tabu
             if (tabu):
-                if(("Insert", area.idArea, indiceVuelo) in self.listaTabu):
+                if(("Insert", area.idArea, area.tipoArea, indiceVuelo) in self.listaTabu):
                     return
                 else: 
-                    self.listaTabu.append(("Insert", area.idArea, indiceVuelo))
+                    self.listaTabu.append(("Insert", area.idArea, area.tipoArea, indiceVuelo))
                     if (len(self.listaTabu)>50):
                         self.listaTabu.remove(self.listaTabu[0])
 
@@ -98,106 +80,89 @@ class Annealer(object):
                     cont +=1                              
                 p=p.sig
 
-
             p.vuelo.setTiempoLlegada (p.vuelo.tiempoEstimado)
-            for puerta in self.state[0]:
-                if (puerta != area and puerta.insertarVuelo(p.vuelo,p.vuelo.tiempoEstimado)!=-1):
-                    area.removeVuelo(p)
-                    return
-            for zona in self.state[1]:
-                if (zona != area and zona.insertarVuelo(p.vuelo,p.vuelo.tiempoEstimado)!=-1):
+            for puertaZona in (self.state[0]+self.state[1]):
+                if (puertaZona != area and puertaZona.insertarVuelo(p.vuelo,p.vuelo.tiempoEstimado)!=-1):
                     area.removeVuelo(p)
                     return
             iter2 = 1 
             while (True):
-                p.vuelo.tiempoLlegada += timedelta(minutes = 1)
-                for puerta in self.state[0]:
-                    if (puerta.insertarVuelo(p.vuelo,p.vuelo.tiempoLlegada)!=-1):
+                p.vuelo.setTiempoLlegada (p.vuelo.tiempoLlegada + timedelta(minutes = 1))
+                for puertaZona in (self.state[0]+self.state[1]):
+                    if (puertaZona != area and puertaZona.insertarVuelo(p.vuelo,p.vuelo.tiempoLlegada)!=-1):
                         area.removeVuelo(p)
                         return
 
-                for zona in self.state[1]:
-                    if (zona.insertarVuelo(p.vuelo,p.vuelo.tiempoLlegada)!=-1):
-                        area.removeVuelo(p)
-                        return 
                 iter2 +=1
                 if (iter2 > 60 ):
+                    p.vuelo.setTiempoLlegada(p.vuelo.tiempoEstimado)
                     return
-        else:
-            #intercambio de intervalos
-            indiceArea = round(random.random()*(len(self.state[0]+self.state[1])-1))
-            area = (self.state[0]+self.state[1])[indiceArea]
+        # else:
+            # #intercambio de intervalos
+            # indiceArea = round(random.random()*(len(self.state[0]+self.state[1])-1))
+            # area = (self.state[0]+self.state[1])[indiceArea]
 
-            if(area.vuelos.cantidad == 0):
-                return
-            indiceVuelo = round(random.random()*(area.vuelos.cantidad-1))+1
-            cont = 1
-            p = area.vuelos.inicio
-            while(p is not None):
-                if (p.ocupado):
-                    if (cont == indiceVuelo):
-                        break
-                    cont +=1                              
-                p=p.sig
+            # if(area.vuelos.cantidad == 0):
+            #     return
+            # indiceVuelo = round(random.random()*(area.vuelos.cantidad-1))+1
+            # cont = 1
+            # p = area.vuelos.inicio
+            # while(p is not None):
+            #     if (p.ocupado):
+            #         if (cont == indiceVuelo):
+            #             break
+            #         cont +=1                              
+            #     p=p.sig
 
             
-            indiceArea2 = round(random.random()*(len(self.state[0]+self.state[1])-1))
-            if(indiceArea2 == indiceArea): 
-                return
-            area2 = (self.state[0]+self.state[1])[indiceArea2]
-            if(area2.vuelos.cantidad == 0):
-                return
+            # indiceArea2 = round(random.random()*(len(self.state[0]+self.state[1])-1))
+            # if(indiceArea2 == indiceArea): 
+            #     return
+            # area2 = (self.state[0]+self.state[1])[indiceArea2]
+            # if(area2.vuelos.cantidad == 0):
+            #     return
 
-            #Tabu
-            if (tabu):
-                if(("Exchange", area.idArea, indiceVuelo, area2.idArea) in self.listaTabu):
-                    return
-                else: 
-                    self.listaTabu.append(("Exchange", area.idArea, indiceVuelo, area2.idArea))
-                    if (len(self.listaTabu)>50):
-                        self.listaTabu.remove(self.listaTabu[0])
+            # #Tabu
+            # if (tabu):
+            #     if(("Exchange", area.idArea, indiceVuelo, area2.idArea) in self.listaTabu):
+            #         return
+            #     else: 
+            #         self.listaTabu.append(("Exchange", area.idArea, indiceVuelo, area2.idArea))
+            #         if (len(self.listaTabu)>50):
+            #             self.listaTabu.remove(self.listaTabu[0])
 
 
-            p2 = area2.vuelos.inicio
-            while(p2 is not None):
-                if (p2.ocupado):
-                    if ((p2.tiempoInicio < p.tiempoFin and p2.tiempoInicio > p.tiempoInicio) or \
-                        (p2.tiempoFin < p.tiempoFin and p2.tiempoFin > p.tiempoInicio) or \
-                        (p.tiempoInicio < p2.tiempoFin and p.tiempoInicio > p2.tiempoInicio)or 
-                        (p.tiempoFin < p2.tiempoFin and p.tiempoFin > p2.tiempoInicio)):
-                        break
-                p2=p2.sig
-            if (p2 is None):
-                return
-            A = Clases.Intervalo (p)
-            B = Clases.Intervalo (p2)
-            while not ((A.t2 >= B.t1 and A.t3 <= B.t4) and \
-                (B.t2 >= A.t1 and B.t3 <= A.t4)):    
-                if (A.t2 < B.t1):
-                    if (not B.extendLeft()):
-                        return
-                if (B.t2 < A.t1):
-                    if (not A.extendLeft()):
-                        return
-                if (A.t3>B.t4):
-                    if (not B.extendRight()):
-                        return
-                if (B.t3>A.t4):
-                    if (not A.extendRight()):
-                        return
+            # p2 = area2.vuelos.inicio
+            # while(p2 is not None):
+            #     if (p2.ocupado):
+            #         if ((p2.tiempoInicio < p.tiempoFin and p2.tiempoInicio > p.tiempoInicio) or \
+            #             (p2.tiempoFin < p.tiempoFin and p2.tiempoFin > p.tiempoInicio) or \
+            #             (p.tiempoInicio < p2.tiempoFin and p.tiempoInicio > p2.tiempoInicio)or 
+            #             (p.tiempoFin < p2.tiempoFin and p.tiempoFin > p2.tiempoInicio)):
+            #             break
+            #     p2=p2.sig
+            # if (p2 is None):
+            #     return
+            # A = Clases.Intervalo (p)
+            # B = Clases.Intervalo (p2)
+            # while not ((A.t2 >= B.t1 and A.t3 <= B.t4) and \
+            #     (B.t2 >= A.t1 and B.t3 <= A.t4)):    
+            #     if (A.t2 < B.t1):
+            #         if (not B.extendLeft()):
+            #             return
+            #     if (B.t2 < A.t1):
+            #         if (not A.extendLeft()):
+            #             return
+            #     if (A.t3>B.t4):
+            #         if (not B.extendRight()):
+            #             return
+            #     if (B.t3>A.t4):
+            #         if (not A.extendRight()):
+            #             return
             #area.exchange(area2, A, B) 
 
     def energy(self,fin=True):
         """Calculate state's energy"""
-        #for i in (self.state[0]+self.state[1]):
-        #    i.imprimirLista()
-        for i in self.state[2]:
-            if(self.maxTiempo < i.tiempoLlegada):
-                self.maxTiempo = i.tiempoLlegada
-            if(self.minTiempo > i.tiempoLlegada):
-                self.minTiempo = i.tiempoLlegada
-        # maxTiempo = self.maxTiempo + timedelta(hours=2)
-        # minTiempo =self.minTiempo - timedelta(hours=1)
 
         costoVuelos = 0
         parCastigo = 900000
@@ -246,10 +211,10 @@ class Annealer(object):
         """
         Minimizar el tiempo de espera de todos los vuelos ya asignados (tiempo real - tiempo programado) 
         y el tiempo sin usar de las puertas del aeropuerto.
-        Parameters
-        state : an initial arrangement of the system
-        Returns
-        (state, energy): the best state and energy found.
+        Parametros
+        state : estado actual del recocido
+        Retorna
+        (state, energy): best state and energy found.
         """
         step = 0
         if self.Tmin <= 0.0:
@@ -259,10 +224,8 @@ class Annealer(object):
 
         T = self.Tmax
         E = self.energy(False)
-        prevState = deepcopy(self.state)
-        prevEnergy = E
-        best_state = deepcopy(self.state)
-        best_energy = E
+        prevState = best_state= deepcopy(self.state)
+        prevEnergy = best_energy = E
         trials, accepts, improves = 0, 0, 0
         unaccepts, unimproves = 0,0
 
@@ -312,8 +275,8 @@ class Annealer(object):
                 break
 
         # Return best state and energy
-        self.state = deepcopy(best_state)
-
+        #self.state = deepcopy(best_state)
         #print("Final: ") 
-        self.energy(False) #CAMBIAR PARA EXPNUM
+        #self.energy(False) #CAMBIAR PARA EXPNUM
+
         return best_state, best_energy

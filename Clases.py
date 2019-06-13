@@ -100,7 +100,6 @@ class Vuelo:
         self.tiempoEstimado = tiempoEstimado
 
     def setTiempoProgramado (self,tiempoProgramado):
-        # no se usa, ahora todo será addTiempoEstimado
         self.tiempoProgramado=tiempoProgramado
 
     def setTiempoLlegada (self, tiempoLlegada):
@@ -193,48 +192,57 @@ class ListaVuelos:
         
     def insertarBloque (self, bloque,pos=0):
         p = self.inicio
-        ant = None
+        #ant = None
         ubicado = False
-        while(p is not None):
+        while(p.tiempoInicio <= bloque.tiempoInicio):
             if (not p.ocupado and p.tiempoInicio <= bloque.tiempoInicio and \
                 p.tiempoFin >= bloque.tiempoFin):
 
-                #self.tiempoLibre = self.tiempoLibre - (bloque.tiempoFin - bloque.tiempoInicio)
-                bloqueAnt = ant    
+                bloqueAnt = p.ant
                 bloqueSig = p.sig
                 if (p.tiempoInicio != bloque.tiempoInicio):
                     bloqueAnt = BloqueVuelo()
                     bloqueAnt.definirEspacioVacio(p.tiempoInicio,bloque.tiempoInicio)
-                    if(ant is None):
+                    bloqueAnt.ant = p.ant #doblemente enlazado 
+                    self.cantBloques += 1
+                    if(p.ant is None):
                         self.inicio = bloqueAnt
                     else:
-                        ant.sig = bloqueAnt
-                        bloqueAnt.ant = ant #doblemente enlazado 
-                    self.cantBloques += 1
+                        p.ant.sig = bloqueAnt
+                        #p.ant = bloqueAnt
+                    bloqueAnt.sig = bloque
+                else:
+                    if(bloqueAnt is None):
+                        self.inicio = bloque
+                    else:
+                        bloqueAnt.sig = bloque
+
                 if (p.tiempoFin != bloque.tiempoFin):
                     bloqueSig = BloqueVuelo()
                     bloqueSig.definirEspacioVacio(bloque.tiempoFin,p.tiempoFin)
                     bloqueSig.sig = p.sig
-                    bloqueSig.ant = p #doblemente enlazado 
+                    #bloqueSig.ant = p #doblemente enlazado no tiene sentido
                     self.cantBloques += 1
-
-                if(bloqueAnt is None):
-                    self.inicio = bloque
+                    if (p.sig is None):
+                        pass
+                    else:
+                        p.sig.ant = bloqueSig
+                        #p.sig = bloqueSig
+                    
+                    bloqueSig.ant = bloque
                 else:
-                    bloqueAnt.sig = bloque
-
-                if(bloqueSig is not None):
-                    bloqueSig.ant = bloque #doblemente enlazado
+                    if(bloqueSig is not None):
+                        bloqueSig.ant = bloque
 
                 bloque.sig = bloqueSig
                 bloque.ant = bloqueAnt
                 self.cantidad +=1
                 ubicado = True
                 break
-            ant = p
+                
             p = p.sig
         if (ubicado): 
-            return 1 #self.tiempoLibre
+            return 1 
         else: 
             return -1
 
