@@ -1,11 +1,12 @@
 import math
 import random
 import sys
-import time
+# import time
 import numpy
 import Clases
+import Main
 from copy import deepcopy
-from datetime import datetime,date,time, timedelta
+from datetime import datetime,date, timedelta
 from io import StringIO
 
 import sys
@@ -163,17 +164,20 @@ class Annealer(object):
 
     def energy(self,fin=True):
         """Calculate state's energy"""
-
         costoVuelos = 0
+        costoTamano = 0
         parCastigo = 900000
         xd=0
         for i in self.state[2]:
             costoVuelos += (i.tiempoLlegada - i.tiempoEstimado).total_seconds() ** 2
+            costoTamano += (i.area.indice - i.avion.tipoAvion.indice)
+        '''    
             xd += (i.tiempoLlegada - i.tiempoEstimado).total_seconds()
         if (fin):
             #print (self.maxTiempo, self.minTiempo)
             print ("Hora asignada y hora estimada (L) : "+ str(xd/3600))
         xd=0        
+        '''
         costoAreas = 0
         for puerta in self.state[0]:
             costoPuerta =0
@@ -187,11 +191,13 @@ class Annealer(object):
                 p = p.sig
                 c+=1
             costoAreas += parCastigo * costoPuerta
+        '''    
             xd +=costoPuerta
         
         if (fin):
             print("Tiempo sin uso de Puertas (P*U) : "+ str(xd/3600))
         xd=0
+        '''
         for zona in self.state[1]:
             costoZona = 0
             c=1
@@ -203,9 +209,11 @@ class Annealer(object):
                 c+=1 
             costoAreas += costoZona
             xd +=costoZona
+        '''
         if (fin):
             print("Tiempo sin uso de Zonas (U) "+ str(xd/3600))
-        return costoAreas + costoVuelos
+        '''
+        return costoAreas + costoVuelos * 90000000 + costoTamano * 90000
 
     def anneal(self):
         """
@@ -271,6 +279,8 @@ class Annealer(object):
                             best_energy = E
                     iters+=1
                 T = T * self.reheat
+            if ((datetime.now() - Main.start) > timedelta(minutes=5)):
+                break 
             if (T<= 0.001):
                 break
 

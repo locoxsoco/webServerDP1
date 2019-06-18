@@ -22,3 +22,5 @@ Fecha: 2019-06-16 13:37:04.818643 - Tiempo de ejecucion: 131.0452697277069 segun
 Fecha: 2019-06-18 14:34:38.698657 - Tiempo de ejecucion: 213.41385436058044 segundos.
 Fecha: 2019-06-18 15:27:39.722567 - Tiempo de ejecucion: 169.01629877090454 segundos.
 Fecha: 2019-06-18 15:33:20.581745 - Tiempo de ejecucion: 92.14073729515076 segundos.
+Fecha: 2019-06-18 16:22:07.878591 - Tiempo de ejecucion: 0:01:00.024413 segundos.
+Fecha: 2019-06-18 17:51:14.534366 - Tiempo de ejecucion: 0:01:00.004049 segundos.

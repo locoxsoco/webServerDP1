@@ -12,11 +12,11 @@ from io import StringIO
 
 s = StringIO()
 sys.stdout = s
+start = datetime.now()
 
 def main ():
-    start = time.time()
     corrida ()
-    end = time. time()
+    end = datetime.now()
 
     f= open("Llamadas a API.txt","a+")
     # fWrite = open ("jsonAsignacion.txt", "w")
