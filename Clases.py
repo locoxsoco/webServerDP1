@@ -65,7 +65,10 @@ class TipoAvion:
     def addTamano (self, tamano):
         self.tamano = tamano
 
-class Vuelo:    
+    def addIndice ( self,indice):
+        self.indice = indice
+
+class Vuelo: 
     nVuelo = 0    
     def __init__ (self,  estado = None, avion =None,tiempoEstimado =None,tiempoProgramado=None, \
         tiempoLlegada=None,  icao=None, iata=None, \
@@ -253,10 +256,13 @@ class Area:
         self.tamano = tamano
         self.vuelos = ListaVuelos()
         
+    def addIndice(self, indice):
+        self.indice = indice
+
     def insertarVuelo(self, vuelo,tiempo):
-        if(self.tamano != vuelo.avion.tipoAvion.tamano):
+        if(self.indice < vuelo.avion.tipoAvion.indice):
             return -1
-        bloque = BloqueVuelo()        
+        bloque = BloqueVuelo()
         bloque.addVuelo(vuelo,tiempo)
         insercion = self.vuelos.insertarBloque(bloque)
         if (insercion != -1 ):
@@ -286,7 +292,7 @@ class Area:
             #else:
             #    print("{ \"TiempoINI\": \""+ str(p.tiempoInicio) \
             #        + "\", \"TiempoFIN\": \""+ str(p.tiempoFin) + "\" }",end="") 
-            p=p.sig            
+            p=p.sig
         print(" ] }",end="")
         #print("-------------------------------")
 
@@ -477,7 +483,7 @@ def insertarIntervalo(area1, A, B):
                 bloqueVacio = BloqueVuelo()
                 bloqueVacio.definirEspacioVacio(A.t1, B.t2)
                 bloqueVacio.sig = B.inicio.sig #modificado
-                bloqueVacio.ant = A.inicio.ant 
+                bloqueVacio.ant = A.inicio.ant
                 A.inicio.ant.sig = bloqueVacio
                 B.inicio.sig.ant = bloqueVacio #modificado
             # else:

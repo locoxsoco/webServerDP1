@@ -96,7 +96,10 @@ def corrida():
         aerolinea.addNombre(jsonAerolinea['name'])
 
         tipoAvion = Clases.TipoAvion()
-        tipoAvion.addTamano(tamanos[round(random.random()*2)])
+
+        indice = round(random.random()*2)
+        tipoAvion.addTamano(tamanos[indice])
+        tipoAvion.addIndice(indice)
 
         avion = Clases.Avion()
         avion.addTAerolinea(aerolinea)
@@ -109,17 +112,21 @@ def corrida():
     listaVuelos.sort(key= lambda x: x.tiempoEstimado)
     #print ("Longitud: "+ str(len(listaVuelos)))
     # Creación de zonas y puertas
-    nPuertas = 20
+    nPuertas = 19
     nZonas = 52
     
     listaZonas = []
     listaPuertas = []
     for i in range(1,nPuertas+1):
-        area2 = Clases.Puerta("Puerta",tamanos[round(random.random()*2)],i, random.random()*499+1,random.random()*499+1,10)
+        indice = round(random.random()*2)
+        area2 = Clases.Puerta("Puerta",tamanos[indice],i, random.random()*499+1,random.random()*499+1,10)
+        area2.addIndice(indice)
         listaPuertas.append(area2)
         
     for i in range(1,nZonas +1):
-        area = Clases.Zona("Zona", tamanos[round(random.random()*2)], i, random.random()*499+1, random.random()*499+1)
+        indice = round(random.random()*2)
+        area = Clases.Zona("Zona", tamanos[indice], i, random.random()*499+1, random.random()*499+1)
+        area.addIndice(indice)
         listaZonas.append(area)
 
     ann = Metaheuristico.Annealer(listaVuelos,listaPuertas,listaZonas)
@@ -134,15 +141,22 @@ def corrida():
         vuelo = x[2][i]
         print("{ \"numeroVuelo\": \""+ str(vuelo.iata) \
             + "\", \"nombreAerolinea\": \""+ str(vuelo.avion.tAerolinea.nombre) \
+            + "\", \"tamañoAvion\": \""+ str(vuelo.avion.tipoAvion.tamano) \
             + "\", \"estado\": \""+ str(vuelo.estado) \
             + "\", \"iataProcedencia\": \""+ str(vuelo.aeropuertoOrigen.iata) \
-            + "\", \"puertaAsignada\": \""+ str(vuelo.area.tipoArea)+" " + str(vuelo.area.idArea) \
-            + "\", \"tamanoPuerta\": \""+ str(vuelo.area.tamano) \
+            + "\", \"idArea\": \""+ str(vuelo.area.idArea) \
+            + "\", \"tipoArea\": \""+ str(vuelo.area.tipoArea) \
+            + "\", \"tamanoArea\": \""+ str(vuelo.area.tamano) \
             + "\", \"tiempoProgramado\": \""+ str(vuelo.tiempoProgramado) \
             + "\", \"tiempoEstimado\": \""+ str(vuelo.tiempoEstimado) \
             + "\", \"tiempoLlegada\": \""+ str(vuelo.tiempoLlegada) + "\" }",end="") 
     print ("], ", end="")
     
+    for s in data_ignored:
+        s['idArea'] = None
+        s['tipoArea'] = None
+        s['tamanoArea'] = None
+
     print (json.dumps(data_ignored),end="")
 
     print ("] ",end="")

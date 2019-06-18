@@ -63,7 +63,7 @@ class Annealer(object):
                 return
             indiceVuelo = round(random.random()*(area.vuelos.cantidad-1))+1
             cont = 1
-            p = area.vuelos.inicio            
+            p = area.vuelos.inicio    
             #Tabu
             if (tabu):
                 if(("Insert", area.idArea, area.tipoArea, indiceVuelo) in self.listaTabu):
