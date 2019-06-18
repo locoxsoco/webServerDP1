@@ -279,7 +279,7 @@ class Annealer(object):
                             best_energy = E
                     iters+=1
                 T = T * self.reheat
-            if ((datetime.now() - Main.start) > timedelta(minutes=5)):
+            if ((datetime.now() - Main.start) > timedelta(minutes=1)):
                 break 
             if (T<= 0.001):
                 break
