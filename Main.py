@@ -25,7 +25,10 @@ def main ():
     # fWrite.close()
 
     sys.stdout = sys.__stdout__
+
+    #obj = json.loads(s.getvalue())
     print(s.getvalue())
+
     return(s.getvalue())
     #sys.stdout = sys.__stdout__
 
@@ -158,7 +161,6 @@ def corrida():
         s['tamanoArea'] = None
 
     print (json.dumps(data_ignored),end="")
-
     print ("] ",end="")
     
     return y
