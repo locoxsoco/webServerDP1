@@ -29,3 +29,8 @@ Fecha: 2019-06-18 18:59:55.229045 - Tiempo de ejecucion: 0:01:00.012191 segundos
 Fecha: 2019-06-18 19:04:13.081763 - Tiempo de ejecucion: 0:01:00.014276 segundos.
 Fecha: 2019-06-18 19:37:16.152109 - Tiempo de ejecucion: 0:02:38.602802 segundos.
 Fecha: 2019-06-18 20:15:21.285237 - Tiempo de ejecucion: 0:02:33.267300 segundos.
+Fecha: 2019-06-21 16:17:14.325848 - Tiempo de ejecucion: 0:02:30.430232 segundos.
+Fecha: 2019-06-21 16:34:00.948521 - Tiempo de ejecucion: 0:02:09.683077 segundos.
+Fecha: 2019-06-21 17:12:41.647401 - Tiempo de ejecucion: 0:02:40.093018 segundos.
+Fecha: 2019-06-21 17:38:24.329099 - Tiempo de ejecucion: 0:03:32.105536 segundos.
+Fecha: 2019-06-21 18:27:37.715377 - Tiempo de ejecucion: 0:01:51.969238 segundos.
