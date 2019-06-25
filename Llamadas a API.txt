@@ -34,3 +34,6 @@ Fecha: 2019-06-21 16:34:00.948521 - Tiempo de ejecucion: 0:02:09.683077 segundos
 Fecha: 2019-06-21 17:12:41.647401 - Tiempo de ejecucion: 0:02:40.093018 segundos.
 Fecha: 2019-06-21 17:38:24.329099 - Tiempo de ejecucion: 0:03:32.105536 segundos.
 Fecha: 2019-06-21 18:27:37.715377 - Tiempo de ejecucion: 0:01:51.969238 segundos.
+Fecha: 2019-06-21 21:27:10.132059 - Tiempo de ejecucion: 0:02:54.136734 segundos.
+Fecha: 2019-06-21 21:30:42.770234 - Tiempo de ejecucion: 0:03:04.751451 segundos.
+Fecha: 2019-06-21 23:48:22.716669 - Tiempo de ejecucion: 0:03:35.164286 segundos.

@@ -19,14 +19,12 @@ def main ():
     end = datetime.now()
 
     f= open("Llamadas a API.txt","a+")
-    # fWrite = open ("jsonAsignacion.txt", "w")
     f.write("Fecha: "+ str(datetime.now()) + " - Tiempo de ejecucion: " + str((end-start))+ " segundos.\n")
-    # fWrite.write(s.getvalue())
-    # fWrite.close()
+    fWrite = open("jsonAsignacion.txt", "w+")
+    fWrite.write(s.getvalue())
+    fWrite.close()
 
     sys.stdout = sys.__stdout__
-
-    #obj = json.loads(s.getvalue())
     print(s.getvalue())
 
     return(s.getvalue())
@@ -36,7 +34,7 @@ def corrida():
     #r2 = requests.get(url='https://aviation-edge.com/v2/public/timetable?key=a24d93-2501aa&iataCode=LIM&type=arrival')
     #data = r2.json()
     listaA = ["ArrivalLima190504.txt","ArrivalLima190505.txt","ArrivalLima190506.txt","ArrivalLima190507.txt"]
-    with open(listaA[round(random.random()*3)]) as json_file:  #listaA[round(random.random()*3)]
+    with open("ArrivalLima190505.txt") as json_file:  #listaA[round(random.random()*3)]
         data = json.loads(json_file.read().replace("\'", "\""))
 
     data_filtered = list(filter(lambda x : x['status'] != 'landed' and x['status'] != 'cancelled', data))
@@ -65,6 +63,7 @@ def corrida():
         vuelo.setTiempoLlegada(datetime(year=anho, month=mes, day=dia, \
                                    hour=hora, minute=minuto, second=segundo))
         vuelo.setEstado(flight['status'])
+        vuelo.setLlego(False)
         if (vuelo.estado=="active"):
             try:
                 anho = int(jsonDestino['estimatedTime'][0:4])
@@ -79,7 +78,7 @@ def corrida():
                                            hour=hora, minute=minuto, second=segundo))
             except:
                 pass
-            
+
         jsonPartida = flight['departure']
         aeropuerto = Clases.Aeropuerto()
         aeropuerto.addIata(jsonPartida['iataCode'])
@@ -114,17 +113,17 @@ def corrida():
 
     listaVuelos.sort(key= lambda x: x.tiempoEstimado)
     #print ("Longitud: "+ str(len(listaVuelos)))
-    # Creación de zonas y puertas
-    nPuertas = 19
+    # Creación de zonas y mangas
+    nMangas = 19
     nZonas = 52
     
     listaZonas = []
-    listaPuertas = []
-    for i in range(1,nPuertas+1):
+    listaMangas = []
+    for i in range(1,nMangas+1):
         indice = round(random.random()*2)
-        area2 = Clases.Puerta("Puerta",tamanos[indice],i, random.random()*499+1,random.random()*499+1,10)
+        area2 = Clases.Manga("Manga",tamanos[indice],i, random.random()*499+1,random.random()*499+1,10)
         area2.addIndice(indice)
-        listaPuertas.append(area2)
+        listaMangas.append(area2)
         
     for i in range(1,nZonas +1):
         indice = round(random.random()*2)
@@ -132,7 +131,10 @@ def corrida():
         area.addIndice(indice)
         listaZonas.append(area)
 
-    ann = Metaheuristico.Annealer(listaVuelos,listaPuertas,listaZonas)
+    ## JSON asignacion antigua 
+    
+
+    ann = Metaheuristico.Annealer(listaVuelos,listaMangas,listaZonas)
     x,y = ann.anneal()
 
     x[2].sort(key= lambda y: y.tiempoEstimado)

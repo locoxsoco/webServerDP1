@@ -79,6 +79,9 @@ class Annealer(object):
                     if (cont == indiceVuelo):
                         break
                 p=p.sig
+            # JSON antiguo
+            if (p.vuelo.llego is True):
+                return
 
             p.vuelo.setTiempoLlegada (p.vuelo.tiempoEstimado)
             for puertaZona in (self.state[0]+self.state[1]):
@@ -94,7 +97,7 @@ class Annealer(object):
                         return
 
                 iter2 +=1
-                if (iter2 > 60 ):
+                if (iter2 > 60):
                     p.vuelo.setTiempoLlegada(p.vuelo.tiempoEstimado)
                     return
         else:
@@ -118,10 +121,7 @@ class Annealer(object):
             if(indiceArea2 == indiceArea): 
                 return
             area2 = (self.state[0]+self.state[1])[indiceArea2]
-            if(area2.vuelos.cantidad == 0):
-                return
-
-            if (area.indice != area2.indice):
+            if(area2.vuelos.cantidad == 0 or area.indice != area2.indice):
                 return
             #Tabu
             if (tabu):
@@ -141,8 +141,14 @@ class Annealer(object):
                         (p.tiempoFin < p2.tiempoFin and p.tiempoFin > p2.tiempoInicio)):
                         break
                 p2=p2.sig
+            
             if (p2 is None):
                 return
+            
+            # JSON antiguo
+            if (p.vuelo.llego is True or p2.vuelo.llego is True):
+                return
+
             A = Clases.Intervalo (p)
             B = Clases.Intervalo (p2)
             while not ((A.t2 >= B.t1 and A.t3 <= B.t4) and (B.t2 >= A.t1 and B.t3 <= A.t4)):    
