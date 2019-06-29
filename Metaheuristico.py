@@ -53,8 +53,7 @@ class Annealer(object):
         y=best_energy
 
     def move(self,tabu = False):
-        # selector =round(random.random())
-        selector = 1
+        selector =round(random.random())
         if(selector == 0):
             #asignacion vuelo
             indiceArea = round(random.random()*(len(self.state[0]+self.state[1])-1))
@@ -63,7 +62,6 @@ class Annealer(object):
             if(area.vuelos.cantidad == 0):
                 return
             indiceVuelo = round(random.random()*(area.vuelos.cantidad-1))+1
-            cont = 1
             p = area.vuelos.inicio    
             #Tabu
             if (tabu):
@@ -74,12 +72,16 @@ class Annealer(object):
                     if (len(self.listaTabu)>50):
                         self.listaTabu.remove(self.listaTabu[0])
 
+            cont = 0
             while(p is not None):
                 if (p.ocupado):
+                    cont +=1
                     if (cont == indiceVuelo):
                         break
-                    cont +=1                              
                 p=p.sig
+            # JSON antiguo
+            if (p.vuelo.llego is True):
+                return
 
             p.vuelo.setTiempoLlegada (p.vuelo.tiempoEstimado)
             for puertaZona in (self.state[0]+self.state[1]):
@@ -95,71 +97,116 @@ class Annealer(object):
                         return
 
                 iter2 +=1
-                if (iter2 > 60 ):
+                if (iter2 > 60):
                     p.vuelo.setTiempoLlegada(p.vuelo.tiempoEstimado)
                     return
-        # else:
-            # #intercambio de intervalos
-            # indiceArea = round(random.random()*(len(self.state[0]+self.state[1])-1))
-            # area = (self.state[0]+self.state[1])[indiceArea]
+        else:
+            #intercambio de intervalos
+            indiceArea = round(random.random()*(len(self.state[0]+self.state[1])-1))
+            area = (self.state[0]+self.state[1])[indiceArea]
 
-            # if(area.vuelos.cantidad == 0):
-            #     return
-            # indiceVuelo = round(random.random()*(area.vuelos.cantidad-1))+1
-            # cont = 1
-            # p = area.vuelos.inicio
-            # while(p is not None):
-            #     if (p.ocupado):
-            #         if (cont == indiceVuelo):
-            #             break
-            #         cont +=1                              
-            #     p=p.sig
+            if(area.vuelos.cantidad == 0):
+                return
+            indiceVuelo = round(random.random()*(area.vuelos.cantidad-1))+1
+            cont = 0
+            p = area.vuelos.inicio
+            while(p is not None):
+                if (p.ocupado):
+                    cont +=1      
+                    if (cont == indiceVuelo):
+                        break                 
+                p=p.sig
 
+            indiceArea2 = round(random.random()*(len(self.state[0]+self.state[1])-1))
+            if(indiceArea2 == indiceArea): 
+                return
+            area2 = (self.state[0]+self.state[1])[indiceArea2]
+            if(area2.vuelos.cantidad == 0 or area.indice != area2.indice):
+                return
+            #Tabu
+            if (tabu):
+                if(("Exchange", area.idArea, indiceVuelo, area2.idArea) in self.listaTabu):
+                    return
+                else:
+                    self.listaTabu.append(("Exchange", area.idArea, indiceVuelo, area2.idArea))
+                    if (len(self.listaTabu)>50):
+                        self.listaTabu.remove(self.listaTabu[0])
+
+            p2 = area2.vuelos.inicio
+            while(p2 is not None):
+                if (p2.ocupado):
+                    if ((p2.tiempoInicio < p.tiempoFin and p2.tiempoInicio > p.tiempoInicio) or \
+                        (p2.tiempoFin < p.tiempoFin and p2.tiempoFin > p.tiempoInicio) or \
+                        (p.tiempoInicio < p2.tiempoFin and p.tiempoInicio > p2.tiempoInicio) or \
+                        (p.tiempoFin < p2.tiempoFin and p.tiempoFin > p2.tiempoInicio)):
+                        break
+                p2=p2.sig
             
-            # indiceArea2 = round(random.random()*(len(self.state[0]+self.state[1])-1))
-            # if(indiceArea2 == indiceArea): 
-            #     return
-            # area2 = (self.state[0]+self.state[1])[indiceArea2]
-            # if(area2.vuelos.cantidad == 0):
-            #     return
+            if (p2 is None):
+                return
+            
+            # JSON antiguo
+            if (p.vuelo.llego is True or p2.vuelo.llego is True):
+                return
 
-            # #Tabu
-            # if (tabu):
-            #     if(("Exchange", area.idArea, indiceVuelo, area2.idArea) in self.listaTabu):
-            #         return
-            #     else: 
-            #         self.listaTabu.append(("Exchange", area.idArea, indiceVuelo, area2.idArea))
-            #         if (len(self.listaTabu)>50):
-            #             self.listaTabu.remove(self.listaTabu[0])
+            A = Clases.Intervalo (p)
+            B = Clases.Intervalo (p2)
+            while not ((A.t2 >= B.t1 and A.t3 <= B.t4) and (B.t2 >= A.t1 and B.t3 <= A.t4)):    
+                if (A.t2 < B.t1):
+                    if (not B.extendLeft()):
+                        return
+                if (B.t2 < A.t1):
+                    if (not A.extendLeft()):
+                        return
+                if (A.t3>B.t4):
+                    if (not B.extendRight()):
+                        return
+                if (B.t3>A.t4):
+                    if (not A.extendRight()):
+                        return
+            #intercambio
+            copiaA = deepcopy(A)
+            copiaB = deepcopy(B)
 
-
-            # p2 = area2.vuelos.inicio
-            # while(p2 is not None):
-            #     if (p2.ocupado):
-            #         if ((p2.tiempoInicio < p.tiempoFin and p2.tiempoInicio > p.tiempoInicio) or \
-            #             (p2.tiempoFin < p.tiempoFin and p2.tiempoFin > p.tiempoInicio) or \
-            #             (p.tiempoInicio < p2.tiempoFin and p.tiempoInicio > p2.tiempoInicio)or 
-            #             (p.tiempoFin < p2.tiempoFin and p.tiempoFin > p2.tiempoInicio)):
-            #             break
-            #     p2=p2.sig
-            # if (p2 is None):
-            #     return
-            # A = Clases.Intervalo (p)
-            # B = Clases.Intervalo (p2)
-            # while not ((A.t2 >= B.t1 and A.t3 <= B.t4) and \
-            #     (B.t2 >= A.t1 and B.t3 <= A.t4)):    
-            #     if (A.t2 < B.t1):
-            #         if (not B.extendLeft()):
-            #             return
-            #     if (B.t2 < A.t1):
-            #         if (not A.extendLeft()):
-            #             return
-            #     if (A.t3>B.t4):
-            #         if (not B.extendRight()):
-            #             return
-            #     if (B.t3>A.t4):
-            #         if (not A.extendRight()):
-            #             return
+            punt = A.inicio
+            while (True):
+                if (punt.ocupado):
+                    area.removeVuelo(punt)
+                    #eliminar vuelo de la lista
+                if(punt == A.fin):
+                    break
+                punt=punt.sig
+            punt = B.inicio
+            while(True):
+                if(punt.ocupado):
+                    area2.removeVuelo(punt)
+                    #eliminar vuelo
+                if(punt == B.fin):
+                    break
+                punt = punt.sig
+            
+            punt = copiaA.inicio
+            while (True):
+                if (punt.ocupado):
+                    area2.insertarVuelo(punt.vuelo,punt.vuelo.tiempoLlegada)
+                    for vueloReemp in (self.state[2]):
+                        if (vueloReemp.icao == punt.vuelo.icao):
+                            vueloReemp = punt.vuelo
+                            break
+                if(punt == copiaA.fin):
+                    break
+                punt=punt.sig
+            punt = copiaB.inicio
+            while (True):
+                if (punt.ocupado):
+                    area.insertarVuelo(punt.vuelo,punt.vuelo.tiempoLlegada)
+                    for vueloReemp in (self.state[2]):
+                        if (vueloReemp.icao == punt.vuelo.icao):
+                            vueloReemp = punt.vuelo
+                            break
+                if(punt == copiaB.fin):
+                    break
+                punt=punt.sig
             #area.exchange(area2, A, B) 
 
     def energy(self,fin=True):
@@ -192,11 +239,10 @@ class Annealer(object):
                 c+=1
             costoAreas += parCastigo * costoPuerta
         '''    
-            xd +=costoPuerta
-        
-        if (fin):
-            print("Tiempo sin uso de Puertas (P*U) : "+ str(xd/3600))
-        xd=0
+            xd += costoPuerta
+            if (fin):
+                print("Tiempo sin uso de Puertas (P*U) : "+ str(xd/3600))
+            xd=0
         '''
         for zona in self.state[1]:
             costoZona = 0
@@ -279,7 +325,7 @@ class Annealer(object):
                             best_energy = E
                     iters+=1
                 T = T * self.reheat
-            if ((datetime.now() - Main.start) > timedelta(minutes=2)):
+            if ((datetime.now() - Main.start) > timedelta(minutes=5)):
                 break 
             if (T<= 0.001):
                 break

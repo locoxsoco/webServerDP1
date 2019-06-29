@@ -93,6 +93,9 @@ class Vuelo:
         self.velocidadVertical = velocidadVertical
         self.aeropuertoOrigen = aeropuertoOrigen
 
+    def setLlego (self, llego):
+        self.llego = llego
+
     def setEstado(self,estado):
         self.estado = estado
 
@@ -142,7 +145,7 @@ class Vuelo:
         self.aeropuertoOrigen = aeropuertoOrigen 
 
     def asignarPuerta (self, area):
-        self.area = area # puntero a puerta o zona
+        self.area = area # puntero a manga o zona
 
     def asignarIDVuelo(self):
         Vuelo.nVuelo +=1
@@ -372,19 +375,19 @@ class Zona(Area):
         coordenadaYCentro=0.0):
         Area.__init__(self,  tipoArea,tamano, idArea,  coordenadaXCentro, coordenadaYCentro)
 
-class Puerta(Area):
+class Manga(Area):
     def __init__ (self, tipoArea, tamano, idArea=0, coordenadaXCentro=0.0, \
         coordenadaYCentro=0.0, velocidadDesembarco = 0.0):
         Area.__init__(self, tipoArea,tamano, idArea,  coordenadaXCentro, coordenadaYCentro)
         self.velocidadDesembarco = velocidadDesembarco
 
 
-class Manga: 
-    def __init__(self):
-        pass
+# class Manga: 
+#     def __init__(self):
+#         pass
 
-    def asignarPuerta(self, puerta):
-        self.puerta=puerta
+#     def asignarPuerta(self, puerta):
+#         self.puerta=puerta
 
 class Intervalo(object):
     def __init__(self, bloque):
@@ -424,6 +427,10 @@ class Intervalo(object):
         if (self.inicio.ant is None):
             return False
         else:
+            #JSON antiguo
+            if (self.inicio.ant.vuelo.llego is True):
+                return False
+            
             self.inicio = self.inicio.ant
             self.t2 = self.inicio.tiempoInicio
 
@@ -438,6 +445,10 @@ class Intervalo(object):
         if (self.fin.sig is None):
             return False
         else:
+            #JSON antiguo
+            if (self.fin.sig.vuelo.llego is True):
+                return False
+            
             self.fin=self.fin.sig
             self.t3 = self.fin.tiempoFin
 
