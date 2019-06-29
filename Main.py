@@ -34,7 +34,7 @@ def corrida():
     #r2 = requests.get(url='https://aviation-edge.com/v2/public/timetable?key=a24d93-2501aa&iataCode=LIM&type=arrival')
     #data = r2.json()
     listaA = ["ArrivalLima190504.txt","ArrivalLima190505.txt","ArrivalLima190506.txt","ArrivalLima190507.txt"]
-    with open("ArrivalLima190505.txt") as json_file:  #listaA[round(random.random()*3)]
+    with open(listaA[round(random.random()*3)]) as json_file:  #listaA[round(random.random()*3)]
         data = json.loads(json_file.read().replace("\'", "\""))
 
     data_filtered = list(filter(lambda x : x['status'] != 'landed' and x['status'] != 'cancelled', data))

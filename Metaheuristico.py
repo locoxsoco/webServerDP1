@@ -114,7 +114,7 @@ class Annealer(object):
                 if (p.ocupado):
                     cont +=1      
                     if (cont == indiceVuelo):
-                        break                        
+                        break                 
                 p=p.sig
 
             indiceArea2 = round(random.random()*(len(self.state[0]+self.state[1])-1))
@@ -167,44 +167,46 @@ class Annealer(object):
             #intercambio
             copiaA = deepcopy(A)
             copiaB = deepcopy(B)
-            p = A.inicio
+
+            punt = A.inicio
             while (True):
-                if (p.ocupado):
-                    area.removeVuelo(p)
-                if(p == A.fin):
+                if (punt.ocupado):
+                    area.removeVuelo(punt)
+                    #eliminar vuelo de la lista
+                if(punt == A.fin):
                     break
-                p=p.sig
-            p = B.inicio
+                punt=punt.sig
+            punt = B.inicio
             while(True):
-                if(p.ocupado):
-                    area2.removeVuelo(p)
-                if(p == B.fin):
+                if(punt.ocupado):
+                    area2.removeVuelo(punt)
+                    #eliminar vuelo
+                if(punt == B.fin):
                     break
-                p = p.sig
+                punt = punt.sig
             
-            p = copiaA.inicio
+            punt = copiaA.inicio
             while (True):
-                if (p.ocupado):
-                    area2.insertarVuelo(p.vuelo,p.vuelo.tiempoLlegada)
-                    for indVuelo in range(len(self.state[2])):
-                        if (self.state[2][indVuelo].icao == p.vuelo.icao):
-                            self.state[2][indVuelo] = p.vuelo
+                if (punt.ocupado):
+                    area2.insertarVuelo(punt.vuelo,punt.vuelo.tiempoLlegada)
+                    for vueloReemp in (self.state[2]):
+                        if (vueloReemp.icao == punt.vuelo.icao):
+                            vueloReemp = punt.vuelo
                             break
-                if(p == copiaA.fin):
+                if(punt == copiaA.fin):
                     break
-                p=p.sig
-            p = copiaB.inicio
+                punt=punt.sig
+            punt = copiaB.inicio
             while (True):
-                if (p.ocupado):
-                    area.insertarVuelo(p.vuelo,p.vuelo.tiempoLlegada)
-                    for indVuelo in range(len(self.state[2])):
-                        if (self.state[2][indVuelo].icao == p.vuelo.icao):
-                            self.state[2][indVuelo] = p.vuelo
+                if (punt.ocupado):
+                    area.insertarVuelo(punt.vuelo,punt.vuelo.tiempoLlegada)
+                    for vueloReemp in (self.state[2]):
+                        if (vueloReemp.icao == punt.vuelo.icao):
+                            vueloReemp = punt.vuelo
                             break
-                if(p == copiaB.fin):
+                if(punt == copiaB.fin):
                     break
-                p=p.sig
-        
+                punt=punt.sig
             #area.exchange(area2, A, B) 
 
     def energy(self,fin=True):
@@ -237,11 +239,10 @@ class Annealer(object):
                 c+=1
             costoAreas += parCastigo * costoPuerta
         '''    
-            xd +=costoPuerta
-        
-        if (fin):
-            print("Tiempo sin uso de Puertas (P*U) : "+ str(xd/3600))
-        xd=0
+            xd += costoPuerta
+            if (fin):
+                print("Tiempo sin uso de Puertas (P*U) : "+ str(xd/3600))
+            xd=0
         '''
         for zona in self.state[1]:
             costoZona = 0
