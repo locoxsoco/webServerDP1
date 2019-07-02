@@ -11,7 +11,6 @@ from datetime import datetime, date, timedelta
 from io import StringIO
 
 s = StringIO()
-start = datetime.now()
 
 def main ():
     s = StringIO()
