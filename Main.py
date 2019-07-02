@@ -15,6 +15,7 @@ sys.stdout = s
 start = datetime.now()
 
 def main ():
+    s = StringIO()
     start = datetime.now()
     corrida ()
     end = datetime.now()
@@ -26,7 +27,7 @@ def main ():
     fWrite.close()
 
     sys.stdout = sys.__stdout__
-    print(s.getvalue())
+    #print(s.getvalue())
 
     return(s.getvalue())
     #sys.stdout = sys.__stdout__
