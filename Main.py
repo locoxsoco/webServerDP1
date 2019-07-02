@@ -33,11 +33,11 @@ def main ():
     #sys.stdout = sys.__stdout__
 
 def corrida():
-    # r2 = requests.get(url='https://aviation-edge.com/v2/public/timetable?key=949de0-014c14&iataCode=LIM&type=arrival')
-    # data = r2.json()
-    listaA = ["ArrivalLima190504.txt","ArrivalLima190505.txt","ArrivalLima190506.txt","ArrivalLima190507.txt"]
-    with open(listaA[round(random.random()*3)]) as json_file:  #listaA[round(random.random()*3)]
-        data = json.loads(json_file.read().replace("\'", "\""))
+    r2 = requests.get(url='https://aviation-edge.com/v2/public/timetable?key=949de0-014c14&iataCode=LIM&type=arrival')
+    data = r2.json()
+    # listaA = ["ArrivalLima190504.txt","ArrivalLima190505.txt","ArrivalLima190506.txt","ArrivalLima190507.txt"]
+    # with open(listaA[round(random.random()*3)]) as json_file:  #listaA[round(random.random()*3)]
+    #     data = json.loads(json_file.read().replace("\'", "\""))
 
     data_filtered = list(filter(lambda x : x['status'] != 'landed' and x['status'] != 'cancelled', data))
     data_ignored = list (filter(lambda x: x['status'] == 'cancelled' or x['status'] == 'landed',data))
