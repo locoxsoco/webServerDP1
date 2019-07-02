@@ -11,11 +11,11 @@ from datetime import datetime, date, timedelta
 from io import StringIO
 
 s = StringIO()
-sys.stdout = s
 start = datetime.now()
 
 def main ():
     s = StringIO()
+    sys.stdout = s
     start = datetime.now()
     corrida ()
     end = datetime.now()
