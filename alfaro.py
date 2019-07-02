@@ -4,9 +4,7 @@ from __future__ import print_function
 #!flask/bin/python
 from flask import Flask
 from flask import request
-from flask_jsglue import JSGlue
 application = Flask(__name__)
-JSGlue(application)
 import multiprocessing as mp
 import math
 import random
