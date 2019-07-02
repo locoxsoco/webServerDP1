@@ -86,9 +86,9 @@ class Annealer(object):
             for puertaZona in (self.state[0]+self.state[1]):
                 if (puertaZona != area and puertaZona.insertarVuelo(p.vuelo,p.vuelo.tiempoEstimado)!=-1):
                     area.removeVuelo(p)
-                    print("Mover - 1")
-                    area.imprimirLista()
-                    puertaZona.imprimirLista()
+                    # print("Mover - 1")
+                    # area.imprimirLista()
+                    # puertaZona.imprimirLista()
                     return 1
             iter2 = 1 
             while (True): 
@@ -96,9 +96,9 @@ class Annealer(object):
                 for puertaZona in (self.state[0]+self.state[1]):
                     if (puertaZona != area and puertaZona.insertarVuelo(p.vuelo,p.vuelo.tiempoLlegada)!=-1):
                         area.removeVuelo(p)
-                        print("Mover - 2")
-                        area.imprimirLista()
-                        puertaZona.imprimirLista()
+                        # print("Mover - 2")
+                        # area.imprimirLista()
+                        # puertaZona.imprimirLista()
                         return 1
 
                 iter2 +=1
@@ -212,9 +212,9 @@ class Annealer(object):
                 if(punt == copiaB.fin):
                     break
                 punt=punt.sig
-            print("Desplegar")
-            area.imprimirLista()
-            area2.imprimirLista()
+            # print("Desplegar")
+            # area.imprimirLista()
+            # area2.imprimirLista()
             return 1
             #area.exchange(area2, A, B) 
 
