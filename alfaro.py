@@ -28,4 +28,10 @@ def getAsignacion():
     # return (f.read()) 
     return (str(Main.main()))
 
+@application.route('/addvuelo', methods=['POST'])
+def addVuelo():
+    # f = open("jsonAsignacion.txt","r")
+    # return (f.read()) 
+    return (str(Main.main()))
+
 application.run("192.168.214.177", port=5000, debug=True)

@@ -275,29 +275,29 @@ class Area:
             return -1
 
     def imprimirLista(self):
+        print ("")
         print ("{ \"tipo\": \""+ self.tipoArea + " "+str(self.idArea) + ", \"tamano\": \""+ self.tamano + "\", ",end="")
         print ("\"vuelos\": [ ",end="")
         p=self.vuelos.inicio
         f = 0
         while(p is not None):
-            if (p.ocupado):
-                if (f==0):
-                    f=1
-                else:
-                    print(", ",end="")
             #if (p.ocupado):
+            if (f==0):
+                f=1
+            else:
+                print(", ",end="")
+            if (p.ocupado):
                 print("{ \"numeroVuelo\": \""+ str(p.vuelo.iata) \
                     + "\", \"nombreAerolinea\": \""+ str(p.vuelo.avion.tAerolinea.nombre) \
                     + "\", \"estado\": \""+ str(p.vuelo.estado) \
                     + "\", \"iataProcedencia\": \""+ str(p.vuelo.aeropuertoOrigen.iata) \
                     + "\", \"TiempoEstimado\": \""+ str(p.vuelo.tiempoEstimado) \
                     + "\", \"TiempoLlegada\": \""+ str(p.vuelo.tiempoLlegada) + "\" }",end="") 
-            #else:
-            #    print("{ \"TiempoINI\": \""+ str(p.tiempoInicio) \
-            #        + "\", \"TiempoFIN\": \""+ str(p.tiempoFin) + "\" }",end="") 
+            else:
+               print("{ \"TiempoINI\": \""+ str(p.tiempoInicio) \
+                   + "\", \"TiempoFIN\": \""+ str(p.tiempoFin) + "\" }",end="") 
             p=p.sig
         print(" ] }",end="")
-        #print("-------------------------------")
 
     def removeVuelo(self,bloque):
         p = self.vuelos.inicio

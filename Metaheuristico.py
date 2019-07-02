@@ -14,7 +14,7 @@ class Annealer(object):
     # parámetros
     Tmax = 25000.0
     Tmin = 2.5
-    steps = 4000
+    steps = 5000
 
     max_accepts = 50
     max_improve = 20
@@ -26,7 +26,6 @@ class Annealer(object):
         """
         Método FIFO para alcanzar una solución mas o menos óptima
         """
-
         self.listaVuelos = (x)
         self.listaPuertas = (y)
         self.listaZonas = (z)
@@ -60,13 +59,13 @@ class Annealer(object):
             area = (self.state[0]+self.state[1])[indiceArea]
 
             if(area.vuelos.cantidad == 0):
-                return
+                return 0
             indiceVuelo = round(random.random()*(area.vuelos.cantidad-1))+1
             p = area.vuelos.inicio    
             #Tabu
             if (tabu):
                 if(("Insert", area.idArea, area.tipoArea, indiceVuelo) in self.listaTabu):
-                    return
+                    return 0
                 else: 
                     self.listaTabu.append(("Insert", area.idArea, area.tipoArea, indiceVuelo))
                     if (len(self.listaTabu)>50):
@@ -81,32 +80,38 @@ class Annealer(object):
                 p=p.sig
             # JSON antiguo
             if (p.vuelo.llego is True):
-                return
+                return 0
 
             p.vuelo.setTiempoLlegada (p.vuelo.tiempoEstimado)
             for puertaZona in (self.state[0]+self.state[1]):
                 if (puertaZona != area and puertaZona.insertarVuelo(p.vuelo,p.vuelo.tiempoEstimado)!=-1):
                     area.removeVuelo(p)
-                    return
+                    print("Mover - 1")
+                    area.imprimirLista()
+                    puertaZona.imprimirLista()
+                    return 1
             iter2 = 1 
-            while (True):
+            while (True): 
                 p.vuelo.setTiempoLlegada (p.vuelo.tiempoLlegada + timedelta(minutes = 1))
                 for puertaZona in (self.state[0]+self.state[1]):
                     if (puertaZona != area and puertaZona.insertarVuelo(p.vuelo,p.vuelo.tiempoLlegada)!=-1):
                         area.removeVuelo(p)
-                        return
+                        print("Mover - 2")
+                        area.imprimirLista()
+                        puertaZona.imprimirLista()
+                        return 1
 
                 iter2 +=1
                 if (iter2 > 60):
                     p.vuelo.setTiempoLlegada(p.vuelo.tiempoEstimado)
-                    return
+                    return 0
         else:
             #intercambio de intervalos
             indiceArea = round(random.random()*(len(self.state[0]+self.state[1])-1))
             area = (self.state[0]+self.state[1])[indiceArea]
 
             if(area.vuelos.cantidad == 0):
-                return
+                return 0
             indiceVuelo = round(random.random()*(area.vuelos.cantidad-1))+1
             cont = 0
             p = area.vuelos.inicio
@@ -119,14 +124,14 @@ class Annealer(object):
 
             indiceArea2 = round(random.random()*(len(self.state[0]+self.state[1])-1))
             if(indiceArea2 == indiceArea): 
-                return
+                return 0
             area2 = (self.state[0]+self.state[1])[indiceArea2]
             if(area2.vuelos.cantidad == 0 or area.indice != area2.indice):
-                return
+                return 0
             #Tabu
             if (tabu):
                 if(("Exchange", area.idArea, indiceVuelo, area2.idArea) in self.listaTabu):
-                    return
+                    return 0
                 else:
                     self.listaTabu.append(("Exchange", area.idArea, indiceVuelo, area2.idArea))
                     if (len(self.listaTabu)>50):
@@ -143,27 +148,27 @@ class Annealer(object):
                 p2=p2.sig
             
             if (p2 is None):
-                return
+                return 0
             
             # JSON antiguo
             if (p.vuelo.llego is True or p2.vuelo.llego is True):
-                return
+                return 0
 
             A = Clases.Intervalo (p)
             B = Clases.Intervalo (p2)
             while not ((A.t2 >= B.t1 and A.t3 <= B.t4) and (B.t2 >= A.t1 and B.t3 <= A.t4)):    
                 if (A.t2 < B.t1):
                     if (not B.extendLeft()):
-                        return
+                        return 0
                 if (B.t2 < A.t1):
                     if (not A.extendLeft()):
-                        return
-                if (A.t3>B.t4):
+                        return 0
+                if (A.t3>B.t4): 
                     if (not B.extendRight()):
-                        return
+                        return 0
                 if (B.t3>A.t4):
                     if (not A.extendRight()):
-                        return
+                        return 0
             #intercambio
             copiaA = deepcopy(A)
             copiaB = deepcopy(B)
@@ -207,6 +212,10 @@ class Annealer(object):
                 if(punt == copiaB.fin):
                     break
                 punt=punt.sig
+            print("Desplegar")
+            area.imprimirLista()
+            area2.imprimirLista()
+            return 1
             #area.exchange(area2, A, B) 
 
     def energy(self,fin=True):
@@ -287,7 +296,8 @@ class Annealer(object):
         while step < self.steps:
             step += 1
             T = self.Tmax * math.exp(Tfactor * step / self.steps)
-            self.move()
+            if (self.move() == 0):
+                continue
             E = self.energy(False)
             dE = E - prevEnergy
             trials += 1
