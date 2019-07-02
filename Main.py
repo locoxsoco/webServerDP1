@@ -15,11 +15,12 @@ sys.stdout = s
 start = datetime.now()
 
 def main ():
+    start = datetime.now()
     corrida ()
     end = datetime.now()
 
     f= open("Llamadas a API.txt","a+")
-    f.write("Fecha: "+ str(datetime.now()) + " - Tiempo de ejecucion: " + str((end-start))+ " segundos.\n")
+    f.write("Fecha: "+ str(datetime.now()) + " - Tiempo de ejecucion: " + str(end-start)+ ".\n")
     fWrite = open("jsonAsignacion.txt", "w+")
     fWrite.write(s.getvalue())
     fWrite.close()
@@ -31,8 +32,8 @@ def main ():
     #sys.stdout = sys.__stdout__
 
 def corrida():
-    #r2 = requests.get(url='https://aviation-edge.com/v2/public/timetable?key=a24d93-2501aa&iataCode=LIM&type=arrival')
-    #data = r2.json()
+    # r2 = requests.get(url='https://aviation-edge.com/v2/public/timetable?key=949de0-014c14&iataCode=LIM&type=arrival')
+    # data = r2.json()
     listaA = ["ArrivalLima190504.txt","ArrivalLima190505.txt","ArrivalLima190506.txt","ArrivalLima190507.txt"]
     with open(listaA[round(random.random()*3)]) as json_file:  #listaA[round(random.random()*3)]
         data = json.loads(json_file.read().replace("\'", "\""))
