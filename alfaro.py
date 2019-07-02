@@ -3,10 +3,10 @@ from __future__ import division
 from __future__ import print_function
 #!flask/bin/python
 from flask import Flask
-application = Flask(__name__)
-from flask import Flask
 from flask import request
+from flask_jsglue import JSGlue
 application = Flask(__name__)
+JSGlue(application)
 import multiprocessing as mp
 import math
 import random
@@ -20,6 +20,14 @@ import Clases
 import Main
 import Metaheuristico
 from datetime import datetime, date, time, timedelta
+
+@application.after_request
+    def after_request(response):
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate, public, max-age=0"
+        response.headers["Expires"] = 0
+        response.headers["Pragma"] = "no-cache"
+        return response
+
 @application.route('/getjson', methods=['GET'])
 def get():
     # f = open("jsonAsignacion.txt","r")
