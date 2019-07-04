@@ -171,10 +171,8 @@ class BloqueVuelo:
     def addVuelo(self,vuelo,tiempo):
         self.vuelo = vuelo
         self.ocupado = True
-        t=tiempo
-
-        self.tiempoInicio = t-timedelta(hours =1)
-        self.tiempoFin = t + timedelta(hours=2)
+        self.tiempoInicio = tiempo - timedelta(hours =1)
+        self.tiempoFin = tiempo + timedelta(hours=2)
 
     def definirEspacioVacio(self, tiempoInicio, tiempoFin):
         self.tiempoInicio = tiempoInicio
@@ -191,7 +189,7 @@ class ListaVuelos:
             hour=0,minute=0,second=0)
 
         self.inicio.definirEspacioVacio(self.tiempoInicio,self.tiempoFin)
-        self.fin = self.inicio
+        #self.fin = self.inicio
         self.cantidad=0
         self.cantBloques=1
         #self.tiempoLibre = self.tiempoFin - self.tiempoInicio
@@ -269,19 +267,18 @@ class Area:
         bloque.addVuelo(vuelo,tiempo)
         insercion = self.vuelos.insertarBloque(bloque)
         if (insercion != -1 ):
-            bloque.vuelo.asignarPuerta (self)
+            bloque.vuelo.asignarPuerta(self)
             return 1
         else:
             return -1
 
     def imprimirLista(self):
-        print ("")
-        print ("{ \"tipo\": \""+ self.tipoArea + " "+str(self.idArea) + ", \"tamano\": \""+ self.tamano + "\", ",end="")
+        print ("{ \"tipo\": \""+ self.tipoArea + " "+str(self.idArea) + "\", \"tamano\": \""+ self.tamano + "\", ",end="")
         print ("\"vuelos\": [ ",end="")
         p=self.vuelos.inicio
         f = 0
         while(p is not None):
-            #if (p.ocupado):
+            # if (p.ocupado):
             if (f==0):
                 f=1
             else:
@@ -380,14 +377,6 @@ class Manga(Area):
         coordenadaYCentro=0.0, velocidadDesembarco = 0.0):
         Area.__init__(self, tipoArea,tamano, idArea,  coordenadaXCentro, coordenadaYCentro)
         self.velocidadDesembarco = velocidadDesembarco
-
-
-# class Manga: 
-#     def __init__(self):
-#         pass
-
-#     def asignarPuerta(self, puerta):
-#         self.puerta=puerta
 
 class Intervalo(object):
     def __init__(self, bloque):
