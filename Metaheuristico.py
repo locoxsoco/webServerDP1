@@ -136,10 +136,7 @@ class Annealer(object):
             p2 = area2.vuelos.inicio
             while(p2 is not None):
                 if (p2.ocupado):
-                    if ((p2.tiempoInicio < p.tiempoFin and p2.tiempoInicio > p.tiempoInicio) or \
-                        (p2.tiempoFin < p.tiempoFin and p2.tiempoFin > p.tiempoInicio) or \
-                        (p.tiempoInicio < p2.tiempoFin and p.tiempoInicio > p2.tiempoInicio) or \
-                        (p.tiempoFin < p2.tiempoFin and p.tiempoFin > p2.tiempoInicio)):
+                    if ((p2.tiempoInicio < p.tiempoFin and p2.tiempoInicio > p.tiempoInicio) or (p2.tiempoFin < p.tiempoFin and p2.tiempoFin > p.tiempoInicio) or (p.tiempoInicio < p2.tiempoFin and p.tiempoInicio > p2.tiempoInicio) or (p.tiempoFin < p2.tiempoFin and p.tiempoFin > p2.tiempoInicio)):
                         break
                 p2=p2.sig
             

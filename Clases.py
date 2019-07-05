@@ -199,23 +199,19 @@ class ListaVuelos:
         #ant = None
         ubicado = False
         while(p.tiempoInicio <= bloque.tiempoInicio):
-            if (not p.ocupado and p.tiempoInicio <= bloque.tiempoInicio and \
-                p.tiempoFin >= bloque.tiempoFin):
-
-                bloqueAnt = p.ant
-                bloqueSig = p.sig
+            if (not p.ocupado and p.tiempoInicio <= bloque.tiempoInicio and p.tiempoFin >= bloque.tiempoFin):
                 if (p.tiempoInicio != bloque.tiempoInicio):
                     bloqueAnt = BloqueVuelo()
                     bloqueAnt.definirEspacioVacio(p.tiempoInicio,bloque.tiempoInicio)
-                    bloqueAnt.ant = p.ant #doblemente enlazado 
-                    self.cantBloques += 1
                     if(p.ant is None):
                         self.inicio = bloqueAnt
                     else:
                         p.ant.sig = bloqueAnt
                         #p.ant = bloqueAnt
+                    bloqueAnt.ant = p.ant #doblemente enlazado 
                     bloqueAnt.sig = bloque
                 else:
+                    bloqueAnt = p.ant
                     if(bloqueAnt is None):
                         self.inicio = bloque
                     else:
@@ -224,17 +220,16 @@ class ListaVuelos:
                 if (p.tiempoFin != bloque.tiempoFin):
                     bloqueSig = BloqueVuelo()
                     bloqueSig.definirEspacioVacio(bloque.tiempoFin,p.tiempoFin)
-                    bloqueSig.sig = p.sig
                     #bloqueSig.ant = p #doblemente enlazado no tiene sentido
-                    self.cantBloques += 1
                     if (p.sig is None):
                         pass
                     else:
                         p.sig.ant = bloqueSig
                         #p.sig = bloqueSig
-                    
+                    bloqueSig.sig = p.sig
                     bloqueSig.ant = bloque
                 else:
+                    bloqueSig = p.sig
                     if(bloqueSig is not None):
                         bloqueSig.ant = bloque
 
