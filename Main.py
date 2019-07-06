@@ -112,7 +112,7 @@ def corrida():
         vuelo.asignarIDVuelo()
         listaVuelos.append(vuelo)
 
-    listaVuelos.sort(key= lambda x: x.tiempoEstimado)
+    # listaVuelos.sort(key= lambda x: x.tiempoEstimado)
     #print ("Longitud: "+ str(len(listaVuelos)))
     # Creación de zonas y mangas
     nMangas = 19
@@ -139,13 +139,13 @@ def corrida():
 
     listaV = []
     for area in (x[0]):
-        p = area.vuelos.inicio
-        while(p is not None):
+        # p = area.vuelos.inicio
+        for p in area.vuelos.listaVuelos:
+        # while(p is not None):
             if (p.ocupado):
                 p.vuelo.asignarPuerta(area)
-                listaV.append(p.vuelo)  
-            p=p.sig
-    listaV.sort(key= lambda y: y.tiempoLlegada)
+                listaV.append(p.vuelo)
+    # listaV.sort(key= lambda y: y.tiempoLlegada)
     
     #data_ignored.sort(key= lambda y: y['arrival']['estimatedTime'][0:19])
     print ("[ [", end="")

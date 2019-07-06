@@ -14,7 +14,7 @@ class Annealer(object):
     # parámetros
     Tmax = 25000.0
     Tmin = 2.5
-    steps = 4000
+    steps = 3000
 
     max_accepts = 50
     max_improve = 20
@@ -42,16 +42,16 @@ class Annealer(object):
                     if (puertaZona.insertarVuelo(vuelo,vuelo.tiempoLlegada)!=-1):
                         asignado = True                        
                         break
-                        
-        self.state = (self.listaAreas,self.listaVuelos)
-        # best_state = deepcopy(self.state)
-        # best_energy = self.energy(False) #CAMBIAR PARA EXPNUM
-        
-        # x= best_state
-        # y=best_energy
+
+        # sys.stdout = sys.__stdout__
+        # for i in range(len(self.listaAreas)):
+        #     if(i!=0):
+        #         print (",", end="")
+        #     self.listaAreas[i].imprimirLista()
+        self.state = deepcopy((self.listaAreas,self.listaVuelos))
 
     def move(self,tabu = False):
-        selector =round(random.random())
+        selector =0 #round(random.random())
         if(selector == 0):
             #asignacion vuelo
             indiceArea = round(random.random()*(len(self.state[0])-1))
@@ -60,7 +60,7 @@ class Annealer(object):
             if(area.vuelos.cantidad == 0):
                 return 0
             indiceVuelo = round(random.random()*(area.vuelos.cantidad-1))+1
-            p = area.vuelos.inicio    
+            # p = area.vuelos.inicio    
             #Tabu
             if (tabu):
                 if(("Insert", area.idArea, area.tipoArea, indiceVuelo) in self.listaTabu):
@@ -71,178 +71,196 @@ class Annealer(object):
                         self.listaTabu.remove(self.listaTabu[0])
 
             cont = 0
-            while(p is not None):
+            for p in area.vuelos.listaVuelos:
+            # while(p is not None):
                 if (p.ocupado):
                     cont +=1
                     if (cont == indiceVuelo):
                         break
-                p=p.sig
             # JSON antiguo
             if (p.vuelo.llego is True):
                 return 0
-
+            
+            save = p.vuelo.tiempoLlegada
             p.vuelo.setTiempoLlegada (p.vuelo.tiempoEstimado)
             for puertaZona in (self.state[0]):
-                if (puertaZona.insertarVuelo(p.vuelo,p.vuelo.tiempoEstimado)!=-1):
+                if (puertaZona!= area and puertaZona.insertarVuelo(p.vuelo,p.vuelo.tiempoEstimado)!=-1):
                     area.removeVuelo(p)
+                    # print("Mover - 1",p.vuelo.numeroVuelo)
+                    # area.imprimirLista()
+                    # print()
+                    # print ("area reemplazante")
+                    # puertaZona.imprimirLista()
                     return 1
-            iter2 = 1 
-            while (True): 
+            iter2 = 0 
+            while (iter2 < 60 ): 
                 p.vuelo.setTiempoLlegada (p.vuelo.tiempoLlegada + timedelta(minutes = 1))
                 for puertaZona in (self.state[0]):
-                    if (puertaZona.insertarVuelo(p.vuelo,p.vuelo.tiempoLlegada)!=-1):
+                    if (puertaZona!= area and puertaZona.insertarVuelo(p.vuelo,p.vuelo.tiempoLlegada)!=-1):
                         area.removeVuelo(p)
-                        # print("Mover - 2")
+                        # print("Mover - 2",p.vuelo.numeroVuelo)
                         # area.imprimirLista()
+                        # print()
+                        # print ("area reemplazante")
                         # puertaZona.imprimirLista()
                         return 1
-
                 iter2 +=1
-                if (iter2 > 60):
-                    p.vuelo.setTiempoLlegada(p.vuelo.tiempoEstimado)
-                    return 0
-        else:
-            #intercambio de intervalos
-            indiceArea = round(random.random()*(len(self.state[0])-1))
-            area = (self.state[0])[indiceArea]
+            p.vuelo.setTiempoLlegada(save)
+            return 0
+        # else:
+        #     #intercambio de intervalos
+        #     indiceArea = round(random.random()*(len(self.state[0])-1))
+        #     area = (self.state[0])[indiceArea]
 
-            if(area.vuelos.cantidad == 0):
-                return 0
-            indiceVuelo = round(random.random()*(area.vuelos.cantidad-1))+1
-            cont = 0
-            p = area.vuelos.inicio
-            while(p is not None):
-                if (p.ocupado):
-                    cont +=1      
-                    if (cont == indiceVuelo):
-                        break                 
-                p=p.sig
+        #     if(area.vuelos.cantidad == 0):
+        #         return 0
+        #     indiceVuelo = round(random.random()*(area.vuelos.cantidad-1))+1
+        #     cont = 0
+        #     # p = area.vuelos.inicio
+        #     # while(p is not None):
+        #     for p in area.vuelos.listaVuelos:
+        #         if (p.ocupado):
+        #             cont +=1      
+        #             if (cont == indiceVuelo):
+        #                 break                 
+        #         # p=p.sig
 
-            indiceArea2 = round(random.random()*(len(self.state[0])-1))
-            if(indiceArea2 == indiceArea): 
-                return 0
-            area2 = (self.state[0])[indiceArea2]
-            if(area2.vuelos.cantidad == 0 or area.indice != area2.indice):
-                return 0
-            #Tabu
-            if (tabu):
-                if(("Exchange", area.idArea, indiceVuelo, area2.idArea) in self.listaTabu):
-                    return 0
-                else:
-                    self.listaTabu.append(("Exchange", area.idArea, indiceVuelo, area2.idArea))
-                    if (len(self.listaTabu)>50):
-                        self.listaTabu.remove(self.listaTabu[0])
+        #     indiceArea2 = round(random.random()*(len(self.state[0])-1))
+        #     if(indiceArea2 == indiceArea): 
+        #         return 0
+        #     area2 = (self.state[0])[indiceArea2]
+        #     if(area2.vuelos.cantidad == 0 or area.indice != area2.indice):
+        #         return 0
+        #     #Tabu
+        #     if (tabu):
+        #         if(("Exchange", area.idArea, indiceVuelo, area2.idArea) in self.listaTabu):
+        #             return 0
+        #         else:
+        #             self.listaTabu.append(("Exchange", area.idArea, indiceVuelo, area2.idArea))
+        #             if (len(self.listaTabu)>50):
+        #                 self.listaTabu.remove(self.listaTabu[0])
 
-            p2 = area2.vuelos.inicio
-            while(p2 is not None):
-                if (p2.ocupado):
-                    if ((p2.tiempoInicio < p.tiempoFin and p2.tiempoInicio > p.tiempoInicio) or (p2.tiempoFin < p.tiempoFin and p2.tiempoFin > p.tiempoInicio) or (p.tiempoInicio < p2.tiempoFin and p.tiempoInicio > p2.tiempoInicio) or (p.tiempoFin < p2.tiempoFin and p.tiempoFin > p2.tiempoInicio)):
-                        break
-                p2=p2.sig
+        #     # p2 = area2.vuelos.inicio
+        #     encontro = False
+        #     for p2 in area2.vuelos.listaVuelos:
+        #     # while(p2 is not None):
+        #         if (p2.ocupado):
+        #             if ((p2.tiempoInicio <= p.tiempoFin and p2.tiempoInicio >= p.tiempoInicio) \
+        #                 # or (p2.tiempoFin <= p.tiempoFin and p2.tiempoFin >= p.tiempoInicio) \ 
+        #                 or (p.tiempoInicio <= p2.tiempoFin and p.tiempoInicio >= p2.tiempoInicio)): 
+        #                 # or (p.tiempoFin < p2.tiempoFin and p.tiempoFin > p2.tiempoInicio)):
+        #                 encontro = True
+        #                 break
+        #         # p2=p2.sig
             
-            if (p2 is None):
-                return 0
+        #     if (not encontro):
+        #         return 0
             
-            # JSON antiguo
-            if (p.vuelo.llego is True or p2.vuelo.llego is True):
-                return 0
+        #     # JSON antiguo
+        #     if (p.vuelo.llego is True or p2.vuelo.llego is True):
+        #         return 0
 
-            A = Clases.Intervalo (p)
-            B = Clases.Intervalo (p2)
-            while not ((A.t2 >= B.t1 and A.t3 <= B.t4) and (B.t2 >= A.t1 and B.t3 <= A.t4)):    
-                if (A.t2 < B.t1):
-                    if (not B.extendLeft()):
-                        return 0
-                if (B.t2 < A.t1):
-                    if (not A.extendLeft()):
-                        return 0
-                if (A.t3>B.t4): 
-                    if (not B.extendRight()):
-                        return 0
-                if (B.t3>A.t4):
-                    if (not A.extendRight()):
-                        return 0
-            #intercambio
-            copiaA = deepcopy(A)
-            copiaB = deepcopy(B)
+        #     A = Clases.Intervalo (area.vuelos.listaVuelos,p)
+        #     B = Clases.Intervalo (area2.vuelos.listaVuelos,p2)
+        #     while not ((A.t2 >= B.t1 and A.t3 <= B.t4) and (B.t2 >= A.t1 and B.t3 <= A.t4)):    
+        #         if (A.t2 < B.t1):
+        #             if (not B.extendLeft()):
+        #                 return 0
+        #         if (B.t2 < A.t1):
+        #             if (not A.extendLeft()):
+        #                 return 0
+        #         if (A.t3>B.t4): 
+        #             if (not B.extendRight()):
+        #                 return 0
+        #         if (B.t3>A.t4):
+        #             if (not A.extendRight()):
+        #                 return 0
+        #     #intercambio
+        #     # copiaA = deepcopy(A)
+        #     # copiaB = deepcopy(B)
 
-            punt = A.inicio
-            while (True):
-                if (punt.ocupado):
-                    area.removeVuelo(punt)
-                    #eliminar vuelo de la lista
-                if(punt == A.fin):
-                    break
-                punt=punt.sig
-            punt = B.inicio
-            while(True):
-                if(punt.ocupado):
-                    area2.removeVuelo(punt)
-                    #eliminar vuelo
-                if(punt == B.fin):
-                    break
-                punt = punt.sig
-            punt = copiaA.inicio
-            while (True):
-                if (punt.ocupado):
-                    # Versión antigua
-                    # area2.insertarVuelo(punt.vuelo,punt.vuelo.tiempoLlegada)
-                    #Versión nueva
-                    punt.vuelo.setTiempoLlegada (punt.vuelo.tiempoEstimado)
-                    while (True): 
-                        punt.vuelo.setTiempoLlegada (punt.vuelo.tiempoLlegada + timedelta(minutes = 1))
-                        if (area2.insertarVuelo(punt.vuelo,punt.vuelo.tiempoLlegada)!=-1):
-                            break
+        #     # punt = A.inicio
+        #     for punt in A.listaVuelos[A.listaVuelos.index(A.inicio):A.listaVuelos.index(A.fin)]:
+        #         indice = A.listaVuelos.index(punt)
+        #         if (punt.ocupado):
+        #             # area.vuelos.listaVuelos.pop(indice)
+        #             area.removeVuelo(punt)
+
+        #     for punt in B.listaVuelos[B.listaVuelos.index(B.inicio):B.listaVuelos.index(B.fin)]:
+        #         indice = B.listaVuelos.index(punt)
+        #         if(punt.ocupado):
+        #             # area2.vuelos.listaVuelos.pop(indice)
+        #             area2.removeVuelo(punt)
+
+        #     for punt in A.listaVuelos[A.listaVuelos.index(A.inicio):A.listaVuelos.index(A.fin)]:
+        #         indice = A.listaVuelos.index(punt)
+        #         if (punt.ocupado):
+        #             punt.vuelo.setTiempoLlegada (punt.vuelo.tiempoEstimado)
+        #             while (True): 
+        #                 if (area2.insertarVuelo(punt.vuelo,punt.vuelo.tiempoLlegada)!=-1):
+        #                     break
+        #                 punt.vuelo.setTiempoLlegada (punt.vuelo.tiempoLlegada + timedelta(minutes = 1))
+                        
+        #     for punt in B.listaVuelos[B.listaVuelos.index(B.inicio):B.listaVuelos.index(B.fin)]:
+        #         indice = B.listaVuelos.index(punt)
+        #         if(punt.ocupado):
+        #             punt.vuelo.setTiempoLlegada (punt.vuelo.tiempoEstimado)
+        #             while (True): 
+        #                 if (area.insertarVuelo(punt.vuelo,punt.vuelo.tiempoLlegada)!=-1):
+        #                     break
+        #                 punt.vuelo.setTiempoLlegada (punt.vuelo.tiempoLlegada + timedelta(minutes = 1))
+
+        #     # punt = copiaA.inicio
+        #     # while (True):
+        #     #     if (punt.ocupado):
+        #     #         # Versión antigua
+        #     #         # area2.insertarVuelo(punt.vuelo,punt.vuelo.tiempoLlegada)
+        #     #         #Versión nueva
+        #     #         punt.vuelo.setTiempoLlegada (punt.vuelo.tiempoEstimado)
+        #     #         while (True): 
+        #     #             punt.vuelo.setTiempoLlegada (punt.vuelo.tiempoLlegada + timedelta(minutes = 1))
+        #     #             if (area2.insertarVuelo(punt.vuelo,punt.vuelo.tiempoLlegada)!=-1):
+        #     #                 break
                     
-                if(punt == copiaA.fin):
-                    break
-                punt=punt.sig
-            punt = copiaB.inicio
-            while (True):
-                if (punt.ocupado):
-                    # Versión antigua
-                    #area.insertarVuelo(punt.vuelo,punt.vuelo.tiempoLlegada)
-                    #Versión nueva
-                    punt.vuelo.setTiempoLlegada (punt.vuelo.tiempoEstimado)
-                    while (True): 
-                        punt.vuelo.setTiempoLlegada (punt.vuelo.tiempoLlegada + timedelta(minutes = 1))
-                        if (area.insertarVuelo(punt.vuelo,punt.vuelo.tiempoLlegada)!=-1):
-                            break
-                if(punt == copiaB.fin):
-                    break
-                punt=punt.sig
-            return 1
+        #     #     if(punt == copiaA.fin):
+        #     #         break
+        #     #     punt=punt.sig
+        #     # punt = copiaB.inicio
+        #     # while (True):
+        #     #     if (punt.ocupado):
+        #     #         # Versión antigua
+        #     #         #area.insertarVuelo(punt.vuelo,punt.vuelo.tiempoLlegada)
+        #     #         #Versión nueva
+        #     #         punt.vuelo.setTiempoLlegada (punt.vuelo.tiempoEstimado)
+        #     #         while (True): 
+        #     #             punt.vuelo.setTiempoLlegada (punt.vuelo.tiempoLlegada + timedelta(minutes = 1))
+        #     #             if (area.insertarVuelo(punt.vuelo,punt.vuelo.tiempoLlegada)!=-1):
+        #     #                 break
+        #     #     if(punt == copiaB.fin):
+        #     #         break
+        #     #     punt=punt.sig
+        #     return 1
 
     def energy(self,fin=True):
         """Calculate state's energy"""
         costoVuelos = 0
         costoTamano = 0
         parCastigo = 900000
-        for i in self.state[1]:
-            costoVuelos += (i.tiempoLlegada - i.tiempoEstimado).total_seconds() ** 2
-            costoTamano += (i.area.indice - i.avion.tipoAvion.indice)
-        '''    
-            xd += (i.tiempoLlegada - i.tiempoEstimado).total_seconds()
-        if (fin):
-            #print (self.maxTiempo, self.minTiempo)
-            print ("Hora asignada y hora estimada (L) : "+ str(xd/3600))
-        xd=0        
-        '''
         costoAreas = 0
         for puerta in self.state[0]:
             costoAreas =0
-            c = 1
-            p = puerta.vuelos.inicio
-            #print ("Cantidad: " + str(puerta.vuelos.cantidad), end='')
-            #print (" | Bloque: " + str(puerta.vuelos.cantBloques) + " de la puerta: "+ str(puerta.idArea))
-            while (p is not None):
-                if not(p.ocupado) and c != 1 and c != puerta.vuelos.cantBloques:
+            for p in puerta.vuelos.listaVuelos:
+            # p = puerta.vuelos.inicio
+            # while (p is not None):
+                if (p.ocupado):
+                    costoVuelos += (p.vuelo.tiempoLlegada - p.vuelo.tiempoEstimado).total_seconds() ** 2
+                    costoTamano += (p.vuelo.area.indice - p.vuelo.avion.tipoAvion.indice)
+                else:
                     if (puerta.tipoArea=="Manga"):
                         costoAreas += parCastigo * (p.tiempoFin - p.tiempoInicio).total_seconds()
                     else:
                         costoAreas += (p.tiempoFin - p.tiempoInicio).total_seconds()
-                p = p.sig
-                c+=1
+                # p = p.sig
         
         return costoAreas + costoVuelos * 90000000 + costoTamano * 90000
 
