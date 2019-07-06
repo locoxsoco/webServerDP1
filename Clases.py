@@ -165,92 +165,61 @@ class BloqueVuelo:
         self.ocupado=None
         self.tiempoInicio = None
         self.tiempoFin = None
-        self.sig = None
-        self.ant = None
 
     def addVuelo(self,vuelo,tiempo):
         self.vuelo = vuelo
         self.ocupado = True
-        t=tiempo
-
-        self.tiempoInicio = t-timedelta(hours =1)
-        self.tiempoFin = t + timedelta(hours=2)
+        self.tiempoInicio = tiempo - timedelta(hours =1)
+        self.tiempoFin = tiempo + timedelta(hours=2)
 
     def definirEspacioVacio(self, tiempoInicio, tiempoFin):
+        self.vuelo = None
         self.tiempoInicio = tiempoInicio
         self.tiempoFin=tiempoFin
         self.ocupado=False
 
 class ListaVuelos:
     def __init__ (self):
-        self.inicio = BloqueVuelo()
-
+        bloqueInicial = BloqueVuelo()
         self.tiempoInicio= datetime(year=2019,month =1,day=1,\
             hour=0,minute=0,second=0)
         self.tiempoFin= datetime(year=2020,month =1,day=1,\
             hour=0,minute=0,second=0)
 
-        self.inicio.definirEspacioVacio(self.tiempoInicio,self.tiempoFin)
-        self.fin = self.inicio
+        bloqueInicial.definirEspacioVacio(self.tiempoInicio,self.tiempoFin)
+        self.listaVuelos =[] 
+        self.listaVuelos.append(bloqueInicial)
         self.cantidad=0
-        self.cantBloques=1
-        #self.tiempoLibre = self.tiempoFin - self.tiempoInicio
         
-    def insertarBloque (self, bloque,pos=0):
-        p = self.inicio
-        #ant = None
-        ubicado = False
-        while(p.tiempoInicio <= bloque.tiempoInicio):
-            if (not p.ocupado and p.tiempoInicio <= bloque.tiempoInicio and \
-                p.tiempoFin >= bloque.tiempoFin):
-
-                bloqueAnt = p.ant
-                bloqueSig = p.sig
-                if (p.tiempoInicio != bloque.tiempoInicio):
+    def insertarBloque (self, bloque):
+        for p in self.listaVuelos:
+            if(p.tiempoInicio > bloque.tiempoInicio):
+                break
+            if (not p.ocupado and p.tiempoInicio <= bloque.tiempoInicio and p.tiempoFin >= bloque.tiempoFin):
+                indice = self.listaVuelos.index(p)
+                if (p.tiempoInicio != bloque.tiempoInicio and p.tiempoFin != bloque.tiempoFin):
                     bloqueAnt = BloqueVuelo()
                     bloqueAnt.definirEspacioVacio(p.tiempoInicio,bloque.tiempoInicio)
-                    bloqueAnt.ant = p.ant #doblemente enlazado 
-                    self.cantBloques += 1
-                    if(p.ant is None):
-                        self.inicio = bloqueAnt
-                    else:
-                        p.ant.sig = bloqueAnt
-                        #p.ant = bloqueAnt
-                    bloqueAnt.sig = bloque
-                else:
-                    if(bloqueAnt is None):
-                        self.inicio = bloque
-                    else:
-                        bloqueAnt.sig = bloque
-
-                if (p.tiempoFin != bloque.tiempoFin):
+                    self.listaVuelos.insert(indice, bloqueAnt)
                     bloqueSig = BloqueVuelo()
                     bloqueSig.definirEspacioVacio(bloque.tiempoFin,p.tiempoFin)
-                    bloqueSig.sig = p.sig
-                    #bloqueSig.ant = p #doblemente enlazado no tiene sentido
-                    self.cantBloques += 1
-                    if (p.sig is None):
-                        pass
-                    else:
-                        p.sig.ant = bloqueSig
-                        #p.sig = bloqueSig
+                    self.listaVuelos.insert(indice+2,bloqueSig)
+                    self.listaVuelos[indice+1].addVuelo(bloque.vuelo,bloque.vuelo.tiempoLlegada)
                     
-                    bloqueSig.ant = bloque
-                else:
-                    if(bloqueSig is not None):
-                        bloqueSig.ant = bloque
+                elif (p.tiempoInicio != bloque.tiempoInicio):
+                    bloqueAnt = BloqueVuelo()
+                    bloqueAnt.definirEspacioVacio(p.tiempoInicio,bloque.tiempoInicio)
+                    self.listaVuelos.insert(indice, bloqueAnt)
+                    self.listaVuelos[indice+1].addVuelo(bloque.vuelo,bloque.vuelo.tiempoLlegada)
 
-                bloque.sig = bloqueSig
-                bloque.ant = bloqueAnt
+                elif (p.tiempoFin != bloque.tiempoFin):
+                    bloqueSig = BloqueVuelo()
+                    bloqueSig.definirEspacioVacio(bloque.tiempoFin,p.tiempoFin)
+                    self.listaVuelos.insert(indice+1,bloqueSig)
+                    self.listaVuelos[indice].addVuelo(bloque.vuelo,bloque.vuelo.tiempoLlegada)
                 self.cantidad +=1
-                ubicado = True
-                break
-                
-            p = p.sig
-        if (ubicado): 
-            return 1 
-        else: 
-            return -1
+                return 1
+        return -1
 
 class Area: 
     def __init__ (self, tipoArea, tamano, idArea, coordenadaXCentro=0.0, coordenadaYCentro=0.0):
@@ -267,25 +236,23 @@ class Area:
             return -1
         bloque = BloqueVuelo()
         bloque.addVuelo(vuelo,tiempo)
-        insercion = self.vuelos.insertarBloque(bloque)
-        if (insercion != -1 ):
-            bloque.vuelo.asignarPuerta (self)
+        if (self.vuelos.insertarBloque(bloque) != -1 ):
+            bloque.vuelo.asignarPuerta(self)
             return 1
         else:
             return -1
 
     def imprimirLista(self):
-        print ("")
-        print ("{ \"tipo\": \""+ self.tipoArea + " "+str(self.idArea) + ", \"tamano\": \""+ self.tamano + "\", ",end="")
+        print ("{ \"tipo\": \""+ self.tipoArea + " "+str(self.idArea) + "\", \"tamano\": \""+ self.tamano + "\", ",end="")
         print ("\"vuelos\": [ ",end="")
-        p=self.vuelos.inicio
         f = 0
-        while(p is not None):
-            #if (p.ocupado):
+        for p in self.vuelos.listaVuelos:
+            # if (p.ocupado):
             if (f==0):
                 f=1
             else:
                 print(", ",end="")
+                
             if (p.ocupado):
                 print("{ \"numeroVuelo\": \""+ str(p.vuelo.iata) \
                     + "\", \"nombreAerolinea\": \""+ str(p.vuelo.avion.tAerolinea.nombre) \
@@ -295,78 +262,39 @@ class Area:
                     + "\", \"TiempoLlegada\": \""+ str(p.vuelo.tiempoLlegada) + "\" }",end="") 
             else:
                print("{ \"TiempoINI\": \""+ str(p.tiempoInicio) \
-                   + "\", \"TiempoFIN\": \""+ str(p.tiempoFin) + "\" }",end="") 
-            p=p.sig
+                   + "\", \"TiempoFIN\": \""+ str(p.tiempoFin) + "\" }",end="")
         print(" ] }",end="")
 
     def removeVuelo(self,bloque):
-        p = self.vuelos.inicio
-        ant = None
-        while (p is not None):
-            if(p == bloque):
-                if(ant is not None and p.sig is not None):
-                    if (not ant.ocupado and not p.sig.ocupado):
-                        ant.definirEspacioVacio(ant.tiempoInicio, p.sig.tiempoFin)
-                        ant.sig = p.sig.sig 
-                        if(p.sig.sig is not None):
-                            p.sig.sig.ant = ant #doblemente enlazado
-                        
-                        self.vuelos.cantBloques -= 1
-                    elif (not ant.ocupado):
-                        ant.definirEspacioVacio(ant.tiempoInicio,p.tiempoFin)
-                        ant.sig = p.sig 
-                        p.sig.ant = ant #doblemente enlazado
-                    elif (not p.sig.ocupado):
-                        p.sig.definirEspacioVacio(p.tiempoInicio,p.sig.tiempoFin)
-                        ant.sig = p.sig
-                        p.sig.ant = ant #doblemente enlazado
-                    else:
-                        bloqueVacio = BloqueVuelo()
-                        bloqueVacio.definirEspacioVacio(p.tiempoInicio, p.tiempoFin)
-                        self.vuelos.cantBloques += 1
-                        ant.sig = bloqueVacio
-                        bloqueVacio.sig = p.sig
-                        bloqueVacio.ant = ant #doblemente enlazado
-                        p.sig.ant = bloqueVacio #doblemente enlazado
-
-                elif (ant is None):
-                    if not(p.sig.ocupado):
-                        p.sig.definirEspacioVacio(p.tiempoInicio, p.sig.tiempoFin)
-                        self.vuelos.inicio = p.sig
-                    else:
-                        bloqueVacio = BloqueVuelo()
-                        bloqueVacio.definirEspacioVacio(p.tiempoInicio, p.tiempoFin)
-                        bloqueVacio.sig = p.sig
-                        p.sig.ant = bloqueVacio #doblemente enlazado
-                        self.vuelos.inicio = bloqueVacio
-                        self.vuelos.cantBloques += 1
-                elif(p.sig is None):
-                    if(not ant.ocupado):
-                        ant.sig = None
-                        ant.definirEspacioVacio(ant.tiempoInicio, p.tiempoFin)
-                    else:
-                        bloqueVacio = BloqueVuelo()
-                        bloqueVacio.definirEspacioVacio(p.tiempoInicio, p.tiempoFin)
-                        ant.sig = bloqueVacio
-                        bloqueVacio.ant = ant #doblemente enlazado
-
-                self.vuelos.cantBloques -=1
-                self.vuelos.cantidad -=1
-                break
-            ant = p
-            p=p.sig
-
-    def exchange(self, area, A, B):
-        C = deepcopy (A)
-        D = deepcopy (B)
-        self.vuelos.cantidad -= B.cantidad
-        self.vuelos.cantidad += A.cantidad
-        area.vuelos.cantidad -= A.cantidad
-        area.vuelos.cantidad += B.cantidad
-        insertarIntervalo(self, C, D)
-        C = deepcopy (A)
-        D = deepcopy (B)
-        insertarIntervalo(area, D, C)
+        # p = self.vuelos.inicio
+        # ant = None
+        # while (p is not None):
+        indice = self.vuelos.listaVuelos.index(bloque)
+        # se asume que en la eliminación nunca está al inicio o al final, porque el tiempo es "infinito"
+        if (not self.vuelos.listaVuelos[indice-1].ocupado and not self.vuelos.listaVuelos[indice+1].ocupado):
+            self.vuelos.listaVuelos[indice-1].definirEspacioVacio(self.vuelos.listaVuelos[indice-1].tiempoInicio, \
+                self.vuelos.listaVuelos[indice+1].tiempoFin)
+            self.vuelos.listaVuelos.pop(indice+1)
+            # self.vuelos.listaVuelos.remove(self.vuelos.listaVuelos[indice+1])
+            # self.vuelos.listaVuelos.remove(bloque)
+            self.vuelos.listaVuelos.pop(indice)
+        elif (not self.vuelos.listaVuelos[indice-1].ocupado) :
+            self.vuelos.listaVuelos[indice-1].definirEspacioVacio(self.vuelos.listaVuelos[indice-1].tiempoInicio, \
+                bloque.tiempoFin)
+            # self.vuelos.listaVuelos.remove(bloque)
+            self.vuelos.listaVuelos.pop(indice)
+        elif ( not self.vuelos.listaVuelos[indice+1].ocupado) :
+            self.vuelos.listaVuelos[indice+1].definirEspacioVacio(bloque.tiempoInicio, \
+                self.vuelos.listaVuelos[indice+1].tiempoFin)
+            # self.vuelos.listaVuelos.remove(bloque)
+            self.vuelos.listaVuelos.pop(indice)
+        else:
+            bloqueVacio = BloqueVuelo()
+            bloqueVacio.definirEspacioVacio(bloque.tiempoInicio, bloque.tiempoFin)
+            self.vuelos.listaVuelos.pop(indice)
+            self.vuelos.listaVuelos.insert(indice,bloqueVacio)
+            # self.vuelos.listaVuelos.remove(bloque)
+        self.vuelos.cantidad -=1
         
 ############################################################################
 
@@ -381,160 +309,86 @@ class Manga(Area):
         Area.__init__(self, tipoArea,tamano, idArea,  coordenadaXCentro, coordenadaYCentro)
         self.velocidadDesembarco = velocidadDesembarco
 
-
-# class Manga: 
-#     def __init__(self):
-#         pass
-
-#     def asignarPuerta(self, puerta):
-#         self.puerta=puerta
-
 class Intervalo(object):
-    def __init__(self, bloque):
-        if (bloque.ant is not None and not bloque.ant.ocupado):
-            self.inicio = bloque.ant
-            self.t1 = bloque.ant.tiempoInicio
+    def __init__(self, listaVuelos, bloque):
+        self.listaVuelos = deepcopy(listaVuelos)
+        indice = listaVuelos.index(bloque)
+        if (not self.listaVuelos[indice-1].ocupado): #indice !=0 and not 
+            self.inicio = self.listaVuelos[indice-1]
+            self.t1 = self.listaVuelos[indice-1].tiempoInicio
         else:
-            self.inicio = bloque
-            self.t1 = bloque.tiempoInicio
+            self.inicio = self.listaVuelos[indice]
+            self.t1 = self.listaVuelos[indice].tiempoInicio
 
-        self.t2 = bloque.tiempoInicio
-        self.t3 = bloque.tiempoFin
+        self.t2 = self.listaVuelos[indice].tiempoInicio
+        self.t3 = self.listaVuelos[indice].tiempoFin
 
-        if(bloque.sig is not None and not bloque.sig.ocupado):
-            self.fin = bloque.sig
-            self.t4 = bloque.sig.tiempoFin
+        if( not self.listaVuelos[indice+1].ocupado): #indice != len(listaVuelos)-1 and
+            self.fin = self.listaVuelos[indice+1]
+            self.t4 = self.listaVuelos[indice+1].tiempoFin
         else:
-            self.fin = bloque
-            self.t4 = bloque.tiempoFin
-
+            self.fin = self.listaVuelos[indice]
+            self.t4 = self.listaVuelos[indice].tiempoFin
         self.cantidad = 1
-
-    def printIntervalo(self):
-        p=self.inicio
-        while (True):
-            print (" => "+ str(p.tiempoInicio) + " | "+ str(p.tiempoFin),end="") 
-            if(p == self.fin):
-                break
-            p=p.sig
-        print ()
-        print(str(self.t1),end=" ")
-        print(str(self.t2),end=" ")
-        print(str(self.t3),end=" ")
-        print(self.t4)
+    # def printIntervalo(self):
+    #     p=self.inicio
+    #     while (True):
+    #         print (" => "+ str(p.tiempoInicio) + " | "+ str(p.tiempoFin),end="") 
+    #         if(p == self.fin):
+    #             break
+    #         p=p.sig
+    #     print ()
+    #     print(str(self.t1),end=" ")
+    #     print(str(self.t2),end=" ")
+    #     print(str(self.t3),end=" ")
+    #     print(self.t4)
 
     def extendLeft(self):
-        if (self.inicio.ant is None):
-            return False
-        else:
-            #JSON antiguo
-            if (self.inicio.ant.vuelo.llego is True):
+        indice = self.listaVuelos.index(self.inicio)
+        #JSON antiguo
+        sys.stdout = sys.__stdout__
+        print('izq')
+        print(indice, "-",len(self.listaVuelos))
+        try:
+            if (indice ==0 ):
                 return False
-            
-            self.inicio = self.inicio.ant
-            self.t2 = self.inicio.tiempoInicio
-
-            if (self.inicio.ant is not None and not self.inicio.ant.ocupado):
-                self.inicio = self.inicio.ant
-            self.t1 = self.inicio.tiempoInicio
-
-            self.cantidad +=1
-            return True
+            # elif(self.listaVuelos[indice-1].vuelo.llego is True):
+            #     return False
+            else:            
+                self.inicio = self.listaVuelos[indice-1]
+                self.t2 = self.inicio.tiempoInicio
+                if (indice-2 != 0 and not self.listaVuelos[indice-2].ocupado):
+                    self.inicio = self.listaVuelos[indice-2]
+                self.t1 = self.inicio.tiempoInicio
+                self.cantidad +=1
+                return True
+        except:
+            print (self.inicio.tiempoInicio,self.inicio.tiempoFin, " - ", indice," - " ,len(self.listaVuelos))
+            for i in self.listaVuelos:
+                print(i.tiempoInicio,i.tiempoFin)
+            return False
 
     def extendRight(self):
-        if (self.fin.sig is None):
-            return False
-        else:
-            #JSON antiguo
-            if (self.fin.sig.vuelo.llego is True):
+        indice = self.listaVuelos.index(self.fin)
+        sys.stdout = sys.__stdout__
+        print('der')
+        print(indice, "-",len(self.listaVuelos))
+        #JSON antiguo
+        try:
+            if indice == (len(self.listaVuelos)-1) :
                 return False
-            
-            self.fin=self.fin.sig
-            self.t3 = self.fin.tiempoFin
-
-            if(self.fin.sig is not None and not self.fin.sig.ocupado):
-                self.fin = self.fin.sig
-            self.t4 = self.fin.tiempoFin
-            
-            self.cantidad +=1
-            return True
-        
-
-def insertarIntervalo(area1, A, B):
-    area1.imprimirLista()
-    if (A.inicio.ant is None):
-        area1.vuelos.inicio.definirEspacioVacio( \
-            area1.vuelos.inicio.tiempoInicio, B.t2)
-        if (B.t1==B.t2):
-            B.inicio.ant = area1.vuelos.inicio
-            area1.vuelos.inicio.sig = B.inicio
-        else: 
-            B.inicio.sig.ant = area1.vuelos.inicio
-            area1.vuelos.inicio.sig = B.inicio.sig
-    else:
-        if (B.t1==B.t2):# no hay espacio vacio en B
-            if (A.t1 == A.t2):# Ninguno tiene espacio vacío
-                A.inicio.ant.definirEspacioVacio(A.inicio.ant.tiempoInicio, B.t1)#nuevo
-                B.inicio.ant = A.inicio.ant
-                A.inicio.ant.sig = B.inicio
-            else: # entre A y B hay espacio vacío
-                bloqueVacio = BloqueVuelo()
-                bloqueVacio.definirEspacioVacio(A.t1, B.t1)
-                A.inicio.ant.sig = bloqueVacio
-                bloqueVacio.ant = A.inicio.ant
-                bloqueVacio.sig = B.inicio
-                B.inicio.ant = bloqueVacio
-        else:# hay espacio vacio en B
-            # if (A.t1 < B.t1):# entre A y B hay espacio vacío
-            if (A.t1 != A.t2): 
-                A.inicio.definirEspacioVacio(A.t1, B.t2)
-                A.inicio.sig = B.inicio.sig#modificado
-                B.inicio.sig.ant = A.inicio#modificado
+            # elif (self.listaVuelos[indice+1].vuelo.llego is True):
+            #     return False
             else:
-                bloqueVacio = BloqueVuelo()
-                bloqueVacio.definirEspacioVacio(A.t1, B.t2)
-                bloqueVacio.sig = B.inicio.sig #modificado
-                bloqueVacio.ant = A.inicio.ant
-                A.inicio.ant.sig = bloqueVacio
-                B.inicio.sig.ant = bloqueVacio #modificado
-            # else:
-                # A.inicio.ant.sig = B.inicio
-                # B.inicio.ant = A.inicio.ant
-
-    if (A.fin.sig is None):
-        A.fin.definirEspacioVacio(B.t3, A.fin.tiempoFin)
-        if(B.t3 == B.t4):
-            B.fin.sig = A.fin
-            A.fin.ant = B.fin
-        else:
-            B.fin.ant.sig = A.fin
-            A.fin.ant = B.fin.ant
-    else:
-        if(B.t3 == B.t4):
-            if(A.t3 == A.t4):
-                A.fin.sig.definirEspacioVacio(B.t4, A.fin.sig.tiempoFin)#nuevo
-                A.fin.sig.ant = B.fin
-                B.fin.sig = A.fin.sig
-            else:
-                bloqueVacio = BloqueVuelo()
-                bloqueVacio.definirEspacioVacio(A.t4, B.t4)
-                A.fin.sig.ant = bloqueVacio
-                bloqueVacio.sig = A.fin.sig
-                bloqueVacio.ant = B.fin
-                A.fin.sig = bloqueVacio
-        else:
-            #if(B.t4 < A.t4):
-            if(A.t4 != A.t3):
-                A.fin.definirEspacioVacio(B.t3,A.t4)
-                A.fin.ant = B.fin.ant #modificado
-                B.fin.ant.sig = A.fin #modificado 
-            else:
-                bloqueVacio = BloqueVuelo()
-                bloqueVacio.definirEspacioVacio(B.t3, A.t4)
-                bloqueVacio.ant = B.fin.ant #modificado
-                bloqueVacio.sig = A.fin.sig 
-                A.fin.sig.ant = bloqueVacio
-                B.fin.ant.sig = bloqueVacio #modificado
-            # else:
-            #     A.fin.sig.ant = B.fin
-            #     B.fin.sig = A.fin.sig
+                self.fin=self.listaVuelos[indice+1]
+                self.t3 = self.fin.tiempoFin
+                if(indice+2 != (len(self.listaVuelos)-1) and not self.listaVuelos[indice+2].ocupado):
+                    self.fin = self.listaVuelos[indice+2]
+                self.t4 = self.fin.tiempoFin   
+                self.cantidad +=1
+                return True
+        except:
+            print (self.fin.tiempoInicio,self.fin.tiempoFin, " - ", indice," - " ,len(self.listaVuelos))
+            for i in self.listaVuelos:
+                print(i.tiempoInicio,i.tiempoFin)
+            return False

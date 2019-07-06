@@ -15,13 +15,14 @@ s = StringIO()
 def main ():
     s = StringIO()
     sys.stdout = s
+
     start = datetime.now()
     corrida ()
     end = datetime.now()
 
-    f= open("Llamadas a API.txt","a+")
+    f= open("log/Llamadas a API.txt","a+")
     f.write("Fecha: "+ str(datetime.now()) + " - Tiempo de ejecucion: " + str(end-start)+ ".\n")
-    fWrite = open("jsonAsignacion.txt", "w+")
+    fWrite = open("log/jsonAsignacion.txt", "w+")
     fWrite.write(s.getvalue())
     fWrite.close()
 
@@ -65,20 +66,19 @@ def corrida():
                                    hour=hora, minute=minuto, second=segundo))
         vuelo.setEstado(flight['status'])
         vuelo.setLlego(False)
-        if (vuelo.estado=="active"):
-            try:
-                anho = int(jsonDestino['estimatedTime'][0:4])
-                mes = int(jsonDestino['estimatedTime'][5:7])
-                dia = int(jsonDestino['estimatedTime'][8:10])
-                hora = int(jsonDestino['estimatedTime'][11:13])
-                minuto = int(jsonDestino['estimatedTime'][14:16])
-                segundo = int(jsonDestino['estimatedTime'][17:19])
-                vuelo.setTiempoEstimado(datetime(year=anho, month=mes, day=dia, \
-                                           hour=hora, minute=minuto, second=segundo))
-                vuelo.setTiempoLlegada(datetime(year=anho, month=mes, day=dia, \
-                                           hour=hora, minute=minuto, second=segundo))
-            except:
-                pass
+        try:
+            anho = int(jsonDestino['estimatedTime'][0:4])
+            mes = int(jsonDestino['estimatedTime'][5:7])
+            dia = int(jsonDestino['estimatedTime'][8:10])
+            hora = int(jsonDestino['estimatedTime'][11:13])
+            minuto = int(jsonDestino['estimatedTime'][14:16])
+            segundo = int(jsonDestino['estimatedTime'][17:19])
+            vuelo.setTiempoEstimado(datetime(year=anho, month=mes, day=dia, \
+                                        hour=hora, minute=minuto, second=segundo))
+            vuelo.setTiempoLlegada(datetime(year=anho, month=mes, day=dia, \
+                                        hour=hora, minute=minuto, second=segundo))
+        except:
+            pass
 
         jsonPartida = flight['departure']
         aeropuerto = Clases.Aeropuerto()
@@ -112,7 +112,7 @@ def corrida():
         vuelo.asignarIDVuelo()
         listaVuelos.append(vuelo)
 
-    listaVuelos.sort(key= lambda x: x.tiempoEstimado)
+    # listaVuelos.sort(key= lambda x: x.tiempoEstimado)
     #print ("Longitud: "+ str(len(listaVuelos)))
     # Creación de zonas y mangas
     nMangas = 19
@@ -133,18 +133,26 @@ def corrida():
         listaZonas.append(area)
 
     ## JSON asignacion antigua 
-    
 
     ann = Metaheuristico.Annealer(listaVuelos,listaMangas,listaZonas)
     x,y = ann.anneal()
 
-    x[2].sort(key= lambda y: y.tiempoEstimado)
+    listaV = []
+    for area in (x[0]):
+        # p = area.vuelos.inicio
+        for p in area.vuelos.listaVuelos:
+        # while(p is not None):
+            if (p.ocupado):
+                p.vuelo.asignarPuerta(area)
+                listaV.append(p.vuelo)
+    # listaV.sort(key= lambda y: y.tiempoLlegada)
+    
     #data_ignored.sort(key= lambda y: y['arrival']['estimatedTime'][0:19])
     print ("[ [", end="")
-    for i in range(len(x[2])):
+    for i in range(len(listaV)):
         if (i!=0):
             print(", ", end="")
-        vuelo = x[2][i]
+        vuelo = listaV[i]
         print("{ \"numeroVuelo\": \""+ str(vuelo.iata) \
             + "\", \"nombreAerolinea\": \""+ str(vuelo.avion.tAerolinea.nombre) \
             + "\", \"tamañoAvion\": \""+ str(vuelo.avion.tipoAvion.tamano) \
@@ -164,7 +172,14 @@ def corrida():
         s['tamanoArea'] = None
 
     print (json.dumps(data_ignored),end="")
-    print ("] ",end="")
+    print ( ", [", end="")
+
+    for i in range(len(x[0])):
+        if(i!=0):
+            print (",", end="")
+        x[0][i].imprimirLista()
+
+    print ("] ] ",end="")
     
     return y
 

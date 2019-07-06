@@ -1,3 +1,0 @@
-Fecha: 2019-06-29 16:33:37.514823 - Tiempo de ejecucion: 0:03:02.367387 segundos.
-Fecha: 2019-07-02 03:29:53.138750 - Tiempo de ejecucion: 0:03:54.726265.
-Fecha: 2019-07-02 13:54:05.548326 - Tiempo de ejecucion: 0:01:41.929384.
