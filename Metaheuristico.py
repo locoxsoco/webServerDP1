@@ -14,7 +14,7 @@ class Annealer(object):
     # parámetros
     Tmax = 25000.0
     Tmin = 2.5
-    steps = 3000
+    steps = 2000
 
     max_accepts = 50
     max_improve = 20
@@ -264,6 +264,7 @@ class Annealer(object):
         
         return costoAreas + costoVuelos * 90000000 + costoTamano * 90000
 
+
     def anneal(self):
         """
         Minimizar el tiempo de espera de todos los vuelos ya asignados (tiempo real - tiempo programado) 
@@ -291,7 +292,7 @@ class Annealer(object):
             step += 1
             T = self.Tmax * math.exp(Tfactor * step / self.steps)
             if (self.move() == 0):
-                step -=1
+                # step -=1
                 continue
             E = self.energy(False)
             dE = E - prevEnergy

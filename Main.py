@@ -26,7 +26,7 @@ def main ():
     fWrite.write(s.getvalue())
     fWrite.close()
 
-    # sys.stdout = sys.__stdout__
+    sys.stdout = sys.__stdout__
     #print(s.getvalue())
 
     return(s.getvalue())

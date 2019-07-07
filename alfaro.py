@@ -32,6 +32,6 @@ def getAsignacion():
 def addVuelo():
     # f = open("jsonAsignacion.txt","r")
     # return (f.read()) 
-    return (str(Main.main()))
+    pass
 
-application.run("192.168.214.177", port=5000, debug=True)
+application.run("localhost", port=5000, debug=True)
