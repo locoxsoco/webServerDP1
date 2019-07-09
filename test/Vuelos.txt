@@ -1,0 +1,2872 @@
+[
+  {
+    "geography": {
+      "latitude": -32.2259,
+      "longitude": -71.3658,
+      "altitude": 9740.85,
+      "direction": 346
+    },
+    "speed": {
+      "horizontal": 777.42,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "SCL",
+      "icaoCode": "SCL"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "LIM"
+    },
+    "aircraft": {
+      "regNumber": "CCBGK",
+      "icaoCode": "B789",
+      "icao24": "E80451",
+      "iataCode": "B789"
+    },
+    "airline": {
+      "iataCode": "LA",
+      "icaoCode": "LAN"
+    },
+    "flight": {
+      "iataNumber": "LA530",
+      "icaoNumber": "LAN530",
+      "number": "530"
+    },
+    "system": {
+      "updated": "1562543995",
+      "squawk": "5312"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": 3.4417,
+      "longitude": -75.149,
+      "altitude": 10965.2,
+      "direction": 187
+    },
+    "speed": {
+      "horizontal": 853.772,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "PUJ",
+      "icaoCode": "MDPC"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CCCQO",
+      "icaoCode": "A320",
+      "icao24": "E8021E",
+      "iataCode": "A320"
+    },
+    "airline": {
+      "iataCode": "LA",
+      "icaoCode": "LAN"
+    },
+    "flight": {
+      "iataNumber": "LA2453",
+      "icaoNumber": "LAN2453",
+      "number": "2453"
+    },
+    "system": {
+      "updated": "1562543925",
+      "squawk": "4117"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": 7.0341,
+      "longitude": -79.6136,
+      "altitude": 10668,
+      "direction": 181
+    },
+    "speed": {
+      "horizontal": 887.108,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "MIA",
+      "icaoCode": "KMIA"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CCCXH",
+      "icaoCode": "B763",
+      "icao24": "E80244",
+      "iataCode": "B763"
+    },
+    "airline": {
+      "iataCode": "LA",
+      "icaoCode": "LAN"
+    },
+    "flight": {
+      "iataNumber": "LA2467",
+      "icaoNumber": "LAN2467",
+      "number": "2467"
+    },
+    "system": {
+      "updated": "1562543924",
+      "squawk": "7406"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": -23.7571,
+      "longitude": -73.7012,
+      "altitude": 11582.4,
+      "direction": 343
+    },
+    "speed": {
+      "horizontal": 796.36,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "SCL",
+      "icaoCode": "SCEL"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CCCWY",
+      "icaoCode": "B763",
+      "icao24": "E80211",
+      "iataCode": "B763"
+    },
+    "airline": {
+      "iataCode": "LA",
+      "icaoCode": "LAN"
+    },
+    "flight": {
+      "iataNumber": "LA2364",
+      "icaoNumber": "LAN2364",
+      "number": "2364"
+    },
+    "system": {
+      "updated": "1562543924",
+      "squawk": "5304"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": 16.9397,
+      "longitude": -77.4162,
+      "altitude": 11887.2,
+      "direction": 164
+    },
+    "speed": {
+      "horizontal": 935.26,
+      "isGround": 0,
+      "vertical": -0.32512
+    },
+    "departure": {
+      "iataCode": "MIA",
+      "icaoCode": "KMIA"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "N904AR",
+      "icaoCode": "B744",
+      "icao24": "AC7E18",
+      "iataCode": "B744"
+    },
+    "airline": {
+      "iataCode": "GG",
+      "icaoCode": "KYE"
+    },
+    "flight": {
+      "iataNumber": "GG531",
+      "icaoNumber": "KYE531",
+      "number": "531"
+    },
+    "system": {
+      "updated": "1562543923",
+      "squawk": "6067"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": 0.0319,
+      "longitude": -75.5856,
+      "altitude": 10980.4,
+      "direction": 189
+    },
+    "speed": {
+      "horizontal": 903.776,
+      "isGround": 0,
+      "vertical": 0.32512
+    },
+    "departure": {
+      "iataCode": "PUJ",
+      "icaoCode": "MDPC"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "N775AV",
+      "icaoCode": "A20N",
+      "icao24": "AA7BAE",
+      "iataCode": "A20N"
+    },
+    "airline": {
+      "iataCode": "AV",
+      "icaoCode": "AVA"
+    },
+    "flight": {
+      "iataNumber": "AV971",
+      "icaoNumber": "AVA971",
+      "number": "971"
+    },
+    "system": {
+      "updated": "1562543923",
+      "squawk": "4101"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": -4.2193,
+      "longitude": -79.5771,
+      "altitude": 11437.6,
+      "direction": 177
+    },
+    "speed": {
+      "horizontal": 857.476,
+      "isGround": 0,
+      "vertical": 6.17728
+    },
+    "departure": {
+      "iataCode": "GYE",
+      "icaoCode": "SEGU"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "HCCSA",
+      "icaoCode": "A319",
+      "icao24": "E8407A",
+      "iataCode": "A319"
+    },
+    "airline": {
+      "iataCode": "AV",
+      "icaoCode": "AVA"
+    },
+    "flight": {
+      "iataNumber": "AV7390",
+      "icaoNumber": "AVA7390",
+      "number": "7390"
+    },
+    "system": {
+      "updated": "1562543923",
+      "squawk": "5470"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": -7.7404,
+      "longitude": -76.6758,
+      "altitude": 8534.4,
+      "direction": 188
+    },
+    "speed": {
+      "horizontal": 850.068,
+      "isGround": 0,
+      "vertical": 5.20192
+    },
+    "departure": {
+      "iataCode": "TPP",
+      "icaoCode": "SPST"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CCBCF",
+      "icaoCode": "A319",
+      "icao24": "E80432",
+      "iataCode": "A319"
+    },
+    "airline": {
+      "iataCode": "LA",
+      "icaoCode": "LAN"
+    },
+    "flight": {
+      "iataNumber": "LA2253",
+      "icaoNumber": "LAN2253",
+      "number": "2253"
+    },
+    "system": {
+      "updated": "1562543923",
+      "squawk": "3663"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": -0.2704,
+      "longitude": -78.5651,
+      "altitude": 6309.36,
+      "direction": 172
+    },
+    "speed": {
+      "horizontal": 722.28,
+      "isGround": 0,
+      "vertical": 13.9802
+    },
+    "departure": {
+      "iataCode": "UIO",
+      "icaoCode": "SEQU"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "HCCJW",
+      "icaoCode": "A320",
+      "icao24": "E84075",
+      "iataCode": "A320"
+    },
+    "airline": {
+      "iataCode": "AV",
+      "icaoCode": "AVA"
+    },
+    "flight": {
+      "iataNumber": "AV7388",
+      "icaoNumber": "AVA7388",
+      "number": "7388"
+    },
+    "system": {
+      "updated": "1562543923",
+      "squawk": "5545"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": -5.0751,
+      "longitude": -77.5596,
+      "altitude": 10668,
+      "direction": 177
+    },
+    "speed": {
+      "horizontal": 890.812,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "MDE",
+      "icaoCode": "SKRG"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "N688TA",
+      "icaoCode": "A320",
+      "icao24": "A92299",
+      "iataCode": "A320"
+    },
+    "airline": {
+      "iataCode": "AV",
+      "icaoCode": "AVA"
+    },
+    "flight": {
+      "iataNumber": "AV147",
+      "icaoNumber": "AVA147",
+      "number": "147"
+    },
+    "system": {
+      "updated": "1562543923",
+      "squawk": "3277"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": -4.0163,
+      "longitude": -79.8339,
+      "altitude": 11277.6,
+      "direction": 169
+    },
+    "speed": {
+      "horizontal": 861.18,
+      "isGround": 0,
+      "vertical": -0.32512
+    },
+    "departure": {
+      "iataCode": "SJO",
+      "icaoCode": "MROC"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "N776AV",
+      "icaoCode": "A20N",
+      "icao24": "AA7F65",
+      "iataCode": "A20N"
+    },
+    "airline": {
+      "iataCode": "AV",
+      "icaoCode": "AVA"
+    },
+    "flight": {
+      "iataNumber": "AV625",
+      "icaoNumber": "AVA625",
+      "number": "625"
+    },
+    "system": {
+      "updated": "1562543923",
+      "squawk": "4614"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": 7.0652,
+      "longitude": -74.7117,
+      "altitude": 11277.6,
+      "direction": 176
+    },
+    "speed": {
+      "horizontal": 824.14,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "CTG",
+      "icaoCode": "SKCG"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CCBFV",
+      "icaoCode": "A320",
+      "icao24": "E80279",
+      "iataCode": "A320"
+    },
+    "airline": {
+      "iataCode": "LA",
+      "icaoCode": "LAN"
+    },
+    "flight": {
+      "iataNumber": "LA2449",
+      "icaoNumber": "LAN2449",
+      "number": "2449"
+    },
+    "system": {
+      "updated": "1562543922",
+      "squawk": "6601"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": -14.6073,
+      "longitude": -74.9956,
+      "altitude": 11582.4,
+      "direction": 306
+    },
+    "speed": {
+      "horizontal": 794.508,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "AQP",
+      "icaoCode": "SPQU"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CCBJF",
+      "icaoCode": "A320",
+      "icao24": "E8027E",
+      "iataCode": "A320"
+    },
+    "airline": {
+      "iataCode": "LA",
+      "icaoCode": "LAN"
+    },
+    "flight": {
+      "iataNumber": "LA2150",
+      "icaoNumber": "LAN2150",
+      "number": "2150"
+    },
+    "system": {
+      "updated": "1562543922",
+      "squawk": "2776"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": -5.0561,
+      "longitude": -76.4158,
+      "altitude": 10363.2,
+      "direction": 188
+    },
+    "speed": {
+      "horizontal": 1044.53,
+      "isGround": 0,
+      "vertical": 0.32512
+    },
+    "departure": {
+      "iataCode": "BOG",
+      "icaoCode": "SKBO"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "N490TA",
+      "icaoCode": "A320",
+      "icao24": "A611C2",
+      "iataCode": "A320"
+    },
+    "airline": {
+      "iataCode": "AV",
+      "icaoCode": "AVA"
+    },
+    "flight": {
+      "iataNumber": "AV133",
+      "icaoNumber": "AVA133",
+      "number": "133"
+    },
+    "system": {
+      "updated": "1562543922",
+      "squawk": "2240"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": -1.755,
+      "longitude": -78.5323,
+      "altitude": 11887.2,
+      "direction": 173
+    },
+    "speed": {
+      "horizontal": 916.74,
+      "isGround": 0,
+      "vertical": -0.32512
+    },
+    "departure": {
+      "iataCode": "MIA",
+      "icaoCode": "KMIA"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "N342AV",
+      "icaoCode": "A332",
+      "icao24": "A3C4D0",
+      "iataCode": "A332"
+    },
+    "airline": {
+      "iataCode": "AV",
+      "icaoCode": "AVA"
+    },
+    "flight": {
+      "iataNumber": "AV963",
+      "icaoNumber": "AVA963",
+      "number": "963"
+    },
+    "system": {
+      "updated": "1562543922",
+      "squawk": "2224"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": 2.075,
+      "longitude": -78.7766,
+      "altitude": 11277.6,
+      "direction": 173
+    },
+    "speed": {
+      "horizontal": 881.552,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "HAV",
+      "icaoCode": "MUHA"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CCCQM",
+      "icaoCode": "A320",
+      "icao24": "E80218",
+      "iataCode": "A320"
+    },
+    "airline": {
+      "iataCode": "LA",
+      "icaoCode": "LAN"
+    },
+    "flight": {
+      "iataNumber": "LA2413",
+      "icaoNumber": "LAN2413",
+      "number": "2413"
+    },
+    "system": {
+      "updated": "1562543921",
+      "squawk": "3176"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": -12.0214,
+      "longitude": -77.1125,
+      "altitude": 0,
+      "direction": 334
+    },
+    "speed": {
+      "horizontal": 29.632,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "CIX",
+      "icaoCode": "SPHI"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CCBFR",
+      "icaoCode": "A320",
+      "icao24": "E80275",
+      "iataCode": "A320"
+    },
+    "airline": {
+      "iataCode": "LA",
+      "icaoCode": "LAN"
+    },
+    "flight": {
+      "iataNumber": "LA2277",
+      "icaoNumber": "LAN2277",
+      "number": "2277"
+    },
+    "system": {
+      "updated": "1562543921",
+      "squawk": "3757"
+    },
+    "status": "started"
+  },
+  {
+    "geography": {
+      "latitude": -12.0248,
+      "longitude": -77.1129,
+      "altitude": 312.42,
+      "direction": 151
+    },
+    "speed": {
+      "horizontal": 31.484,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "SCL",
+      "icaoCode": "SCEL"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CCBEM",
+      "icaoCode": "A321",
+      "icao24": "E80456",
+      "iataCode": "A321"
+    },
+    "airline": {
+      "iataCode": "LA",
+      "icaoCode": "LAN"
+    },
+    "flight": {
+      "iataNumber": "LA632",
+      "icaoNumber": "LAN632",
+      "number": "632"
+    },
+    "system": {
+      "updated": "1562543921",
+      "squawk": "5370"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": 9.812,
+      "longitude": -76.7652,
+      "altitude": 10660.4,
+      "direction": 178
+    },
+    "speed": {
+      "horizontal": 864.884,
+      "isGround": 0,
+      "vertical": 0.32512
+    },
+    "departure": {
+      "iataCode": "FLL",
+      "icaoCode": "KFLL"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "N827JB",
+      "icaoCode": "A320",
+      "icao24": "AB4BA6",
+      "iataCode": "A320"
+    },
+    "airline": {
+      "iataCode": "B6",
+      "icaoCode": "JBU"
+    },
+    "flight": {
+      "iataNumber": "B61825",
+      "icaoNumber": "JBU1825",
+      "number": "1825"
+    },
+    "system": {
+      "updated": "1562543921",
+      "squawk": "7722"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": -11.3511,
+      "longitude": -77.3132,
+      "altitude": 3878.58,
+      "direction": 180
+    },
+    "speed": {
+      "horizontal": 655.608,
+      "isGround": 0,
+      "vertical": -9.10336
+    },
+    "departure": {
+      "iataCode": "TPP",
+      "icaoCode": "SPST"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "HK5273",
+      "icaoCode": "A320",
+      "icao24": "0AC3D1",
+      "iataCode": "A320"
+    },
+    "airline": {
+      "iataCode": "VV",
+      "icaoCode": "CNV"
+    },
+    "flight": {
+      "iataNumber": "VV381",
+      "icaoNumber": "CNV381",
+      "number": "381"
+    },
+    "system": {
+      "updated": "1562543920",
+      "squawk": "3611"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": -12.9331,
+      "longitude": -73.4737,
+      "altitude": 9692.64,
+      "direction": 284
+    },
+    "speed": {
+      "horizontal": 848.216,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "CUZ",
+      "icaoCode": "SPZO"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CCBFL",
+      "icaoCode": "A320",
+      "icao24": "E8026E",
+      "iataCode": "A320"
+    },
+    "airline": {
+      "iataCode": "LA",
+      "icaoCode": "LAN"
+    },
+    "flight": {
+      "iataNumber": "LA2036",
+      "icaoNumber": "LAN2036",
+      "number": "2036"
+    },
+    "system": {
+      "updated": "1562543920",
+      "squawk": "2760"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": -18.2637,
+      "longitude": -75.3246,
+      "altitude": 10972.8,
+      "direction": 345
+    },
+    "speed": {
+      "horizontal": 824.14,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "SCL",
+      "icaoCode": "SCEL"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CCBAH",
+      "icaoCode": "A320",
+      "icao24": "E80418",
+      "iataCode": "A320"
+    },
+    "airline": {
+      "iataCode": "LA",
+      "icaoCode": "LAN"
+    },
+    "flight": {
+      "iataNumber": "LA2372",
+      "icaoNumber": "LAN2372",
+      "number": "2372"
+    },
+    "system": {
+      "updated": "1562543912",
+      "squawk": "5375"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": 13.7226,
+      "longitude": -76.5256,
+      "altitude": 10668,
+      "direction": 182
+    },
+    "speed": {
+      "horizontal": 896.368,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "MIA",
+      "icaoCode": "KMIA"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "N193AN",
+      "icaoCode": "B752",
+      "icao24": "A1735D",
+      "iataCode": "B752"
+    },
+    "airline": {
+      "iataCode": "AA",
+      "icaoCode": "AAL"
+    },
+    "flight": {
+      "iataNumber": "AA917",
+      "icaoNumber": "AAL917",
+      "number": "917"
+    },
+    "system": {
+      "updated": "1562543912",
+      "squawk": "1363"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": 38.1528,
+      "longitude": -11.5522,
+      "altitude": 9753.6,
+      "direction": 248.2
+    },
+    "speed": {
+      "horizontal": 817.812,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "MAD",
+      "icaoCode": "LEMD"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CCCXD",
+      "icaoCode": "B763",
+      "icao24": "",
+      "iataCode": "B763"
+    },
+    "airline": {
+      "iataCode": "LP",
+      "icaoCode": "LPE"
+    },
+    "flight": {
+      "iataNumber": "LP2485",
+      "icaoNumber": "LPE2485",
+      "number": "2485"
+    },
+    "system": {
+      "updated": "1562543880",
+      "squawk": "6004"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": 8.4244,
+      "longitude": -79.7962,
+      "altitude": 11277.6,
+      "direction": 220
+    },
+    "speed": {
+      "horizontal": 835.252,
+      "isGround": 0,
+      "vertical": -0.32512
+    },
+    "departure": {
+      "iataCode": "EWR",
+      "icaoCode": "KEWR"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "N14102",
+      "icaoCode": "B752",
+      "icao24": "A0A8DA",
+      "iataCode": "B752"
+    },
+    "airline": {
+      "iataCode": "UA",
+      "icaoCode": "UAL"
+    },
+    "flight": {
+      "iataNumber": "UA886",
+      "icaoNumber": "UAL886",
+      "number": "886"
+    },
+    "system": {
+      "updated": "1562543849",
+      "squawk": "2734"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": -10.0547,
+      "longitude": -78.0957,
+      "altitude": 11277.6,
+      "direction": 154
+    },
+    "speed": {
+      "horizontal": 835.252,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "PTY",
+      "icaoCode": "MPTO"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "HP1526CMP",
+      "icaoCode": "B738",
+      "icao24": "0C2018",
+      "iataCode": "B738"
+    },
+    "airline": {
+      "iataCode": "CM",
+      "icaoCode": "CMP"
+    },
+    "flight": {
+      "iataNumber": "CM493",
+      "icaoNumber": "CMP493",
+      "number": "493"
+    },
+    "system": {
+      "updated": "1562543844",
+      "squawk": "154"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": 19.6818,
+      "longitude": -81.0261,
+      "altitude": 10668,
+      "direction": 171
+    },
+    "speed": {
+      "horizontal": 896.368,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "ATL",
+      "icaoCode": "ATL"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "LIM"
+    },
+    "aircraft": {
+      "regNumber": "N842MH",
+      "icaoCode": "B764",
+      "icao24": "AB8862",
+      "iataCode": "B764"
+    },
+    "airline": {
+      "iataCode": "DL",
+      "icaoCode": "DAL"
+    },
+    "flight": {
+      "iataNumber": "DL151",
+      "icaoNumber": "DAL151",
+      "number": "151"
+    },
+    "system": {
+      "updated": "1562543785",
+      "squawk": "0"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": 7.41251,
+      "longitude": -74.7327,
+      "altitude": 11265.2,
+      "direction": 210
+    },
+    "speed": {
+      "horizontal": 814.44,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "CTG",
+      "icaoCode": "SKCG"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CCBAB",
+      "icaoCode": "A320",
+      "icao24": "",
+      "iataCode": "A320"
+    },
+    "airline": {
+      "iataCode": "LP",
+      "icaoCode": "LPE"
+    },
+    "flight": {
+      "iataNumber": "LP2449",
+      "icaoNumber": "LPE2449",
+      "number": "2449"
+    },
+    "system": {
+      "updated": "1562543759",
+      "squawk": "6601"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": -1.3677,
+      "longitude": -78.5747,
+      "altitude": 11890.2,
+      "direction": 170
+    },
+    "speed": {
+      "horizontal": 906.99,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "MIA",
+      "icaoCode": "KMIA"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "N968AV",
+      "icaoCode": "A330",
+      "icao24": "",
+      "iataCode": "A330"
+    },
+    "airline": {
+      "iataCode": "T0",
+      "icaoCode": "TPU"
+    },
+    "flight": {
+      "iataNumber": "T0963",
+      "icaoNumber": "TPU963",
+      "number": "963"
+    },
+    "system": {
+      "updated": "1562543759",
+      "squawk": "2224"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": -3.1534,
+      "longitude": -81.6597,
+      "altitude": 10678.4,
+      "direction": 150
+    },
+    "speed": {
+      "horizontal": 851.46,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "CUN",
+      "icaoCode": "MMUN"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CCBAG",
+      "icaoCode": "A320",
+      "icao24": "",
+      "iataCode": "A320"
+    },
+    "airline": {
+      "iataCode": "LP",
+      "icaoCode": "LPE"
+    },
+    "flight": {
+      "iataNumber": "LP2459",
+      "icaoNumber": "LPE2459",
+      "number": "2459"
+    },
+    "system": {
+      "updated": "1562543759",
+      "squawk": "6141"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": -7.4017,
+      "longitude": -76.6224,
+      "altitude": 7353.3,
+      "direction": 189.01
+    },
+    "speed": {
+      "horizontal": 804.42,
+      "isGround": 0,
+      "vertical": 30.42
+    },
+    "departure": {
+      "iataCode": "TPP",
+      "icaoCode": "SPST"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CCBFX",
+      "icaoCode": "A320",
+      "icao24": "",
+      "iataCode": "A320"
+    },
+    "airline": {
+      "iataCode": "LP",
+      "icaoCode": "LPE"
+    },
+    "flight": {
+      "iataNumber": "LP2253",
+      "icaoNumber": "LPE2253",
+      "number": "2253"
+    },
+    "system": {
+      "updated": "1562543759",
+      "squawk": "3663"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": -31.7774,
+      "longitude": -62.3772,
+      "altitude": 10348,
+      "direction": 326.09
+    },
+    "speed": {
+      "horizontal": 796.68,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "EZE",
+      "icaoCode": "SAEZ"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CCCPI",
+      "icaoCode": "A319",
+      "icao24": "",
+      "iataCode": "A319"
+    },
+    "airline": {
+      "iataCode": "LP",
+      "icaoCode": "LPE"
+    },
+    "flight": {
+      "iataNumber": "LP2468",
+      "icaoNumber": "LPE2468",
+      "number": "2468"
+    },
+    "system": {
+      "updated": "1562543759",
+      "squawk": "466"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": -14.816,
+      "longitude": -74.7007,
+      "altitude": 11593,
+      "direction": 330
+    },
+    "speed": {
+      "horizontal": 801.483,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "AQP",
+      "icaoCode": "SPQU"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CCBFN",
+      "icaoCode": "A320",
+      "icao24": "",
+      "iataCode": "A320"
+    },
+    "airline": {
+      "iataCode": "LP",
+      "icaoCode": "LPE"
+    },
+    "flight": {
+      "iataNumber": "LP2150",
+      "icaoNumber": "LPE2150",
+      "number": "2150"
+    },
+    "system": {
+      "updated": "1562543756",
+      "squawk": "0"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": 15.6643,
+      "longitude": -89.9083,
+      "altitude": 10670.7,
+      "direction": 155
+    },
+    "speed": {
+      "horizontal": 851.46,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "IAH",
+      "icaoCode": "IAH"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "LIM"
+    },
+    "aircraft": {
+      "regNumber": "N652UA",
+      "icaoCode": "B763",
+      "icao24": "A895EB",
+      "iataCode": "B763"
+    },
+    "airline": {
+      "iataCode": "UA",
+      "icaoCode": "UAL"
+    },
+    "flight": {
+      "iataNumber": "UA854",
+      "icaoNumber": "UAL854",
+      "number": "854"
+    },
+    "system": {
+      "updated": "1562543735",
+      "squawk": "4037"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": 33.8615,
+      "longitude": -82.1397,
+      "altitude": 9144,
+      "direction": 186.78
+    },
+    "speed": {
+      "horizontal": 910.152,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "YYZ",
+      "icaoCode": "CYYZ"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CFMWP",
+      "icaoCode": "B763",
+      "icao24": "",
+      "iataCode": "B763"
+    },
+    "airline": {
+      "iataCode": "RV",
+      "icaoCode": "ROU"
+    },
+    "flight": {
+      "iataNumber": "RV1946",
+      "icaoNumber": "ROU1946",
+      "number": "1946"
+    },
+    "system": {
+      "updated": "1562543721",
+      "squawk": "6651"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": 19.8878,
+      "longitude": -81.0405,
+      "altitude": 10668,
+      "direction": 180
+    },
+    "speed": {
+      "horizontal": 870.44,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "ATL",
+      "icaoCode": "KATL"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "N842MH",
+      "icaoCode": "",
+      "icao24": "",
+      "iataCode": ""
+    },
+    "airline": {
+      "iataCode": "DL",
+      "icaoCode": "DAL"
+    },
+    "flight": {
+      "iataNumber": "",
+      "icaoNumber": "DL151",
+      "number": "51"
+    },
+    "system": {
+      "updated": "1562543695",
+      "squawk": "0"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": -32.7922,
+      "longitude": -71.2285,
+      "altitude": 7330.44,
+      "direction": 340
+    },
+    "speed": {
+      "horizontal": 722.28,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "SCL",
+      "icaoCode": "SCEL"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CCBGK",
+      "icaoCode": "",
+      "icao24": "",
+      "iataCode": ""
+    },
+    "airline": {
+      "iataCode": "LA",
+      "icaoCode": "LAN"
+    },
+    "flight": {
+      "iataNumber": "",
+      "icaoNumber": "LA530",
+      "number": "30"
+    },
+    "system": {
+      "updated": "1562543695",
+      "squawk": "0"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": 6.72289,
+      "longitude": -58.0617,
+      "altitude": 10972.8,
+      "direction": 220
+    },
+    "speed": {
+      "horizontal": 833.4,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "BCN",
+      "icaoCode": "LEBL"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CCBDA",
+      "icaoCode": "",
+      "icao24": "",
+      "iataCode": ""
+    },
+    "airline": {
+      "iataCode": "LP",
+      "icaoCode": "LPE"
+    },
+    "flight": {
+      "iataNumber": "",
+      "icaoNumber": "LP2431",
+      "number": "431"
+    },
+    "system": {
+      "updated": "1562543693",
+      "squawk": "0"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": 15.7311,
+      "longitude": -89.9401,
+      "altitude": 10668,
+      "direction": 150
+    },
+    "speed": {
+      "horizontal": 851.92,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "IAH",
+      "icaoCode": "KIAH"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "N652UA",
+      "icaoCode": "",
+      "icao24": "",
+      "iataCode": ""
+    },
+    "airline": {
+      "iataCode": "UA",
+      "icaoCode": "UAL"
+    },
+    "flight": {
+      "iataNumber": "",
+      "icaoNumber": "UA854",
+      "number": "54"
+    },
+    "system": {
+      "updated": "1562543692",
+      "squawk": "0"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": -12.9331,
+      "longitude": -73.4743,
+      "altitude": 10972.8,
+      "direction": 284
+    },
+    "speed": {
+      "horizontal": 774.136,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "CUZ",
+      "icaoCode": "SPZO"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CCBFT",
+      "icaoCode": "A320",
+      "icao24": "E80277",
+      "iataCode": "A320"
+    },
+    "airline": {
+      "iataCode": "LA",
+      "icaoCode": "LAN"
+    },
+    "flight": {
+      "iataNumber": "LA2068",
+      "icaoNumber": "LAN2068",
+      "number": "2068"
+    },
+    "system": {
+      "updated": "1562543688",
+      "squawk": "3775"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": 10.3308,
+      "longitude": -76.7764,
+      "altitude": 10668,
+      "direction": 170
+    },
+    "speed": {
+      "horizontal": 851.92,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "FLL",
+      "icaoCode": "KFLL"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "N827JB",
+      "icaoCode": "",
+      "icao24": "",
+      "iataCode": ""
+    },
+    "airline": {
+      "iataCode": "B6",
+      "icaoCode": "JBU"
+    },
+    "flight": {
+      "iataNumber": "",
+      "icaoNumber": "B61825",
+      "number": "825"
+    },
+    "system": {
+      "updated": "1562543682",
+      "squawk": "0"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": 7.07358,
+      "longitude": -79.4583,
+      "altitude": 11277.6,
+      "direction": 173.023
+    },
+    "speed": {
+      "horizontal": 851.92,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "FLL",
+      "icaoCode": "KFLL"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "N526NK",
+      "icaoCode": "",
+      "icao24": "",
+      "iataCode": ""
+    },
+    "airline": {
+      "iataCode": "NK",
+      "icaoCode": "NKS"
+    },
+    "flight": {
+      "iataNumber": "",
+      "icaoNumber": "NK977",
+      "number": "77"
+    },
+    "system": {
+      "updated": "1562543675",
+      "squawk": "0"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": 2.87131,
+      "longitude": -78.857,
+      "altitude": 10668,
+      "direction": 173.397
+    },
+    "speed": {
+      "horizontal": 814.88,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "HAV",
+      "icaoCode": "MUHA"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CCCQM",
+      "icaoCode": "",
+      "icao24": "",
+      "iataCode": ""
+    },
+    "airline": {
+      "iataCode": "LP",
+      "icaoCode": "LPE"
+    },
+    "flight": {
+      "iataNumber": "",
+      "icaoNumber": "LP2413",
+      "number": "413"
+    },
+    "system": {
+      "updated": "1562543667",
+      "squawk": "0"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": -12.0201,
+      "longitude": -77.1103,
+      "altitude": 0,
+      "direction": 154
+    },
+    "speed": {
+      "horizontal": 0,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "CUZ",
+      "icaoCode": "SPZO"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CCBFN",
+      "icaoCode": "A320",
+      "icao24": "E80270",
+      "iataCode": "A320"
+    },
+    "airline": {
+      "iataCode": "LA",
+      "icaoCode": "LAN"
+    },
+    "flight": {
+      "iataNumber": "LA2064",
+      "icaoNumber": "LAN2064",
+      "number": "2064"
+    },
+    "system": {
+      "updated": "1562543658",
+      "squawk": "2732"
+    },
+    "status": "landed"
+  },
+  {
+    "geography": {
+      "latitude": 0.633839,
+      "longitude": -75.5163,
+      "altitude": 10972.8,
+      "direction": 186.768
+    },
+    "speed": {
+      "horizontal": 0,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "PUJ",
+      "icaoCode": "MDPC"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "N775AV",
+      "icaoCode": "",
+      "icao24": "",
+      "iataCode": ""
+    },
+    "airline": {
+      "iataCode": "T0",
+      "icaoCode": "TPU"
+    },
+    "flight": {
+      "iataNumber": "",
+      "icaoNumber": "T0971",
+      "number": "71"
+    },
+    "system": {
+      "updated": "1562543658",
+      "squawk": "0"
+    },
+    "status": "landed"
+  },
+  {
+    "geography": {
+      "latitude": 20.8875,
+      "longitude": -105.076,
+      "altitude": 10050.8,
+      "direction": 137.563
+    },
+    "speed": {
+      "horizontal": 851.92,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "LAX",
+      "icaoCode": "KLAX"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CCCWF",
+      "icaoCode": "",
+      "icao24": "",
+      "iataCode": ""
+    },
+    "airline": {
+      "iataCode": "LP",
+      "icaoCode": "LPE"
+    },
+    "flight": {
+      "iataNumber": "",
+      "icaoNumber": "LP2477",
+      "number": "477"
+    },
+    "system": {
+      "updated": "1562543654",
+      "squawk": "0"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": 8.76313,
+      "longitude": -79.5621,
+      "altitude": 11277.6,
+      "direction": 190
+    },
+    "speed": {
+      "horizontal": 814.88,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "EWR",
+      "icaoCode": "KEWR"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "N14102",
+      "icaoCode": "",
+      "icao24": "",
+      "iataCode": ""
+    },
+    "airline": {
+      "iataCode": "UA",
+      "icaoCode": "UAL"
+    },
+    "flight": {
+      "iataNumber": "",
+      "icaoNumber": "UA886",
+      "number": "86"
+    },
+    "system": {
+      "updated": "1562543651",
+      "squawk": "0"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": 4.07066,
+      "longitude": -75.0686,
+      "altitude": 10968,
+      "direction": 260
+    },
+    "speed": {
+      "horizontal": 854.792,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "PUJ",
+      "icaoCode": "MDPC"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CCCQM",
+      "icaoCode": "A320",
+      "icao24": "",
+      "iataCode": "A320"
+    },
+    "airline": {
+      "iataCode": "LP",
+      "icaoCode": "LPE"
+    },
+    "flight": {
+      "iataNumber": "LP2453",
+      "icaoNumber": "LPE2453",
+      "number": "2453"
+    },
+    "system": {
+      "updated": "1562543638",
+      "squawk": "4117"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": -11.9681,
+      "longitude": -77.1409,
+      "altitude": 259.146,
+      "direction": 150
+    },
+    "speed": {
+      "horizontal": 240.63,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "CIX",
+      "icaoCode": "SPHI"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CCBFR",
+      "icaoCode": "A320",
+      "icao24": "",
+      "iataCode": "A320"
+    },
+    "airline": {
+      "iataCode": "LP",
+      "icaoCode": "LPE"
+    },
+    "flight": {
+      "iataNumber": "LP2277",
+      "icaoNumber": "LPE2277",
+      "number": "2277"
+    },
+    "system": {
+      "updated": "1562543638",
+      "squawk": "3757"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": -11.9681,
+      "longitude": -77.1409,
+      "altitude": 259.08,
+      "direction": 150
+    },
+    "speed": {
+      "horizontal": 240.76,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "CIX",
+      "icaoCode": "SPHI"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CCBFR",
+      "icaoCode": "",
+      "icao24": "",
+      "iataCode": ""
+    },
+    "airline": {
+      "iataCode": "LP",
+      "icaoCode": "LPE"
+    },
+    "flight": {
+      "iataNumber": "",
+      "icaoNumber": "LP2277",
+      "number": "277"
+    },
+    "system": {
+      "updated": "1562543631",
+      "squawk": "0"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": 0.747574,
+      "longitude": -75.5035,
+      "altitude": 10975.6,
+      "direction": 200
+    },
+    "speed": {
+      "horizontal": 888.48,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "PUJ",
+      "icaoCode": "MDPC"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "N697AV",
+      "icaoCode": "A321",
+      "icao24": "",
+      "iataCode": "A321"
+    },
+    "airline": {
+      "iataCode": "T0",
+      "icaoCode": "TPU"
+    },
+    "flight": {
+      "iataNumber": "T0971",
+      "icaoNumber": "TPU971",
+      "number": "971"
+    },
+    "system": {
+      "updated": "1562543617",
+      "squawk": "4101"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": 6.90825,
+      "longitude": -57.8994,
+      "altitude": 10975.6,
+      "direction": 226.058
+    },
+    "speed": {
+      "horizontal": 844.056,
+      "isGround": 1,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "BCN",
+      "icaoCode": "LEBL"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CCCXE",
+      "icaoCode": "B763",
+      "icao24": "",
+      "iataCode": "B763"
+    },
+    "airline": {
+      "iataCode": "LP",
+      "icaoCode": "LPE"
+    },
+    "flight": {
+      "iataNumber": "LP2431",
+      "icaoNumber": "LPE2431",
+      "number": "2431"
+    },
+    "system": {
+      "updated": "1562543615",
+      "squawk": "0"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": -9.4751,
+      "longitude": -78.4286,
+      "altitude": 10668,
+      "direction": 150
+    },
+    "speed": {
+      "horizontal": 870.372,
+      "isGround": 0,
+      "vertical": -1.188
+    },
+    "departure": {
+      "iataCode": "CUN",
+      "icaoCode": "MMUN"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "N724AV",
+      "icaoCode": "A320",
+      "icao24": "",
+      "iataCode": "A320"
+    },
+    "airline": {
+      "iataCode": "T0",
+      "icaoCode": "TPU"
+    },
+    "flight": {
+      "iataNumber": "T0969",
+      "icaoNumber": "TPU969",
+      "number": "969"
+    },
+    "system": {
+      "updated": "1562543590",
+      "squawk": "6152"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": 34.0241,
+      "longitude": -82.1164,
+      "altitude": 9144,
+      "direction": 180
+    },
+    "speed": {
+      "horizontal": 907.48,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "YYZ",
+      "icaoCode": "CYYZ"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CGEOQ",
+      "icaoCode": "",
+      "icao24": "",
+      "iataCode": ""
+    },
+    "airline": {
+      "iataCode": "RV",
+      "icaoCode": "ROU"
+    },
+    "flight": {
+      "iataNumber": "",
+      "icaoNumber": "RV1946",
+      "number": "946"
+    },
+    "system": {
+      "updated": "1562543567",
+      "squawk": "0"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": -3.9228,
+      "longitude": -78.2744,
+      "altitude": 11277.6,
+      "direction": 172
+    },
+    "speed": {
+      "horizontal": 842.66,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "HAV",
+      "icaoCode": "MUHA"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "N492TA",
+      "icaoCode": "A320",
+      "icao24": "A61930",
+      "iataCode": "A320"
+    },
+    "airline": {
+      "iataCode": "TA",
+      "icaoCode": "TAI"
+    },
+    "flight": {
+      "iataNumber": "TA959",
+      "icaoNumber": "TAI959",
+      "number": "959"
+    },
+    "system": {
+      "updated": "1562543532",
+      "squawk": "3120"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": -22.5462,
+      "longitude": -60.8601,
+      "altitude": 10975.6,
+      "direction": 330
+    },
+    "speed": {
+      "horizontal": 832.95,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "IGU",
+      "icaoCode": "SBFI"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CCBAE",
+      "icaoCode": "A320",
+      "icao24": "",
+      "iataCode": "A320"
+    },
+    "airline": {
+      "iataCode": "LP",
+      "icaoCode": "LPE"
+    },
+    "flight": {
+      "iataNumber": "LP2442",
+      "icaoNumber": "LPE2442",
+      "number": "2442"
+    },
+    "system": {
+      "updated": "1562543521",
+      "squawk": "5453"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": 10.3849,
+      "longitude": -85.5163,
+      "altitude": 10663.1,
+      "direction": 154.395
+    },
+    "speed": {
+      "horizontal": 795.93,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "CUN",
+      "icaoCode": "MMUN"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CCBFR",
+      "icaoCode": "A320",
+      "icao24": "",
+      "iataCode": "A320"
+    },
+    "airline": {
+      "iataCode": "LP",
+      "icaoCode": "LPE"
+    },
+    "flight": {
+      "iataNumber": "LP2455",
+      "icaoNumber": "LPE2455",
+      "number": "2455"
+    },
+    "system": {
+      "updated": "1562543521",
+      "squawk": "6145"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": -4.10857,
+      "longitude": -76.265,
+      "altitude": 10365.9,
+      "direction": 154.788
+    },
+    "speed": {
+      "horizontal": 0,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "BOG",
+      "icaoCode": "SKBO"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "N688TA",
+      "icaoCode": "A320",
+      "icao24": "",
+      "iataCode": "A320"
+    },
+    "airline": {
+      "iataCode": "T0",
+      "icaoCode": "TPU"
+    },
+    "flight": {
+      "iataNumber": "T0133",
+      "icaoNumber": "TPU133",
+      "number": "133"
+    },
+    "system": {
+      "updated": "1562543500",
+      "squawk": "2240"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": 20.6002,
+      "longitude": -78.8276,
+      "altitude": 10683.2,
+      "direction": 176
+    },
+    "speed": {
+      "horizontal": 851.92,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "MCO",
+      "icaoCode": "KMCO"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CCBHF",
+      "icaoCode": "A20N",
+      "icao24": "E80463",
+      "iataCode": "A20N"
+    },
+    "airline": {
+      "iataCode": "LA",
+      "icaoCode": "LAN"
+    },
+    "flight": {
+      "iataNumber": "LA2473",
+      "icaoNumber": "LAN2473",
+      "number": "2473"
+    },
+    "system": {
+      "updated": "1562543476",
+      "squawk": "2631"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": -9.7867,
+      "longitude": -78.2795,
+      "altitude": 10668,
+      "direction": 153
+    },
+    "speed": {
+      "horizontal": 870.44,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "CUN",
+      "icaoCode": "MMUN"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "N195AV",
+      "icaoCode": "A320",
+      "icao24": "A17AD2",
+      "iataCode": "A320"
+    },
+    "airline": {
+      "iataCode": "AV",
+      "icaoCode": "AVA"
+    },
+    "flight": {
+      "iataNumber": "AV969",
+      "icaoNumber": "AVA969",
+      "number": "969"
+    },
+    "system": {
+      "updated": "1562543476",
+      "squawk": "6152"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": 21.0526,
+      "longitude": -105.297,
+      "altitude": 10058.4,
+      "direction": 125
+    },
+    "speed": {
+      "horizontal": 888.96,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "LAX",
+      "icaoCode": "KLAX"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CCCWF",
+      "icaoCode": "B763",
+      "icao24": "E8022A",
+      "iataCode": "B763"
+    },
+    "airline": {
+      "iataCode": "LA",
+      "icaoCode": "LAN"
+    },
+    "flight": {
+      "iataNumber": "LA2477",
+      "icaoNumber": "LAN2477",
+      "number": "2477"
+    },
+    "system": {
+      "updated": "1562543475",
+      "squawk": "0"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": 38.4583,
+      "longitude": -10.5641,
+      "altitude": 9753.6,
+      "direction": 249
+    },
+    "speed": {
+      "horizontal": 833.4,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "MAD",
+      "icaoCode": "MAD"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "LIM"
+    },
+    "aircraft": {
+      "regNumber": "CCCXC",
+      "icaoCode": "B763",
+      "icao24": "E80212",
+      "iataCode": "B763"
+    },
+    "airline": {
+      "iataCode": "LA",
+      "icaoCode": "LAN"
+    },
+    "flight": {
+      "iataNumber": "LA2485",
+      "icaoNumber": "LAN2485",
+      "number": "2485"
+    },
+    "system": {
+      "updated": "1562543475",
+      "squawk": "0"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": 34.2327,
+      "longitude": -82.0863,
+      "altitude": 9151.62,
+      "direction": 187
+    },
+    "speed": {
+      "horizontal": 901.924,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "YYZ",
+      "icaoCode": "YYZ"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "LIM"
+    },
+    "aircraft": {
+      "regNumber": "CGEOQ",
+      "icaoCode": "B763",
+      "icao24": "C050B5",
+      "iataCode": "B763"
+    },
+    "airline": {
+      "iataCode": "AC",
+      "icaoCode": "ACA"
+    },
+    "flight": {
+      "iataNumber": "AC1946",
+      "icaoNumber": "ACA1946",
+      "number": "1946"
+    },
+    "system": {
+      "updated": "1562543473",
+      "squawk": "0"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": -12.0266,
+      "longitude": -77.1079,
+      "altitude": 0,
+      "direction": 96
+    },
+    "speed": {
+      "horizontal": 0,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "LGW",
+      "icaoCode": "EGKK"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "GYMMR",
+      "icaoCode": "B772",
+      "icao24": "405BFB",
+      "iataCode": "B772"
+    },
+    "airline": {
+      "iataCode": "BA",
+      "icaoCode": "BAW"
+    },
+    "flight": {
+      "iataNumber": "BA2239",
+      "icaoNumber": "BAW2239",
+      "number": "2239"
+    },
+    "system": {
+      "updated": "1562543458",
+      "squawk": "6342"
+    },
+    "status": "landed"
+  },
+  {
+    "geography": {
+      "latitude": 10.5253,
+      "longitude": -85.5494,
+      "altitude": 10668,
+      "direction": 160
+    },
+    "speed": {
+      "horizontal": 796.36,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "CUN",
+      "icaoCode": "MMUN"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CCBAA",
+      "icaoCode": "",
+      "icao24": "",
+      "iataCode": ""
+    },
+    "airline": {
+      "iataCode": "LP",
+      "icaoCode": "LPE"
+    },
+    "flight": {
+      "iataNumber": "",
+      "icaoNumber": "LP2455",
+      "number": "455"
+    },
+    "system": {
+      "updated": "1562543440",
+      "squawk": "0"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": 4.47679,
+      "longitude": -75.0166,
+      "altitude": 10972.8,
+      "direction": 180
+    },
+    "speed": {
+      "horizontal": 851.92,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "PUJ",
+      "icaoCode": "MDPC"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CCCQO",
+      "icaoCode": "",
+      "icao24": "",
+      "iataCode": ""
+    },
+    "airline": {
+      "iataCode": "LP",
+      "icaoCode": "LPE"
+    },
+    "flight": {
+      "iataNumber": "",
+      "icaoNumber": "LP2453",
+      "number": "453"
+    },
+    "system": {
+      "updated": "1562543440",
+      "squawk": "0"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": -6.82791,
+      "longitude": -76.4748,
+      "altitude": 3947.16,
+      "direction": 210
+    },
+    "speed": {
+      "horizontal": 666.72,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "TPP",
+      "icaoCode": "SPST"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CCBCF",
+      "icaoCode": "",
+      "icao24": "",
+      "iataCode": ""
+    },
+    "airline": {
+      "iataCode": "LP",
+      "icaoCode": "LPE"
+    },
+    "flight": {
+      "iataNumber": "",
+      "icaoNumber": "LP2253",
+      "number": "253"
+    },
+    "system": {
+      "updated": "1562543439",
+      "squawk": "0"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": -9.36631,
+      "longitude": -78.4156,
+      "altitude": 11277.6,
+      "direction": 150
+    },
+    "speed": {
+      "horizontal": 833.4,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "PTY",
+      "icaoCode": "MPTO"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "HP1526CMP",
+      "icaoCode": "",
+      "icao24": "",
+      "iataCode": ""
+    },
+    "airline": {
+      "iataCode": "CM",
+      "icaoCode": "CMP"
+    },
+    "flight": {
+      "iataNumber": "",
+      "icaoNumber": "CM493",
+      "number": "93"
+    },
+    "system": {
+      "updated": "1562543436",
+      "squawk": "0"
+    },
+    "status": "en-route"
+  },
+  {
+    "geography": {
+      "latitude": -12.0205,
+      "longitude": -77.1105,
+      "altitude": 0,
+      "direction": 83
+    },
+    "speed": {
+      "horizontal": 0,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "PEM",
+      "icaoCode": "SPTU"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "CCCQK",
+      "icaoCode": "A319",
+      "icao24": "E8020B",
+      "iataCode": "A319"
+    },
+    "airline": {
+      "iataCode": "LA",
+      "icaoCode": "LAN"
+    },
+    "flight": {
+      "iataNumber": "LA2080",
+      "icaoNumber": "LAN2080",
+      "number": "2080"
+    },
+    "system": {
+      "updated": "1562543426",
+      "squawk": "3645"
+    },
+    "status": "landed"
+  },
+  {
+    "geography": {
+      "latitude": -3.71974,
+      "longitude": -78.3299,
+      "altitude": 11280.5,
+      "direction": 170
+    },
+    "speed": {
+      "horizontal": 851.46,
+      "isGround": 0,
+      "vertical": 0
+    },
+    "departure": {
+      "iataCode": "HAV",
+      "icaoCode": "MUHA"
+    },
+    "arrival": {
+      "iataCode": "LIM",
+      "icaoCode": "SPIM"
+    },
+    "aircraft": {
+      "regNumber": "N497TA",
+      "icaoCode": "A320",
+      "icao24": "",
+      "iataCode": "A320"
+    },
+    "airline": {
+      "iataCode": "T0",
+      "icaoCode": "TPU"
+    },
+    "flight": {
+      "iataNumber": "T0959",
+      "icaoNumber": "TPU959",
+      "number": "959"
+    },
+    "system": {
+      "updated": "1562543409",
+      "squawk": "3120"
+    },
+    "status": "en-route"
+  }
+]

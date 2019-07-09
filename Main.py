@@ -45,10 +45,7 @@ def corrida():
     tamanos = ["Pequeño", "Mediano", "Grande"]
     Clases.Vuelo.nVuelo =0
     
-    #Creación de vuelos
-    i = 0
     for flight in data_filtered:
-        i +=1
         vuelo = Clases.Vuelo()
         #aleatorizar la muestra
         jsonDestino = flight ['arrival']
@@ -92,10 +89,6 @@ def corrida():
         jsonAerolinea = flight['airline']
         aerolinea =Clases.TAerolinea()
         aerolinea.addIata(jsonAerolinea['iataCode'])
-        try:
-            aerolinea.addIcao(jsonAerolinea['icaoCode'])
-        except:
-            pass
         aerolinea.addNombre(jsonAerolinea['name'])
 
         tipoAvion = Clases.TipoAvion()

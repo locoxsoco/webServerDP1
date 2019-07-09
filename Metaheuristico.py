@@ -59,14 +59,14 @@ class Annealer(object):
 
             if(area.vuelos.cantidad == 0):
                 return 0
-            indiceVuelo = round(random.random()*(area.vuelos.cantidad-1))+1
+            numVuelo = round(random.random()*(area.vuelos.cantidad-1))+1
             # p = area.vuelos.inicio    
             #Tabu
             if (tabu):
-                if(("Insert", area.idArea, area.tipoArea, indiceVuelo) in self.listaTabu):
+                if(("Insert", area.idArea, area.tipoArea, numVuelo) in self.listaTabu):
                     return 0
                 else: 
-                    self.listaTabu.append(("Insert", area.idArea, area.tipoArea, indiceVuelo))
+                    self.listaTabu.append(("Insert", area.idArea, area.tipoArea, numVuelo))
                     if (len(self.listaTabu)>50):
                         self.listaTabu.remove(self.listaTabu[0])
 
@@ -75,7 +75,7 @@ class Annealer(object):
             # while(p is not None):
                 if (p.ocupado):
                     cont +=1
-                    if (cont == indiceVuelo):
+                    if (cont == numVuelo):
                         break
             # JSON antiguo
             if (p.vuelo.llego is True):
@@ -114,14 +114,14 @@ class Annealer(object):
 
         #     if(area.vuelos.cantidad == 0):
         #         return 0
-        #     indiceVuelo = round(random.random()*(area.vuelos.cantidad-1))+1
+        #     numVuelo = round(random.random()*(area.vuelos.cantidad-1))+1
         #     cont = 0
         #     # p = area.vuelos.inicio
         #     # while(p is not None):
         #     for p in area.vuelos.listaVuelos:
         #         if (p.ocupado):
         #             cont +=1      
-        #             if (cont == indiceVuelo):
+        #             if (cont == numVuelo):
         #                 break                 
         #         # p=p.sig
 
@@ -133,10 +133,10 @@ class Annealer(object):
         #         return 0
         #     #Tabu
         #     if (tabu):
-        #         if(("Exchange", area.idArea, indiceVuelo, area2.idArea) in self.listaTabu):
+        #         if(("Exchange", area.idArea, numVuelo, area2.idArea) in self.listaTabu):
         #             return 0
         #         else:
-        #             self.listaTabu.append(("Exchange", area.idArea, indiceVuelo, area2.idArea))
+        #             self.listaTabu.append(("Exchange", area.idArea, numVuelo, area2.idArea))
         #             if (len(self.listaTabu)>50):
         #                 self.listaTabu.remove(self.listaTabu[0])
 
@@ -175,9 +175,6 @@ class Annealer(object):
         #         if (B.t3>A.t4):
         #             if (not A.extendRight()):
         #                 return 0
-        #     #intercambio
-        #     # copiaA = deepcopy(A)
-        #     # copiaB = deepcopy(B)
 
         #     # punt = A.inicio
         #     for punt in A.listaVuelos[A.listaVuelos.index(A.inicio):A.listaVuelos.index(A.fin)]:
@@ -209,36 +206,6 @@ class Annealer(object):
         #                 if (area.insertarVuelo(punt.vuelo,punt.vuelo.tiempoLlegada)!=-1):
         #                     break
         #                 punt.vuelo.setTiempoLlegada (punt.vuelo.tiempoLlegada + timedelta(minutes = 1))
-
-        #     # punt = copiaA.inicio
-        #     # while (True):
-        #     #     if (punt.ocupado):
-        #     #         # Versión antigua
-        #     #         # area2.insertarVuelo(punt.vuelo,punt.vuelo.tiempoLlegada)
-        #     #         #Versión nueva
-        #     #         punt.vuelo.setTiempoLlegada (punt.vuelo.tiempoEstimado)
-        #     #         while (True): 
-        #     #             punt.vuelo.setTiempoLlegada (punt.vuelo.tiempoLlegada + timedelta(minutes = 1))
-        #     #             if (area2.insertarVuelo(punt.vuelo,punt.vuelo.tiempoLlegada)!=-1):
-        #     #                 break
-                    
-        #     #     if(punt == copiaA.fin):
-        #     #         break
-        #     #     punt=punt.sig
-        #     # punt = copiaB.inicio
-        #     # while (True):
-        #     #     if (punt.ocupado):
-        #     #         # Versión antigua
-        #     #         #area.insertarVuelo(punt.vuelo,punt.vuelo.tiempoLlegada)
-        #     #         #Versión nueva
-        #     #         punt.vuelo.setTiempoLlegada (punt.vuelo.tiempoEstimado)
-        #     #         while (True): 
-        #     #             punt.vuelo.setTiempoLlegada (punt.vuelo.tiempoLlegada + timedelta(minutes = 1))
-        #     #             if (area.insertarVuelo(punt.vuelo,punt.vuelo.tiempoLlegada)!=-1):
-        #     #                 break
-        #     #     if(punt == copiaB.fin):
-        #     #         break
-        #     #     punt=punt.sig
         #     return 1
 
     def energy(self,fin=True):
