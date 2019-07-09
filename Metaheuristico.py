@@ -9,7 +9,6 @@ from copy import deepcopy
 from datetime import datetime,date, timedelta
 from io import StringIO
 
-import sys
 class Annealer(object):
     # parámetros
     Tmax = 25000.0
@@ -26,7 +25,7 @@ class Annealer(object):
         """
         Método FIFO para alcanzar una solución mas o menos óptima
         """
-        self.listaVuelos = (x)
+        self.listaVuelos = deepcopy(x)
         self.listaAreas = y+z
 
         for vuelo in self.listaVuelos:
@@ -48,14 +47,14 @@ class Annealer(object):
         #     if(i!=0):
         #         print (",", end="")
         #     self.listaAreas[i].imprimirLista()
-        self.state = deepcopy((self.listaAreas,self.listaVuelos))
+        self.state = deepcopy(self.listaAreas)
 
     def move(self,tabu = False):
         selector =0 #round(random.random())
         if(selector == 0):
             #asignacion vuelo
-            indiceArea = round(random.random()*(len(self.state[0])-1))
-            area = (self.state[0])[indiceArea]
+            indiceArea = round(random.random()*(len(self.state)-1))
+            area = (self.state)[indiceArea]
 
             if(area.vuelos.cantidad == 0):
                 return 0
@@ -76,6 +75,7 @@ class Annealer(object):
                 if (p.ocupado):
                     cont +=1
                     if (cont == numVuelo):
+                        # print (cont," ", area.vuelos.cantidad," ",cont<=area.vuelos.cantidad)
                         break
             # JSON antiguo
             if (p.vuelo.llego is True):
@@ -83,7 +83,7 @@ class Annealer(object):
             
             save = p.vuelo.tiempoLlegada
             p.vuelo.setTiempoLlegada (p.vuelo.tiempoEstimado)
-            for puertaZona in (self.state[0]):
+            for puertaZona in (self.state):
                 if (puertaZona!= area and puertaZona.insertarVuelo(p.vuelo,p.vuelo.tiempoEstimado)!=-1):
                     area.removeVuelo(p)
                     # print("Mover - 1",p.vuelo.numeroVuelo)
@@ -95,7 +95,7 @@ class Annealer(object):
             iter2 = 0 
             while (iter2 < 60 ): 
                 p.vuelo.setTiempoLlegada (p.vuelo.tiempoLlegada + timedelta(minutes = 1))
-                for puertaZona in (self.state[0]):
+                for puertaZona in (self.state):
                     if (puertaZona!= area and puertaZona.insertarVuelo(p.vuelo,p.vuelo.tiempoLlegada)!=-1):
                         area.removeVuelo(p)
                         # print("Mover - 2",p.vuelo.numeroVuelo)
@@ -109,8 +109,8 @@ class Annealer(object):
             return 0
         # else:
         #     #intercambio de intervalos
-        #     indiceArea = round(random.random()*(len(self.state[0])-1))
-        #     area = (self.state[0])[indiceArea]
+        #     indiceArea = round(random.random()*(len(self.state)-1))
+        #     area = (self.state)[indiceArea]
 
         #     if(area.vuelos.cantidad == 0):
         #         return 0
@@ -125,10 +125,10 @@ class Annealer(object):
         #                 break                 
         #         # p=p.sig
 
-        #     indiceArea2 = round(random.random()*(len(self.state[0])-1))
+        #     indiceArea2 = round(random.random()*(len(self.state)-1))
         #     if(indiceArea2 == indiceArea): 
         #         return 0
-        #     area2 = (self.state[0])[indiceArea2]
+        #     area2 = (self.state)[indiceArea2]
         #     if(area2.vuelos.cantidad == 0 or area.indice != area2.indice):
         #         return 0
         #     #Tabu
@@ -214,7 +214,7 @@ class Annealer(object):
         costoTamano = 0
         parCastigo = 900000
         costoAreas = 0
-        for puerta in self.state[0]:
+        for puerta in self.state:
             costoAreas =0
             for p in puerta.vuelos.listaVuelos:
             # p = puerta.vuelos.inicio
@@ -300,10 +300,4 @@ class Annealer(object):
                 T = T * self.reheat
             if (T<= 0.001):
                 break
-
-        # Return best state and energy
-        #self.state = deepcopy(best_state)
-        #print("Final: ") 
-        #self.energy(False) #CAMBIAR PARA EXPNUM
-
         return best_state, best_energy

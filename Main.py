@@ -8,35 +8,37 @@ import numpy
 import Clases
 import Metaheuristico
 from datetime import datetime, date, timedelta
-from io import StringIO
+#from io import StringIO
 
-s = StringIO()
+#s = StringIO()
 
 def main ():
-    s = StringIO()
-    sys.stdout = s
+    #s = StringIO()
+    #sys.stdout = s
 
     start = datetime.now()
-    corrida ()
+    s=corrida ()
     end = datetime.now()
 
     f= open("log/Llamadas a API.txt","a+")
     f.write("Fecha: "+ str(datetime.now()) + " - Tiempo de ejecucion: " + str(end-start)+ ".\n")
     fWrite = open("log/jsonAsignacion.txt", "w+")
-    fWrite.write(s.getvalue())
+    fWrite.write(s)
     fWrite.close()
 
     sys.stdout = sys.__stdout__
     #print(s.getvalue())
 
-    return(s.getvalue())
+    return(s)
     #sys.stdout = sys.__stdout__
 
 def corrida():
     # r2 = requests.get(url='https://aviation-edge.com/v2/public/timetable?key=949de0-014c14&iataCode=LIM&type=arrival')
     # data = r2.json()
     listaA = ["ArrivalLima190504.txt","ArrivalLima190505.txt","ArrivalLima190506.txt","ArrivalLima190507.txt"]
-    with open(listaA[round(random.random()*3)]) as json_file:  #listaA[round(random.random()*3)]
+    nRandom = listaA[round(random.random()*3)]
+    print (nRandom)
+    with open(nRandom) as json_file:  #listaA[round(random.random()*3)]
         data = json.loads(json_file.read().replace("\'", "\""))
 
     data_filtered = list(filter(lambda x : x['status'] != 'landed' and x['status'] != 'cancelled', data))
@@ -131,7 +133,7 @@ def corrida():
     x,y = ann.anneal()
 
     listaV = []
-    for area in (x[0]):
+    for area in (x):
         # p = area.vuelos.inicio
         for p in area.vuelos.listaVuelos:
         # while(p is not None):
@@ -140,13 +142,14 @@ def corrida():
                 listaV.append(p.vuelo)
     # listaV.sort(key= lambda y: y.tiempoLlegada)
     
-    #data_ignored.sort(key= lambda y: y['arrival']['estimatedTime'][0:19])
-    print ("[ [", end="")
+    # data_ignored.sort(key= lambda y: y['arrival']['estimatedTime'][0:19])
+    s=""
+    s+= "[ ["
     for i in range(len(listaV)):
         if (i!=0):
-            print(", ", end="")
+            s+= ", "
         vuelo = listaV[i]
-        print("{ \"numeroVuelo\": \""+ str(vuelo.iata) \
+        s += "{ \"numeroVuelo\": \""+ str(vuelo.iata) \
             + "\", \"nombreAerolinea\": \""+ str(vuelo.avion.tAerolinea.nombre) \
             + "\", \"tamañoAvion\": \""+ str(vuelo.avion.tipoAvion.tamano) \
             + "\", \"estado\": \""+ str(vuelo.estado) \
@@ -156,25 +159,25 @@ def corrida():
             + "\", \"tamanoArea\": \""+ str(vuelo.area.tamano) \
             + "\", \"tiempoProgramado\": \""+ str(vuelo.tiempoProgramado) \
             + "\", \"tiempoEstimado\": \""+ str(vuelo.tiempoEstimado) \
-            + "\", \"tiempoLlegada\": \""+ str(vuelo.tiempoLlegada) + "\" }",end="") 
-    print ("], ", end="")
+            + "\", \"tiempoLlegada\": \""+ str(vuelo.tiempoLlegada) + "\" }" 
+    s+="], "
     
-    for s in data_ignored:
-        s['idArea'] = None
-        s['tipoArea'] = None
-        s['tamanoArea'] = None
+    for d in data_ignored:
+        d['idArea'] = None
+        d['tipoArea'] = None
+        d['tamanoArea'] = None
 
-    print (json.dumps(data_ignored),end="")
-    print ( ", [", end="")
+    s+=json.dumps(data_ignored)
+    s+=", ["
 
-    for i in range(len(x[0])):
+    for i in range(len(x)):
         if(i!=0):
-            print (",", end="")
-        x[0][i].imprimirLista()
+            s+=","
+        s+=x[i].imprimirLista()
 
-    print ("] ] ",end="")
+    s+="] ] "
     
-    return y
+    return s
 
 if __name__ == '__main__':
     main()

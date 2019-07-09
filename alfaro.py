@@ -128,4 +128,4 @@ def addVuelo():
 def removeVuelo():
     return
 
-application.run("192.168.214.177", port=5000, debug=True)
+application.run("localhost", port=5000, debug=True)

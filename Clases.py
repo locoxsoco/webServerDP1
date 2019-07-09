@@ -1,7 +1,6 @@
 from datetime import datetime, date,time, timedelta
 from io import StringIO
 from copy import deepcopy,copy
-import sys
 
 class Avion :
     def __init__ (self,numeroRegistro=None,icao=None,tipoAvion=None,tAerolinea=None):
@@ -151,14 +150,6 @@ class Vuelo:
         Vuelo.nVuelo +=1
         self.idVuelo = Vuelo.nVuelo
 
-    def printJson (self):
-        # print ("{", end="")
-        # print("{ \"numeroVuelo\": \""+ str(self.icao) \
-        #     + "\", \"TiempoEstimado\": \""+ str(self.tiempoEstimado) \
-        #     + "\", \"TiempoLlegada\": \""+ str(self.tiempoLlegada) + "\" }",end="") 
-        # print ("}", end="")
-        pass
-
 class BloqueVuelo:
     def __init__(self):
         self.vuelo = None
@@ -243,27 +234,28 @@ class Area:
             return -1
 
     def imprimirLista(self):
-        print ("{ \"tipo\": \""+ self.tipoArea + " "+str(self.idArea) + "\", \"tamano\": \""+ self.tamano + "\", ",end="")
-        print ("\"vuelos\": [ ",end="")
+        s="{ \"tipo\": \""+ self.tipoArea + " "+str(self.idArea) + "\", \"tamano\": \""+ self.tamano + "\", "
+        s+="\"vuelos\": [ "
         f = 0
         for p in self.vuelos.listaVuelos:
             # if (p.ocupado):
             if (f==0):
                 f=1
             else:
-                print(", ",end="")
+                s+=", "
                 
             if (p.ocupado):
-                print("{ \"numeroVuelo\": \""+ str(p.vuelo.iata) \
+                s+="{ \"numeroVuelo\": \""+ str(p.vuelo.iata) \
                     + "\", \"nombreAerolinea\": \""+ str(p.vuelo.avion.tAerolinea.nombre) \
                     + "\", \"estado\": \""+ str(p.vuelo.estado) \
                     + "\", \"iataProcedencia\": \""+ str(p.vuelo.aeropuertoOrigen.iata) \
                     + "\", \"TiempoEstimado\": \""+ str(p.vuelo.tiempoEstimado) \
-                    + "\", \"TiempoLlegada\": \""+ str(p.vuelo.tiempoLlegada) + "\" }",end="") 
+                    + "\", \"TiempoLlegada\": \""+ str(p.vuelo.tiempoLlegada) + "\" }" 
             else:
-               print("{ \"TiempoINI\": \""+ str(p.tiempoInicio) \
-                   + "\", \"TiempoFIN\": \""+ str(p.tiempoFin) + "\" }",end="")
-        print(" ] }",end="")
+                s+="{ \"TiempoINI\": \""+ str(p.tiempoInicio) \
+                   + "\", \"TiempoFIN\": \""+ str(p.tiempoFin) + "\" }"
+        s+=" ] "
+        return s
 
     def removeVuelo(self,bloque):
         # p = self.vuelos.inicio
@@ -346,7 +338,6 @@ class Intervalo(object):
     def extendLeft(self):
         indice = self.listaVuelos.index(self.inicio)
         #JSON antiguo
-        sys.stdout = sys.__stdout__
         print('izq')
         print(indice, "-",len(self.listaVuelos))
         try:
@@ -370,7 +361,6 @@ class Intervalo(object):
 
     def extendRight(self):
         indice = self.listaVuelos.index(self.fin)
-        sys.stdout = sys.__stdout__
         print('der')
         print(indice, "-",len(self.listaVuelos))
         #JSON antiguo
