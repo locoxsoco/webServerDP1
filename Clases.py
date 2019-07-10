@@ -209,6 +209,7 @@ class ListaVuelos:
                     self.listaVuelos.insert(indice+1,bloqueSig)
                     self.listaVuelos[indice].addVuelo(bloque.vuelo,bloque.vuelo.tiempoLlegada)
                 self.cantidad +=1
+                print ("JA: ",self.cantidad)
                 return 1
         return -1
 
@@ -238,23 +239,23 @@ class Area:
         s+="\"vuelos\": [ "
         f = 0
         for p in self.vuelos.listaVuelos:
-            # if (p.ocupado):
-            if (f==0):
-                f=1
-            else:
-                s+=", "
-                
             if (p.ocupado):
+                if (f==0):
+                    f=1
+                else:
+                    s+=", "
+                    
+            # if (p.ocupado):
                 s+="{ \"numeroVuelo\": \""+ str(p.vuelo.iata) \
                     + "\", \"nombreAerolinea\": \""+ str(p.vuelo.avion.tAerolinea.nombre) \
                     + "\", \"estado\": \""+ str(p.vuelo.estado) \
                     + "\", \"iataProcedencia\": \""+ str(p.vuelo.aeropuertoOrigen.iata) \
                     + "\", \"TiempoEstimado\": \""+ str(p.vuelo.tiempoEstimado) \
                     + "\", \"TiempoLlegada\": \""+ str(p.vuelo.tiempoLlegada) + "\" }" 
-            else:
-                s+="{ \"TiempoINI\": \""+ str(p.tiempoInicio) \
-                   + "\", \"TiempoFIN\": \""+ str(p.tiempoFin) + "\" }"
-        s+=" ] "
+            # else:
+            #     s+="{ \"TiempoINI\": \""+ str(p.tiempoInicio) \
+            #        + "\", \"TiempoFIN\": \""+ str(p.tiempoFin) + "\" }"
+        s+=" ] }"
         return s
 
     def removeVuelo(self,bloque):
@@ -287,6 +288,7 @@ class Area:
             self.vuelos.listaVuelos.insert(indice,bloqueVacio)
             # self.vuelos.listaVuelos.remove(bloque)
         self.vuelos.cantidad -=1
+        print ("RIP: ",self.vuelos.cantidad)
         
 ############################################################################
 
