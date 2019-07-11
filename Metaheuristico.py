@@ -104,16 +104,15 @@ class Annealer(object):
         else:
             #intercambio de intervalos
             indiceArea = round(random.random()*(len(self.state)-1))
-            area = (self.state)[indiceArea]
+            # area = (self.state)[indiceArea]
 
-            if(area.vuelos.cantidad == 0):
+            if(self.state[indiceArea].vuelos.cantidad == 0):
                 return 0
-            numVuelo = round(random.random()*(area.vuelos.cantidad-1))+1
+            numVuelo = round(random.random()*(self.state[indiceArea].vuelos.cantidad-1))+1
             
             cont = 0
-            for p in range(len(area.vuelos.listaVuelos)):
-            # while(p is not None):
-                if (area.vuelos.listaVuelos[p].ocupado):
+            for p in range(len(self.state[indiceArea].vuelos.listaVuelos)):
+                if (self.state[indiceArea].vuelos.listaVuelos[p].ocupado):
                     cont +=1
                     if (cont == numVuelo):
                         break
@@ -121,26 +120,25 @@ class Annealer(object):
             indiceArea2 = round(random.random()*(len(self.state)-1))
             if(indiceArea2 == indiceArea): 
                 return 0
-            area2 = (self.state)[indiceArea2]
-            if(area2.vuelos.cantidad == 0 or area.indice != area2.indice):
+            # area2 = (self.state)[indiceArea2]
+            if(self.state[indiceArea2].vuelos.cantidad == 0 or self.state[indiceArea].indice != self.state[indiceArea2].indice):
                 return 0
             #Tabu
             if (tabu):
-                if(("Exchange", area.idArea, numVuelo, area2.idArea) in self.listaTabu):
+                if(("Exchange", self.state[indiceArea].idArea, numVuelo, self.state[indiceArea2].idArea) in self.listaTabu):
                     return 0
                 else:
-                    self.listaTabu.append(("Exchange", area.idArea, numVuelo, area2.idArea))
+                    self.listaTabu.append(("Exchange", self.state[indiceArea].idArea, numVuelo, self.state[indiceArea2].idArea))
                     if (len(self.listaTabu)>50):
                         self.listaTabu.remove(self.listaTabu[0])
 
-            # p2 = area2.vuelos.inicio
             encontro = False
-            for p2 in range(len(area2.vuelos.listaVuelos)):
+            for p2 in range(len(self.state[indiceArea2].vuelos.listaVuelos)):
             # while(p2 is not None):
-                if (area2.vuelos.listaVuelos[p2].ocupado):
-                    if ((area2.vuelos.listaVuelos[p2].tiempoInicio <= area.vuelos.listaVuelos[p].tiempoFin and area2.vuelos.listaVuelos[p2].tiempoInicio >= area.vuelos.listaVuelos[p].tiempoInicio) \
+                if (self.state[indiceArea2].vuelos.listaVuelos[p2].ocupado):
+                    if ((self.state[indiceArea2].vuelos.listaVuelos[p2].tiempoInicio <= self.state[indiceArea].vuelos.listaVuelos[p].tiempoFin and self.state[indiceArea2].vuelos.listaVuelos[p2].tiempoInicio >= self.state[indiceArea].vuelos.listaVuelos[p].tiempoInicio) \
                         # or (p2.tiempoFin <= p.tiempoFin and p2.tiempoFin >= p.tiempoInicio) \ 
-                        or (area.vuelos.listaVuelos[p].tiempoInicio <= area2.vuelos.listaVuelos[p2].tiempoFin and area.vuelos.listaVuelos[p].tiempoInicio >= area2.vuelos.listaVuelos[p2].tiempoInicio)): 
+                        or (self.state[indiceArea].vuelos.listaVuelos[p].tiempoInicio <= self.state[indiceArea2].vuelos.listaVuelos[p2].tiempoFin and self.state[indiceArea].vuelos.listaVuelos[p].tiempoInicio >= self.state[indiceArea2].vuelos.listaVuelos[p2].tiempoInicio)): 
                         # or (p.tiempoFin < p2.tiempoFin and p.tiempoFin > p2.tiempoInicio)):
                         encontro = True
                         break
@@ -150,11 +148,11 @@ class Annealer(object):
                 return 0
             
             # JSON antiguo
-            if (area.vuelos.listaVuelos[p].vuelo.llego is True or area2.vuelos.listaVuelos[p2].vuelo.llego is True):
+            if (self.state[indiceArea].vuelos.listaVuelos[p].vuelo.llego is True or self.state[indiceArea2].vuelos.listaVuelos[p2].vuelo.llego is True):
                 return 0
 
-            A = Clases.Intervalo (area.vuelos.listaVuelos,area.vuelos.listaVuelos[p])
-            B = Clases.Intervalo (area2.vuelos.listaVuelos,area2.vuelos.listaVuelos[p2])
+            A = Clases.Intervalo (self.state[indiceArea].vuelos.listaVuelos,self.state[indiceArea].vuelos.listaVuelos[p])
+            B = Clases.Intervalo (self.state[indiceArea2].vuelos.listaVuelos,self.state[indiceArea2].vuelos.listaVuelos[p2])
             while not ((A.t2 >= B.t1 and A.t3 <= B.t4) and (B.t2 >= A.t1 and B.t3 <= A.t4)):    
                 if (A.t2 < B.t1):
                     if (not B.extendLeft()):
@@ -174,20 +172,20 @@ class Annealer(object):
                 # indice = A.listaVuelos.index(A.listaVuelos[punt])
                 if (A.listaVuelos[punt].ocupado):
                     # area.vuelos.listaVuelos.pop(indice)
-                    area.removeVuelo(A.listaVuelos[punt])
+                    self.state[indiceArea].removeVuelo(A.listaVuelos[punt])
 
             for punt in range(B.listaVuelos.index(B.inicio),B.listaVuelos.index(B.fin)+1):
                 # indice = B.listaVuelos.index(B.listaVuelos[punt])
                 if(B.listaVuelos[punt].ocupado):
                     # area2.vuelos.listaVuelos.pop(indice)
-                    area2.removeVuelo(B.listaVuelos[punt])
+                    self.state[indiceArea2].removeVuelo(B.listaVuelos[punt])
 
             for punt in range(A.listaVuelos.index(A.inicio),A.listaVuelos.index(A.fin)+1):
                 # indice = A.listaVuelos.index(punt)
                 if (punt.ocupado):
                     A.listaVuelos[punt].vuelo.setTiempoLlegada (A.listaVuelos[punt].vuelo.tiempoEstimado)
                     while (True): 
-                        if (area2.insertarVuelo(A.listaVuelos[punt].vuelo,A.listaVuelos[punt].vuelo.tiempoLlegada)!=-1):
+                        if (self.state[indiceArea2].insertarVuelo(A.listaVuelos[punt].vuelo,A.listaVuelos[punt].vuelo.tiempoLlegada)!=-1):
                             break
                         A.listaVuelos[punt].vuelo.setTiempoLlegada (A.listaVuelos[punt].vuelo.tiempoLlegada + timedelta(minutes = 1))
                         
@@ -196,7 +194,7 @@ class Annealer(object):
                 if(B.listaVuelos[punt].ocupado):
                     B.listaVuelos[punt].vuelo.setTiempoLlegada (B.listaVuelos[punt].vuelo.tiempoEstimado)
                     while (True): 
-                        if (area.insertarVuelo(B.listaVuelos[punt].vuelo,B.listaVuelos[punt].vuelo.tiempoLlegada)!=-1):
+                        if (self.state[indiceArea].insertarVuelo(B.listaVuelos[punt].vuelo,B.listaVuelos[punt].vuelo.tiempoLlegada)!=-1):
                             break
                         B.listaVuelos[punt].vuelo.setTiempoLlegada (B.listaVuelos[punt].vuelo.tiempoLlegada + timedelta(minutes = 1))
             return 1
