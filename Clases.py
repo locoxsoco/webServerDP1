@@ -208,8 +208,10 @@ class ListaVuelos:
                     bloqueSig.definirEspacioVacio(bloque.tiempoFin,p.tiempoFin)
                     self.listaVuelos.insert(indice+1,bloqueSig)
                     self.listaVuelos[indice].addVuelo(bloque.vuelo,bloque.vuelo.tiempoLlegada)
+                else:
+                    self.listaVuelos[indice].addVuelo(bloque.vuelo,bloque.vuelo.tiempoLlegada)
                 self.cantidad +=1
-                print ("JA: ",self.cantidad)
+                # print ("JA: ",self.cantidad)
                 return 1
         return -1
 
@@ -259,9 +261,6 @@ class Area:
         return s
 
     def removeVuelo(self,bloque):
-        # p = self.vuelos.inicio
-        # ant = None
-        # while (p is not None):
         indice = self.vuelos.listaVuelos.index(bloque)
         # se asume que en la eliminación nunca está al inicio o al final, porque el tiempo es "infinito"
         if (not self.vuelos.listaVuelos[indice-1].ocupado and not self.vuelos.listaVuelos[indice+1].ocupado):
@@ -288,7 +287,7 @@ class Area:
             self.vuelos.listaVuelos.insert(indice,bloqueVacio)
             # self.vuelos.listaVuelos.remove(bloque)
         self.vuelos.cantidad -=1
-        print ("RIP: ",self.vuelos.cantidad)
+        # print ("RIP: ",self.vuelos.cantidad)
         
 ############################################################################
 

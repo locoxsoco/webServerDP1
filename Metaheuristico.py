@@ -54,63 +54,52 @@ class Annealer(object):
         if(selector == 0):
             #asignacion vuelo
             indiceArea = round(random.random()*(len(self.state)-1))
-            area = (self.state)[indiceArea]
 
-            if(area.vuelos.cantidad == 0):
+            if(self.state[indiceArea].vuelos.cantidad == 0):
                 return 0
-            numVuelo = round(random.random()*(area.vuelos.cantidad-1))+1
-            # p = area.vuelos.inicio    
+            numVuelo = round(random.random()*(self.state[indiceArea].vuelos.cantidad-1))+1
             #Tabu
             if (tabu):
-                if(("Insert", area.idArea, area.tipoArea, numVuelo) in self.listaTabu):
+                if(("Insert", self.state[indiceArea].idArea, self.state[indiceArea].tipoArea, numVuelo) in self.listaTabu):
                     return 0
                 else: 
-                    self.listaTabu.append(("Insert", area.idArea, area.tipoArea, numVuelo))
+                    self.listaTabu.append(("Insert", self.state[indiceArea].idArea, self.state[indiceArea].tipoArea, numVuelo))
                     if (len(self.listaTabu)>50):
                         self.listaTabu.remove(self.listaTabu[0])
 
             cont = 0
-            for p in range(len(area.vuelos.listaVuelos)):
-            # while(p is not None):
-                if (area.vuelos.listaVuelos[p].ocupado):
+            for p in range(len(self.state[indiceArea].vuelos.listaVuelos)):
+                if (self.state[indiceArea].vuelos.listaVuelos[p].ocupado):
                     cont +=1
                     if (cont == numVuelo):
                         break
 
             # JSON antiguo            
-            print (area.tipoArea,area.idArea," - ",cont," ",numVuelo," ", area.vuelos.cantidad," ",cont<=area.vuelos.cantidad," ",area.vuelos.listaVuelos[p].tiempoInicio,"-",area.vuelos.listaVuelos[p].tiempoFin)
-            if (area.vuelos.listaVuelos[p].vuelo.llego is True):
+            # print (self.state[indiceArea].tipoArea,self.state[indiceArea].idArea," - ",cont," ",numVuelo," ", self.state[indiceArea].vuelos.cantidad," ",cont<=self.state[indiceArea].vuelos.cantidad," ",self.state[indiceArea].vuelos.listaVuelos[p].tiempoInicio,"-",self.state[indiceArea].vuelos.listaVuelos[p].tiempoFin)
+            if (self.state[indiceArea].vuelos.listaVuelos[p].vuelo.llego is True):
                 return 0
             
-            save = deepcopy(area.vuelos.listaVuelos[p].vuelo.tiempoLlegada)
-            area.vuelos.listaVuelos[p].vuelo.setTiempoLlegada (area.vuelos.listaVuelos[p].vuelo.tiempoEstimado)
+            save = self.state[indiceArea].vuelos.listaVuelos[p].vuelo.tiempoLlegada
+            self.state[indiceArea].vuelos.listaVuelos[p].vuelo.setTiempoLlegada (self.state[indiceArea].vuelos.listaVuelos[p].vuelo.tiempoEstimado)
             for puertaZona in range(len(self.state)):
-                if (self.state[puertaZona]!= area and \
-                    self.state[puertaZona].insertarVuelo(area.vuelos.listaVuelos[p].vuelo,area.vuelos.listaVuelos[p].vuelo.tiempoEstimado)!=-1):
-                    area.removeVuelo(area.vuelos.listaVuelos[p])
-                    print ("1",area.tipoArea,area.idArea," - ",area.vuelos.cantidad, " ", self.state[puertaZona].tipoArea,self.state[puertaZona].idArea," - ",self.state[puertaZona].vuelos.cantidad)
-                    # print("Mover - 1",p.vuelo.numeroVuelo)
-                    # area.imprimirLista()
-                    # print()
-                    # print ("area reemplazante")
-                    # puertaZona.imprimirLista()
+                if (self.state[puertaZona]!= self.state[indiceArea] and \
+                    self.state[puertaZona].insertarVuelo(self.state[indiceArea].vuelos.listaVuelos[p].vuelo,self.state[indiceArea].vuelos.listaVuelos[p].vuelo.tiempoEstimado)!=-1):
+                    self.state[indiceArea].removeVuelo(self.state[indiceArea].vuelos.listaVuelos[p])
+                    # print ("1",self.state[indiceArea].tipoArea,self.state[indiceArea].idArea," - ",self.state[indiceArea].vuelos.cantidad, " ", self.state[puertaZona].tipoArea,self.state[puertaZona].idArea," - ",self.state[puertaZona].vuelos.cantidad)
+                    
                     return 1
             iter2 = 0 
-            while (iter2 < 60 ): 
-                area.vuelos.listaVuelos[p].vuelo.setTiempoLlegada (area.vuelos.listaVuelos[p].vuelo.tiempoLlegada + timedelta(minutes = 1))
+            while (iter2 < 60 ):
+                self.state[indiceArea].vuelos.listaVuelos[p].vuelo.setTiempoLlegada (self.state[indiceArea].vuelos.listaVuelos[p].vuelo.tiempoLlegada + timedelta(minutes = 1))
                 for puertaZona in range(len(self.state)):
-                    if (self.state[puertaZona]!= area and \
-                        self.state[puertaZona].insertarVuelo(area.vuelos.listaVuelos[p].vuelo,area.vuelos.listaVuelos[p].vuelo.tiempoLlegada)!=-1):
-                        area.removeVuelo(area.vuelos.listaVuelos[p])
-                        print ("2",area.tipoArea,area.idArea," - ",area.vuelos.cantidad, " ", self.state[puertaZona].tipoArea,self.state[puertaZona].idArea," - ",self.state[puertaZona].vuelos.cantidad)
-                        print("Mover - 2",p.vuelo.numeroVuelo)
-                        # area.imprimirLista()
-                        # print()
-                        # print ("area reemplazante")
-                        # puertaZona.imprimirLista()
+                    if (self.state[puertaZona]!= self.state[indiceArea] and \
+                        self.state[puertaZona].insertarVuelo(self.state[indiceArea].vuelos.listaVuelos[p].vuelo,self.state[indiceArea].vuelos.listaVuelos[p].vuelo.tiempoLlegada)!=-1):
+                        self.state[indiceArea].removeVuelo(self.state[indiceArea].vuelos.listaVuelos[p])
+                        # print ("2",self.state[indiceArea].tipoArea,self.state[indiceArea].idArea," - ",self.state[indiceArea].vuelos.cantidad, " ", self.state[puertaZona].tipoArea,self.state[puertaZona].idArea," - ",self.state[puertaZona].vuelos.cantidad)
+                        
                         return 1
                 iter2 +=1
-            area.vuelos.listaVuelos[p].vuelo.setTiempoLlegada(save)
+            self.state[indiceArea].vuelos.listaVuelos[p].vuelo.setTiempoLlegada(save)
             return 0
         else:
             #intercambio de intervalos
