@@ -46,7 +46,7 @@ def corrida():
     data_filtered = list(filter(lambda x : x['status'] != 'landed' and x['status'] != 'cancelled', data))
     data_ignored = list (filter(lambda x: x['status'] == 'cancelled' or x['status'] == 'landed',data))
     listaVuelos = []
-    tamanos = ["Pequeño", "Mediano", "Grande"]
+    tamanos = ["Pequeno", "Mediano", "Grande"]
     Clases.Vuelo.nVuelo =0
     
     for flight in data_filtered:
