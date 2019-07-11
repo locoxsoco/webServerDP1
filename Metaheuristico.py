@@ -88,7 +88,7 @@ class Annealer(object):
                 if (self.state[puertaZona]!= area and \
                     self.state[puertaZona].insertarVuelo(area.vuelos.listaVuelos[p].vuelo,area.vuelos.listaVuelos[p].vuelo.tiempoEstimado)!=-1):
                     area.removeVuelo(area.vuelos.listaVuelos[p])
-                    print ("1",area.tipoArea,area.idArea," - ",area.vuelos.cantidad, " ", self.state[puertaZona].tipoArea,self.state[puertaZona].idArea," - ",self.state[puertaZona].vuelos.cantidad)
+                    #print ("1",area.tipoArea,area.idArea," - ",area.vuelos.cantidad, " ", self.state[puertaZona].tipoArea,self.state[puertaZona].idArea," - ",self.state[puertaZona].vuelos.cantidad)
                     # print("Mover - 1",p.vuelo.numeroVuelo)
                     # area.imprimirLista()
                     # print()
@@ -102,7 +102,7 @@ class Annealer(object):
                     if (self.state[puertaZona]!= area and \
                         self.state[puertaZona].insertarVuelo(area.vuelos.listaVuelos[p].vuelo,area.vuelos.listaVuelos[p].vuelo.tiempoLlegada)!=-1):
                         area.removeVuelo(area.vuelos.listaVuelos[p])
-                        print ("2",area.tipoArea,area.idArea," - ",area.vuelos.cantidad, " ", self.state[puertaZona].tipoArea,self.state[puertaZona].idArea," - ",self.state[puertaZona].vuelos.cantidad)
+                        #print ("2",area.tipoArea,area.idArea," - ",area.vuelos.cantidad, " ", self.state[puertaZona].tipoArea,self.state[puertaZona].idArea," - ",self.state[puertaZona].vuelos.cantidad)
                         # print("Mover - 2",p.vuelo.numeroVuelo)
                         # area.imprimirLista()
                         # print()
