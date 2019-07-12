@@ -304,7 +304,7 @@ class Manga(Area):
 
 class Intervalo(object):
     def __init__(self, listaVuelos, bloque):
-        self.listaVuelos = deepcopy(listaVuelos)
+        self.listaVuelos = copy(listaVuelos)
         indice = listaVuelos.index(bloque)
         if (not self.listaVuelos[indice-1].ocupado): #indice !=0 and not 
             self.inicio = self.listaVuelos[indice-1]
@@ -323,6 +323,7 @@ class Intervalo(object):
             self.fin = self.listaVuelos[indice]
             self.t4 = self.listaVuelos[indice].tiempoFin
         self.cantidad = 1
+        # print(indice,"-",len(self.listaVuelos),"-",self.inicio.tiempoInicio, " ", self.inicio.tiempoFin, " - ", self.fin.tiempoInicio, self.fin.tiempoFin)
     # def printIntervalo(self):
     #     p=self.inicio
     #     while (True):
@@ -339,17 +340,17 @@ class Intervalo(object):
     def extendLeft(self):
         indice = self.listaVuelos.index(self.inicio)
         #JSON antiguo
-        # print('izq')
-        # print(indice, "-",len(self.listaVuelos))
+        # print ("izq ",len(self.listaVuelos)," - ",indice,"-", self.inicio.tiempoInicio," ",self.inicio.tiempoFin,self.fin.vuelo )
         # try:
         if (indice ==0 ):
             return False
-        # elif(self.listaVuelos[indice-1].vuelo.llego is True):
-        #     return False
+        elif(self.listaVuelos[indice-1].vuelo.llego is True):
+            return False
         else:            
             self.inicio = self.listaVuelos[indice-1]
             self.t2 = self.inicio.tiempoInicio
-            if (indice-2 != 0 and not self.listaVuelos[indice-2].ocupado):
+            #indice-2 == 0 and not 
+            if (not self.listaVuelos[indice-2].ocupado):
                 self.inicio = self.listaVuelos[indice-2]
             self.t1 = self.inicio.tiempoInicio
             self.cantidad +=1
@@ -362,18 +363,18 @@ class Intervalo(object):
 
     def extendRight(self):
         indice = self.listaVuelos.index(self.fin)
-        # print('der')
-        # print(indice, "-",len(self.listaVuelos))
         #JSON antiguo
         # try:
+        # print ("der ",len(self.listaVuelos)," - ",indice,"-", self.fin.tiempoInicio," ",self.fin.tiempoFin,self.fin.vuelo )
         if indice == (len(self.listaVuelos)-1) :
             return False
-        # elif (self.listaVuelos[indice+1].vuelo.llego is True):
-        #     return False
+        elif (self.listaVuelos[indice+1].vuelo.llego is True):
+            return False
         else:
             self.fin=self.listaVuelos[indice+1]
             self.t3 = self.fin.tiempoFin
-            if(indice+2 != (len(self.listaVuelos)-1) and not self.listaVuelos[indice+2].ocupado):
+            #indice+2 == (len(self.listaVuelos)-1) and not 
+            if(not self.listaVuelos[indice+2].ocupado):
                 self.fin = self.listaVuelos[indice+2]
             self.t4 = self.fin.tiempoFin   
             self.cantidad +=1
