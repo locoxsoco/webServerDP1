@@ -181,55 +181,27 @@ class Annealer(object):
                         if (self.state[indiceArea].insertarVuelo(B.listaVuelos[punt].vuelo,B.listaVuelos[punt].vuelo.tiempoLlegada)!=-1):
                             break
                         B.listaVuelos[punt].vuelo.setTiempoLlegada (B.listaVuelos[punt].vuelo.tiempoLlegada + timedelta(minutes = 1))
-        
-            # print(l,end=" ")
-            # l=0
-            # for punt in range(A.listaVuelos.index(A.inicio),A.listaVuelos.index(A.fin)+1):
-            #     if (A.listaVuelos[punt].ocupado):
-            #         A.listaVuelos[punt].vuelo.setTiempoLlegada (A.listaVuelos[punt].vuelo.tiempoEstimado)
-            #         while (True): 
-            #             if (self.state[indiceArea2].insertarVuelo(A.listaVuelos[punt].vuelo,A.listaVuelos[punt].vuelo.tiempoLlegada)!=-1):
-            #                 self.c+=1
-            #                 l+=1
-            #                 break
-            #             A.listaVuelos[punt].vuelo.setTiempoLlegada (A.listaVuelos[punt].vuelo.tiempoLlegada + timedelta(minutes = 1))
-                  
-            # print(l,end=" ")  
-            # l=0    
-            # for punt in range(B.listaVuelos.index(B.inicio),B.listaVuelos.index(B.fin)+1):
-            #     if(B.listaVuelos[punt].ocupado):
-            #         B.listaVuelos[punt].vuelo.setTiempoLlegada (B.listaVuelos[punt].vuelo.tiempoEstimado)
-            #         while (True): 
-            #             if (self.state[indiceArea].insertarVuelo(B.listaVuelos[punt].vuelo,B.listaVuelos[punt].vuelo.tiempoLlegada)!=-1):
-            #                 self.d+=1
-            #                 l+=1
-            #                 break
-            #             B.listaVuelos[punt].vuelo.setTiempoLlegada (B.listaVuelos[punt].vuelo.tiempoLlegada + timedelta(minutes = 1))
-            # print(l)
             return 1
 
     def energy(self,fin=True):
         """Calculate state's energy"""
         costoVuelos = 0
         costoTamano = 0
-        parCastigo = 900000
         costoAreas = 0
+        parCastigo = 1
         for puerta in self.state:
             costoAreas =0
             for p in puerta.vuelos.listaVuelos:
-            # p = puerta.vuelos.inicio
-            # while (p is not None):
                 if (p.ocupado):
                     costoVuelos += (p.vuelo.tiempoLlegada - p.vuelo.tiempoEstimado).total_seconds() ** 2
                     costoTamano += (p.vuelo.area.indice - p.vuelo.avion.tipoAvion.indice)
                 else:
                     if (puerta.tipoArea=="Manga"):
                         costoAreas += parCastigo * (p.tiempoFin - p.tiempoInicio).total_seconds()
-                    else:
-                        costoAreas += (p.tiempoFin - p.tiempoInicio).total_seconds()
-                # p = p.sig
+                    # else:
+                    #     costoAreas += (p.tiempoFin - p.tiempoInicio).total_seconds()
         
-        return costoAreas + costoVuelos * 90000000 + costoTamano * 90000
+        return costoAreas + costoVuelos * 1000 + costoTamano * 100
 
 
     def anneal(self):
