@@ -8,13 +8,8 @@ import numpy
 import Clases
 import Metaheuristico
 from datetime import datetime, date, timedelta
-#from io import StringIO
-
-#s = StringIO()
 
 def main ():
-    #s = StringIO()
-    #sys.stdout = s
 
     start = datetime.now()
     s=corrida ()
@@ -26,11 +21,7 @@ def main ():
     fWrite.write(s)
     fWrite.close()
 
-    sys.stdout = sys.__stdout__
-    #print(s.getvalue())
-
     return(s)
-    #sys.stdout = sys.__stdout__
 
 def corrida():
     # r2 = requests.get(url='https://aviation-edge.com/v2/public/timetable?key=949de0-014c14&iataCode=LIM&type=arrival')
@@ -38,7 +29,9 @@ def corrida():
     listaA = ["ArrivalLima190629 - 6pm","ArrivalLima190629 - 7.20pm","ArrivalLima190630 - 5.20pm","ArrivalLima190701 - 5.30pm","ArrivalLima190630 - 6.10pm.txt","ArrivalLima190702 - 1.21am","ArrivalLima190709 - 1.48am","ArrivalLima190709 - 9.23am", "ArrivalLima190709 - 9.43am","ArrivalLima190709 - 10.03am"]
     for c in range(len(listaA)):
         listaA[c] += ".txt"
-    nRandom = listaA[round(random.random()*3)]
+        
+    #aleatorizar la muestra
+    nRandom = listaA[round(random.random()*len(listaA))]
     print (nRandom)
     with open(nRandom) as json_file:  #listaA[round(random.random()*3)]
         data = json.loads(json_file.read().replace("\'", "\""))
@@ -51,7 +44,6 @@ def corrida():
     
     for flight in data_filtered:
         vuelo = Clases.Vuelo()
-        #aleatorizar la muestra
         jsonDestino = flight ['arrival']
         anho = int(jsonDestino['scheduledTime'][0:4])
         mes = int(jsonDestino['scheduledTime'][5:7])
@@ -109,8 +101,6 @@ def corrida():
         vuelo.asignarIDVuelo()
         listaVuelos.append(vuelo)
 
-    # listaVuelos.sort(key= lambda x: x.tiempoEstimado)
-    #print ("Longitud: "+ str(len(listaVuelos)))
     # Creación de zonas y mangas
     nMangas = 19
     nZonas = 52
@@ -130,21 +120,16 @@ def corrida():
         listaZonas.append(area)
 
     ## JSON asignacion antigua 
-
+    
     ann = Metaheuristico.Annealer(listaVuelos,listaMangas,listaZonas)
     x,y = ann.anneal()
 
     listaV = []
     for area in (x):
-        # p = area.vuelos.inicio
         for p in area.vuelos.listaVuelos:
-        # while(p is not None):
             if (p.ocupado):
                 p.vuelo.asignarPuerta(area)
                 listaV.append(p.vuelo)
-    # listaV.sort(key= lambda y: y.tiempoLlegada)
-    
-    # data_ignored.sort(key= lambda y: y['arrival']['estimatedTime'][0:19])
     s=""
     s+= "[ ["
     for i in range(len(listaV)):

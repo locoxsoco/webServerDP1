@@ -41,12 +41,6 @@ class Annealer(object):
                     if (puertaZona.insertarVuelo(vuelo,vuelo.tiempoLlegada)!=-1):
                         asignado = True                        
                         break
-
-        # sys.stdout = sys.__stdout__
-        # for i in range(len(self.listaAreas)):
-        #     if(i!=0):
-        #         print (",", end="")
-        #     self.listaAreas[i].imprimirLista()
         self.state = deepcopy(self.listaAreas)
 
     def move(self,tabu = False): 
@@ -75,7 +69,6 @@ class Annealer(object):
                         break
 
             # JSON antiguo            
-            # print (self.state[indiceArea].tipoArea,self.state[indiceArea].idArea," - ",cont," ",numVuelo," ", self.state[indiceArea].vuelos.cantidad," ",cont<=self.state[indiceArea].vuelos.cantidad," ",self.state[indiceArea].vuelos.listaVuelos[p].tiempoInicio,"-",self.state[indiceArea].vuelos.listaVuelos[p].tiempoFin)
             if (self.state[indiceArea].vuelos.listaVuelos[p].vuelo.llego is True):
                 return 0
             
@@ -85,8 +78,6 @@ class Annealer(object):
                 if (self.state[puertaZona]!= self.state[indiceArea] and \
                     self.state[puertaZona].insertarVuelo(self.state[indiceArea].vuelos.listaVuelos[p].vuelo,self.state[indiceArea].vuelos.listaVuelos[p].vuelo.tiempoEstimado)!=-1):
                     self.state[indiceArea].removeVuelo(self.state[indiceArea].vuelos.listaVuelos[p])
-                    # print ("1",self.state[indiceArea].tipoArea,self.state[indiceArea].idArea," - ",self.state[indiceArea].vuelos.cantidad, " ", self.state[puertaZona].tipoArea,self.state[puertaZona].idArea," - ",self.state[puertaZona].vuelos.cantidad)
-                    
                     return 1
             iter2 = 0 
             while (iter2 < 60 ):
@@ -95,8 +86,6 @@ class Annealer(object):
                     if (self.state[puertaZona]!= self.state[indiceArea] and \
                         self.state[puertaZona].insertarVuelo(self.state[indiceArea].vuelos.listaVuelos[p].vuelo,self.state[indiceArea].vuelos.listaVuelos[p].vuelo.tiempoLlegada)!=-1):
                         self.state[indiceArea].removeVuelo(self.state[indiceArea].vuelos.listaVuelos[p])
-                        # print ("2",self.state[indiceArea].tipoArea,self.state[indiceArea].idArea," - ",self.state[indiceArea].vuelos.cantidad, " ", self.state[puertaZona].tipoArea,self.state[puertaZona].idArea," - ",self.state[puertaZona].vuelos.cantidad)
-                        
                         return 1
                 iter2 +=1
             self.state[indiceArea].vuelos.listaVuelos[p].vuelo.setTiempoLlegada(save)
@@ -134,9 +123,7 @@ class Annealer(object):
             for p2 in range(len(self.state[indiceArea2].vuelos.listaVuelos)):
                 if (self.state[indiceArea2].vuelos.listaVuelos[p2].ocupado):
                     if ((self.state[indiceArea2].vuelos.listaVuelos[p2].tiempoInicio <= self.state[indiceArea].vuelos.listaVuelos[p].tiempoFin and self.state[indiceArea2].vuelos.listaVuelos[p2].tiempoInicio >= self.state[indiceArea].vuelos.listaVuelos[p].tiempoInicio) \
-                        # or (p2.tiempoFin <= p.tiempoFin and p2.tiempoFin >= p.tiempoInicio) \ 
                         or (self.state[indiceArea].vuelos.listaVuelos[p].tiempoInicio <= self.state[indiceArea2].vuelos.listaVuelos[p2].tiempoFin and self.state[indiceArea].vuelos.listaVuelos[p].tiempoInicio >= self.state[indiceArea2].vuelos.listaVuelos[p2].tiempoInicio)): 
-                        # or (p.tiempoFin < p2.tiempoFin and p.tiempoFin > p2.tiempoInicio)):
                         encontro = True
                         break
             
@@ -211,12 +198,11 @@ class Annealer(object):
         Parametros
         state : estado actual del recocido
         Retorna
-        (state, energy): best state and energy found.
+        (state): best state and energy found.
         """
         step = 0
         if self.Tmin <= 0.0:
-            raise Exception('Exponential cooling requires a minimum "\
-                "temperature greater than zero.')
+            raise Exception('Se requiere un valor mayor a 0 para la experimentacion.')
         Tfactor = -math.log(self.Tmax / self.Tmin)
 
         T = self.Tmax
@@ -226,18 +212,17 @@ class Annealer(object):
         trials, accepts, improves = 0, 0, 0
         unaccepts, unimproves = 0,0
 
-        # Attempt moves to new states
+        # Intenta nuevos movimientos
         while step < self.steps:
             step += 1
             T = self.Tmax * math.exp(Tfactor * step / self.steps)
             if (self.move() == 0):
-                # step -=1
                 continue
             E = self.energy(False)
             dE = E - prevEnergy
             trials += 1
             if dE > 0.0 and math.exp(-dE / T) < random.random():
-                # Restore previous state
+                # Regresa a estado anterior
                 self.state = deepcopy(prevState)
                 E = prevEnergy
                 unaccepts += 1
