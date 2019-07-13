@@ -110,7 +110,13 @@ def cargarVuelos():
             avion = cursor.fetchone()
             idAvion = avion['id_Avion']
         except:
+            idAvion = 0
             log += "No existe registro en BD del avion: "+ str(vuelo.avion.iata)+ "\n"
+
+        try: 
+            ssql = "SELECT * FROM tciudad_aeropuerto WHERE = iata = "+vuelo.iata
+        except:
+            pass
         # ssql = "INSERT INTO tvuelo ("
 
     cursor.close()
@@ -126,4 +132,4 @@ def addVuelo():
 def removeVuelo():
     return
 
-application.run("192.168.214.177", port=9000, debug=True) #192.168.214.177
+application.run("localhost", port=9000, debug=True) #192.168.214.177

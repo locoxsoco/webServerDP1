@@ -13,7 +13,7 @@ class Annealer(object):
     # parámetros
     Tmax = 25000.0
     Tmin = 2.5
-    steps = 5000
+    steps = 3000
 
     max_accepts = 50
     max_improve = 20
@@ -189,7 +189,6 @@ class Annealer(object):
                     #     costoAreas += (p.tiempoFin - p.tiempoInicio).total_seconds()
         
         return costoAreas + costoVuelos * 1000 + costoTamano * 100
-
 
     def anneal(self):
         """
