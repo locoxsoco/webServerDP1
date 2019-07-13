@@ -10,7 +10,6 @@ import Metaheuristico
 from datetime import datetime, date, timedelta
 
 def main ():
-
     start = datetime.now()
     s=corrida ()
     end = datetime.now()
@@ -32,7 +31,7 @@ def corrida():
         
     #aleatorizar la muestra
     nRandom = listaA[round(random.random()*(len(listaA)-1))]
-    print (nRandom)
+    print (nRandom," invocado - - [",datetime.now(),"]")
     with open(nRandom) as json_file:  #listaA[round(random.random()*3)]
         data = json.loads(json_file.read().replace("\'", "\""))
 

@@ -236,7 +236,7 @@ class Area:
             return -1
 
     def imprimirLista(self):
-        s="{ \"tipo\": \""+ self.tipoArea + " "+str(self.idArea) + "\", \"tamano\": \""+ self.tamano + "\", "
+        s="{ \"tipoArea\": \""+ self.tipoArea + "\", \"idArea\": \""+str(self.idArea) + "\", \"tamano\": \""+ self.tamano + "\", "
         s+="\"vuelos\": [ "
         f = 0
         for p in self.vuelos.listaVuelos:
