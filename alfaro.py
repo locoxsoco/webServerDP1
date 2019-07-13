@@ -103,18 +103,34 @@ def cargarVuelos():
     #cargarBD y guardar en log\Vuelos_Simulador.txt
     log =""
     cursor = mydb.cursor(dictionary=True)
+    ssql = "SELECT * FROM tavion"
+    cursor.execute(ssql)
+    aviones = cursor.fetchall()
+    hashAviones = dict()
+    for idAvion in range(len(aviones)):
+        hashAviones[aviones[idAvion]['id_Avion']]=aviones[idAvion]
+
+    ssql = "SELECT * FROM tciudad_aeropuerto"
+    cursor.execute(ssql)
+    aeropuertos = cursor.fetchall()
+    hashAeropuertos = dict()
+    for idAeropuerto in range(len(aeropuertos)):
+        hashAeropuertos[aeropuertos[idAeropuerto]['id_Aeropuerto']]=aeropuertos[idAeropuerto] 
+
     for vuelo in listaVuelos: #area #avion #puerto de origen
         try:
-            ssql = "SELECT * FROM tavion WHERE iata = "+ vuelo.avion.iata
-            cursor.execute(ssql)
-            avion = cursor.fetchone()
-            idAvion = avion['id_Avion']
+            pass
+    # ssql = "SELECT * FROM tavion WHERE iata = "+ vuelo.avion.iata
+            # idAvion = avion['id_Avion']
         except:
             idAvion = 0
             log += "No existe registro en BD del avion: "+ str(vuelo.avion.iata)+ "\n"
 
         try: 
             ssql = "SELECT * FROM tciudad_aeropuerto WHERE = iata = "+vuelo.aeropuerto.iata+"\n"
+            cursor.execute(ssql)
+            cursor.execute(ssql)
+            avion = cursor.fetchone()
         except:
             pass
         # ssql = "INSERT INTO tvuelo ("
@@ -132,4 +148,4 @@ def addVuelo():
 def removeVuelo():
     return
 
-application.run("192.168.214.177", port=9000, debug=True) #192.168.214.177
+application.run("localhost", port=9000, debug=True) #192.168.214.177
