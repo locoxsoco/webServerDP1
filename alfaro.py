@@ -116,12 +116,10 @@ def cargarVuelos():
     cursor.close()
 
     fWrite = open("test/Vuelos_Simulador.txt", "w+")
-
     return log
 
 @application.route('/addVuelo', methods=['POST'])
 def addVuelo():
-    
     return
 
 @application.route('/removeVuelo', methods=['POST'])

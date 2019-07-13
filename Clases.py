@@ -144,7 +144,7 @@ class Vuelo:
         self.aeropuertoOrigen = aeropuertoOrigen 
 
     def asignarPuerta (self, area):
-        self.area = area # puntero a manga o zona
+        self.area = area 
 
     def asignarIDVuelo(self):
         Vuelo.nVuelo +=1
@@ -211,7 +211,6 @@ class ListaVuelos:
                 else:
                     self.listaVuelos[indice].addVuelo(bloque.vuelo,bloque.vuelo.tiempoLlegada)
                 self.cantidad +=1
-                # print ("JA: ",self.cantidad)
                 return 1
         return -1
 
@@ -246,7 +245,6 @@ class Area:
                     f=1
                 else:
                     s+=", "
-                    
             # if (p.ocupado):
                 s+="{ \"numeroVuelo\": \""+ str(p.vuelo.iata) \
                     + "\", \"nombreAerolinea\": \""+ str(p.vuelo.avion.tAerolinea.nombre) \
@@ -267,29 +265,22 @@ class Area:
             self.vuelos.listaVuelos[indice-1].definirEspacioVacio(self.vuelos.listaVuelos[indice-1].tiempoInicio, \
                 self.vuelos.listaVuelos[indice+1].tiempoFin)
             self.vuelos.listaVuelos.pop(indice+1)
-            # self.vuelos.listaVuelos.remove(self.vuelos.listaVuelos[indice+1])
-            # self.vuelos.listaVuelos.remove(bloque)
             self.vuelos.listaVuelos.pop(indice)
         elif (not self.vuelos.listaVuelos[indice-1].ocupado) :
             self.vuelos.listaVuelos[indice-1].definirEspacioVacio(self.vuelos.listaVuelos[indice-1].tiempoInicio, \
                 bloque.tiempoFin)
-            # self.vuelos.listaVuelos.remove(bloque)
             self.vuelos.listaVuelos.pop(indice)
         elif ( not self.vuelos.listaVuelos[indice+1].ocupado) :
             self.vuelos.listaVuelos[indice+1].definirEspacioVacio(bloque.tiempoInicio, \
                 self.vuelos.listaVuelos[indice+1].tiempoFin)
-            # self.vuelos.listaVuelos.remove(bloque)
             self.vuelos.listaVuelos.pop(indice)
         else:
             bloqueVacio = BloqueVuelo()
             bloqueVacio.definirEspacioVacio(bloque.tiempoInicio, bloque.tiempoFin)
             self.vuelos.listaVuelos.pop(indice)
             self.vuelos.listaVuelos.insert(indice,bloqueVacio)
-            # self.vuelos.listaVuelos.remove(bloque)
         self.vuelos.cantidad -=1
-        # print ("RIP: ",self.vuelos.cantidad)
         
-############################################################################
 
 class Zona(Area):
     def __init__ (self, tipoArea, tamano, idArea=0, coordenadaXCentro=0.0, \
@@ -306,7 +297,7 @@ class Intervalo(object):
     def __init__(self, listaVuelos, bloque):
         self.listaVuelos = copy(listaVuelos)
         indice = listaVuelos.index(bloque)
-        if (not self.listaVuelos[indice-1].ocupado): #indice !=0 and not 
+        if (not self.listaVuelos[indice-1].ocupado): 
             self.inicio = self.listaVuelos[indice-1]
             self.t1 = self.listaVuelos[indice-1].tiempoInicio
         else:
@@ -316,32 +307,16 @@ class Intervalo(object):
         self.t2 = self.listaVuelos[indice].tiempoInicio
         self.t3 = self.listaVuelos[indice].tiempoFin
 
-        if( not self.listaVuelos[indice+1].ocupado): #indice != len(listaVuelos)-1 and
+        if( not self.listaVuelos[indice+1].ocupado): 
             self.fin = self.listaVuelos[indice+1]
             self.t4 = self.listaVuelos[indice+1].tiempoFin
         else:
             self.fin = self.listaVuelos[indice]
             self.t4 = self.listaVuelos[indice].tiempoFin
         self.cantidad = 1
-        # print(indice,"-",len(self.listaVuelos),"-",self.inicio.tiempoInicio, " ", self.inicio.tiempoFin, " - ", self.fin.tiempoInicio, self.fin.tiempoFin)
-    # def printIntervalo(self):
-    #     p=self.inicio
-    #     while (True):
-    #         print (" => "+ str(p.tiempoInicio) + " | "+ str(p.tiempoFin),end="") 
-    #         if(p == self.fin):
-    #             break
-    #         p=p.sig
-    #     print ()
-    #     print(str(self.t1),end=" ")
-    #     print(str(self.t2),end=" ")
-    #     print(str(self.t3),end=" ")
-    #     print(self.t4)
 
     def extendLeft(self):
         indice = self.listaVuelos.index(self.inicio)
-        #JSON antiguo
-        # print ("izq ",len(self.listaVuelos)," - ",indice,"-", self.inicio.tiempoInicio," ",self.inicio.tiempoFin,self.fin.vuelo )
-        # try:
         if (indice ==0 ):
             return False
         elif(self.listaVuelos[indice-1].vuelo.llego is True):
@@ -349,23 +324,14 @@ class Intervalo(object):
         else:            
             self.inicio = self.listaVuelos[indice-1]
             self.t2 = self.inicio.tiempoInicio
-            #indice-2 == 0 and not 
             if (not self.listaVuelos[indice-2].ocupado):
                 self.inicio = self.listaVuelos[indice-2]
             self.t1 = self.inicio.tiempoInicio
             self.cantidad +=1
             return True
-        # except:
-        #     print (self.inicio.tiempoInicio,self.inicio.tiempoFin, " - ", indice," - " ,len(self.listaVuelos))
-        #     for i in self.listaVuelos:
-        #         print(i.tiempoInicio,i.tiempoFin)
-            # return False
 
     def extendRight(self):
         indice = self.listaVuelos.index(self.fin)
-        #JSON antiguo
-        # try:
-        # print ("der ",len(self.listaVuelos)," - ",indice,"-", self.fin.tiempoInicio," ",self.fin.tiempoFin,self.fin.vuelo )
         if indice == (len(self.listaVuelos)-1) :
             return False
         elif (self.listaVuelos[indice+1].vuelo.llego is True):
@@ -373,14 +339,8 @@ class Intervalo(object):
         else:
             self.fin=self.listaVuelos[indice+1]
             self.t3 = self.fin.tiempoFin
-            #indice+2 == (len(self.listaVuelos)-1) and not 
             if(not self.listaVuelos[indice+2].ocupado):
                 self.fin = self.listaVuelos[indice+2]
             self.t4 = self.fin.tiempoFin   
             self.cantidad +=1
             return True
-        # except:
-        #     print (self.fin.tiempoInicio,self.fin.tiempoFin, " - ", indice," - " ,len(self.listaVuelos))
-        #     for i in self.listaVuelos:
-        #         print(i.tiempoInicio,i.tiempoFin)
-        #     return False
