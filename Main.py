@@ -8,7 +8,6 @@ import numpy
 import Clases
 import Metaheuristico
 from datetime import datetime, date, timedelta
-import sys
 
 def main ():
 
@@ -34,7 +33,6 @@ def corrida():
     #aleatorizar la muestra
     nRandom = listaA[round(random.random()*(len(listaA)-1))]
     print (nRandom)
-    sys.stdout.flush()
     with open(nRandom) as json_file:  #listaA[round(random.random()*3)]
         data = json.loads(json_file.read().replace("\'", "\""))
 

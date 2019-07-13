@@ -114,7 +114,7 @@ def cargarVuelos():
             log += "No existe registro en BD del avion: "+ str(vuelo.avion.iata)+ "\n"
 
         try: 
-            ssql = "SELECT * FROM tciudad_aeropuerto WHERE = iata = "+vuelo.iata
+            ssql = "SELECT * FROM tciudad_aeropuerto WHERE = iata = "+vuelo.aeropuerto.iata+"\n"
         except:
             pass
         # ssql = "INSERT INTO tvuelo ("
