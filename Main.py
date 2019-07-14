@@ -112,7 +112,7 @@ def corrida():
         area2.addIndice(indice)
         listaMangas.append(area2)
         
-    for i in range(1,nZonas +1):
+    for i in range(21,nZonas+21):
         indice = round(random.random()*2)
         area = Clases.Zona("Zona", tamanos[indice], i, random.random()*499+1, random.random()*499+1)
         area.addIndice(indice)

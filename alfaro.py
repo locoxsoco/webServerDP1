@@ -15,6 +15,7 @@ import Clases
 import Main
 import Metaheuristico
 import mysql.connector
+from datetime import datetime
 
 @application.after_request
 def after_request(response):
@@ -27,30 +28,58 @@ def after_request(response):
 def asignarVuelos(): 
     return (str(Main.main()))
 
-@application.route('/cargarVuelos', methods=['GET'])
-def cargarVuelos():
-    #Lectura de Mangas y Zonas
-    tamanos = ["Pequeño", "Mediano", "Grande"]
-    listaAreas = []
+@application.route('/cargarVuelos/<cargaMasiva>', methods=['POST'])
+def cargarVuelos(cargaMasiva):
+    tamanos = ["Pequeno", "Mediano", "Grande"]
+    try:
+        mydb = mysql.connector.connect(
+            host="localhost",
+            user="inf226",
+            passwd="legion@666",
+            database="inf226",
+            port="3307"
+        )
+        #Lectura de Mangas y Zonas
+        cursor = mydb.cursor(dictionary=True)
+        ssql = "SELECT * FROM tarea"
+        cursor.execute(ssql)
+        resultado = cursor.fetchall()
+        cursor.close()
 
-    mydb = mysql.connector.connect(
-        host="localhost",
-        user="inf226",
-        passwd="legion@666",
-        database="inf226",
-        port="3307"
-    )
+        #Lectura de aviones
+        cursor = mydb.cursor(dictionary=True)
+        ssql = "SELECT * FROM tavion"
+        cursor.execute(ssql)
+        aviones = cursor.fetchall()
+        hashAviones = dict()
+        for idAvion in range(len(aviones)):
+            hashAviones[aviones[idAvion]['iata']]=aviones[idAvion]
+
+        #Lectura de aeropuertos
+        cursor = mydb.cursor(dictionary=True)
+        ssql = "SELECT * FROM tciudad_aeropuerto"
+        cursor.execute(ssql)
+        aeropuertos = cursor.fetchall()
+        hashAeropuertos = dict()
+        for idAeropuerto in range(len(aeropuertos)):
+            hashAeropuertos[aeropuertos[idAeropuerto]['iata']]=aeropuertos[idAeropuerto] 
     
-    cursor = mydb.cursor(dictionary=True)
-    ssql = "SELECT * FROM tarea"
-    cursor.execute(ssql)
-    resultado = cursor.fetchall()
-    cursor.close()
+        #Lectura de tipoAviones
+        cursor = mydb.cursor(dictionary=True)
+        ssql = "SELECT * FROM ttipo_avion"
+        cursor.execute(ssql)
+        tAviones = cursor.fetchall()
+        hashTAviones = dict()
+        for idTAviones in range(len(tAviones)):
+            hashTAviones[aeropuertos[idTAviones]['iata']]=tAviones[idTAviones] 
+    except: 
+        return "Error de conexión con base de datos"
 
+    listaAreas = []
     for i in range(len(resultado)):
         indice = 0
-        for j in tamanos:
-            if (j == resultado[i]['tamano']):
+        for j in range(len(tamanos)):
+            if (tamanos[j] == resultado[i]['tamano']):
                 break
             indice +=1
         if (resultado[i]['tipo_area'] == "Manga") :
@@ -61,92 +90,107 @@ def cargarVuelos():
                 resultado[i]['id_area_estacionamiento'], resultado[i]['coordenada_x'],resultado[i]['coordenada_y'])
         area.addIndice(indice)
         listaAreas.append(area)
-    #leerVuelos de API o de log\Vuelos.txt, o de lo que me mande el JAVA
-   
-    with open("test/Vuelos.txt") as json_file: 
-        data = json.loads(json_file.read().replace("\'", "\""))
 
+    #leerVuelos de API o de lo que me mande el JAVA
+    if (cargaMasiva == "False"):
+        try:
+            r2 = requests.get(url='https://aviation-edge.com/v2/public/timetable?key=949de0-014c14&iataCode=LIM&type=arrival')
+            data = r2.json()
+            # data = json.loads(jsonvuelos.replace("\'", "\""))
+        except:
+            print("Carga de vuelos [",datetime.now(),"] - No hay servicio de aviation-edge, cargando archivo de configuración normal")
+    else:    
+        with open("ArrivalLima190713 - 11.53am") as json_file:
+            data = json.loads(json_file.read().replace("\'", "\""))
+    print(data)
     listaVuelos=[]
     i=0
     for flight in data:
         i+=1
-        jsonOrigen = flight['departure']
-        jsonAvion = flight['aircraft']
-        jsonAerolinea = flight['airline']
-        jsonVuelo = flight['flight']
-
         vuelo = Clases.Vuelo()
-        vuelo.addIata(jsonVuelo['iataNumber'])
-        vuelo.addNumeroVuelo(jsonVuelo['number'])
+        jsonDestino = flight ['arrival']
+        anho = int(jsonDestino['scheduledTime'][0:4])
+        mes = int(jsonDestino['scheduledTime'][5:7])
+        dia = int(jsonDestino['scheduledTime'][8:10])
+        hora = int(jsonDestino['scheduledTime'][11:13])
+        minuto = int(jsonDestino['scheduledTime'][14:16])
+        segundo = int(jsonDestino['scheduledTime'][17:19])
+        vuelo.setTiempoProgramado(datetime(year=anho, month=mes, day=dia, \
+                                   hour=hora, minute=minuto, second=segundo))
+        vuelo.setTiempoEstimado(datetime(year=anho, month=mes, day=dia, \
+                                   hour=hora, minute=minuto, second=segundo))
+        vuelo.setTiempoLlegada(datetime(year=anho, month=mes, day=dia, \
+                                   hour=hora, minute=minuto, second=segundo))
+        vuelo.setEstado(flight['status'])
+        try:
+            anho = int(jsonDestino['estimatedTime'][0:4])
+            mes = int(jsonDestino['estimatedTime'][5:7])
+            dia = int(jsonDestino['estimatedTime'][8:10])
+            hora = int(jsonDestino['estimatedTime'][11:13])
+            minuto = int(jsonDestino['estimatedTime'][14:16])
+            segundo = int(jsonDestino['estimatedTime'][17:19])
+            vuelo.setTiempoEstimado(datetime(year=anho, month=mes, day=dia, \
+                                        hour=hora, minute=minuto, second=segundo))
+            vuelo.setTiempoLlegada(datetime(year=anho, month=mes, day=dia, \
+                                        hour=hora, minute=minuto, second=segundo))
+        except:
+            pass
 
+        jsonPartida = flight['departure']
         aeropuerto = Clases.Aeropuerto()
-        aeropuerto.addIata(jsonOrigen['iataCode'])
+        aeropuerto.addIata(jsonPartida['iataCode'])
         vuelo.addAeropuertoOrigen(aeropuerto)
+            
+        jsonVuelo = flight['flight']
+        vuelo.addNumeroVuelo(jsonVuelo['number'])
+        vuelo.addIata(jsonVuelo['iataNumber'])
 
+        jsonAerolinea = flight['airline']
         aerolinea =Clases.TAerolinea()
         aerolinea.addIata(jsonAerolinea['iataCode'])
-
-        tipoAvion = Clases.TipoAvion()
-        indice = round(random.random()*2) #BD
-        tipoAvion.addTamano(tamanos[indice])
-        tipoAvion.addIndice(indice)
+        aerolinea.addNombre(jsonAerolinea['name'])
 
         avion = Clases.Avion()
-        avion.addIata(jsonAvion['iataCode'])
-        avion.addNumeroRegistro(jsonAvion['regNumber'])
         avion.addTAerolinea(aerolinea)
-        avion.addTipoAvion(tipoAvion)
         vuelo.setAvion(avion)
 
+        vuelo.asignarIDVuelo()
         listaVuelos.append(vuelo)
 
     #cargarBD y guardar en log\Vuelos_Simulador.txt
     log =""
-    cursor = mydb.cursor(dictionary=True)
-    ssql = "SELECT * FROM tavion"
-    cursor.execute(ssql)
-    aviones = cursor.fetchall()
-    hashAviones = dict()
-    for idAvion in range(len(aviones)):
-        hashAviones[aviones[idAvion]['iata']]=aviones[idAvion]
 
-    ssql = "SELECT * FROM tciudad_aeropuerto"
-    cursor.execute(ssql)
-    aeropuertos = cursor.fetchall()
-    hashAeropuertos = dict()
-    for idAeropuerto in range(len(aeropuertos)):
-        hashAeropuertos[aeropuertos[idAeropuerto]['iata']]=aeropuertos[idAeropuerto] 
+    for indiceVuelo in range(len(listaVuelos)): #area #avion #puerto de origen
+        vuelo = listaVuelos[indiceVuelo]
+        #buscar ids
+        tipoAvion = Clases.TipoAvion()
+        indice = 0
+        for j in tamanos:
+            if (j == "de base de datos"):
+                break
+            indice +=1
+        tipoAvion.addTamano(tamanos[indice])
+        tipoAvion.addIndice(indice)
+        vuelo.avion.addTipoAvion(tipoAvion)
 
-    for vuelo in listaVuelos: #area #avion #puerto de origen
-        try:
-            # ssql = "INSERT INTO tvuelo VALUES ("+
-            pass
-            # ssql = "SELECT * FROM tavion WHERE iata = "+ vuelo.avion.iata
-            # idAvion = avion['id_Avion']
-        except:
-            idAvion = 0
-            log += "No existe registro en BD del avion: "+ str(vuelo.avion.iata)+ "\n"
 
-        try: 
-            ssql = "SELECT * FROM tciudad_aeropuerto WHERE = iata = "+vuelo.aeropuerto.iata+"\n"
-            cursor.execute(ssql)
-            cursor.execute(ssql)
-            avion = cursor.fetchone()
-        except:
-            pass
-        # ssql = "INSERT INTO tvuelo ("
+        #insertar
+        args = [vuelo.iata,vuelo.icao,vuelo.numeroVuelo,vuelo.tiempoProgramado,vuelo.tiempoEstimado,vuelo.tiempoLlegada, vuelo.estado, \
+            vuelo.idAvion,vuelo.idAeropuerto,vuelo.idArea,0]
+        resultado = cursor.callproc("INSERTAR_VUELO",args)
 
     cursor.close()
 
     fWrite = open("test/Vuelos_Simulador.txt", "w+")
     return log
 
-@application.route('/addVuelo', methods=['POST'])
-def addVuelo():
-    return
+@application.route('/addVuelo/<vuelo>', methods=['POST'])
+def addVuelo(vuelo):
+    content = request.json 
+    return  "Se ha agregado correctamente"
 
-@application.route('/removeVuelo', methods=['POST'])
-def removeVuelo():
-    return
+@application.route('/removeVuelo/<int:idVuelo>', methods=['POST'])
+def removeVuelo(idVuelo):
+    return  "Se ha eliminado correctamente"
 
 application.run("192.168.214.177", port=9000, debug=True) #192.168.214.177
