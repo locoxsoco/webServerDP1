@@ -38,11 +38,12 @@ def asignarVuelos():
     print ("Enviado a: " + request.remote_addr + " por el puerto: "+ str(Configuracion.puerto))
     return (resultado)
 
-@application.route('/cargarVuelos/<cargaMasiva>', methods=['POST'])
+@application.route('/cargarVuelos/<cargaMasiva>', methods=['GET'])
 def cargarVuelos(cargaMasiva):
     Configuracion.simulacion = cargaMasiva
     tamanos = ["Pequeno", "Mediano", "Grande"]
     # try:
+    return "OK"
     mydb = mysql.connector.connect(
         host="localhost",
         user="inf226",
@@ -50,7 +51,6 @@ def cargarVuelos(cargaMasiva):
         database="inf226",
         port="3307"
     )
-    print("xd")
     #Lectura de Mangas y Zonas
     cursor = mydb.cursor(dictionary=True)
     ssql = "SELECT * FROM tarea WHERE es_eliminado = 0"
@@ -115,7 +115,7 @@ def cargarVuelos(cargaMasiva):
     else:    
         with open("ArrivalLima190713 - 11.53am.txt") as json_file:
             data = json.loads(json_file.read().replace("\'", "\""))
-    print(data)
+    # print(data)
     listaVuelos=[]
     i=0
     for flight in data:
@@ -231,15 +231,15 @@ def cargarVuelos(cargaMasiva):
     cursor.close()
 
     fWrite = open("test/Vuelos_Simulador.txt", "w+")
-    return "Cambio exitoso"
+    return "OK"
 
 @application.route('/addVuelo/<vuelo>', methods=['POST'])
 def addVuelo(vuelo):
     content = request.json 
-    return  "Se ha agregado correctamente"
+    return  "OK"
 
 @application.route('/removeVuelo/<int:idVuelo>', methods=['POST'])
 def removeVuelo(idVuelo):
-    return  "Se ha eliminado correctamente"
+    return  "OK"
 
-application.run("192.168.214.177", port=Configuracion.puerto, debug=True) #192.168.214.177
+application.run("localhost", port=Configuracion.puerto, debug=True) #192.168.214.177
