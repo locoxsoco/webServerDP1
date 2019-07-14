@@ -17,6 +17,10 @@ import Metaheuristico
 import mysql.connector
 from datetime import datetime
 
+class Configuracion:    
+    puerto = 9000
+    simulacion = True
+
 @application.after_request
 def after_request(response):
     response.headers["Cache-Control"] = "no-store"
@@ -24,56 +28,65 @@ def after_request(response):
     # response.headers["Pragma"] = "no-cache"
     return response
 
+@application.route('/estaSimulando', methods=['GET'])
+def modoSimulacion(): 
+    return str(Configuracion.simulacion)
+
 @application.route('/asignarVuelos', methods=['GET'])
 def asignarVuelos(): 
-    return (str(Main.main()))
+    resultado = str(Main.main())
+    print ("Enviado a: " + request.remote_addr + " por el puerto: "+ str(Configuracion.puerto))
+    return (resultado)
 
 @application.route('/cargarVuelos/<cargaMasiva>', methods=['POST'])
 def cargarVuelos(cargaMasiva):
+    Configuracion.simulacion = cargaMasiva
     tamanos = ["Pequeno", "Mediano", "Grande"]
-    try:
-        mydb = mysql.connector.connect(
-            host="localhost",
-            user="inf226",
-            passwd="legion@666",
-            database="inf226",
-            port="3307"
-        )
-        #Lectura de Mangas y Zonas
-        cursor = mydb.cursor(dictionary=True)
-        ssql = "SELECT * FROM tarea"
-        cursor.execute(ssql)
-        resultado = cursor.fetchall()
-        cursor.close()
+    # try:
+    mydb = mysql.connector.connect(
+        host="localhost",
+        user="inf226",
+        passwd="legion@666",
+        database="inf226",
+        port="3307"
+    )
+    print("xd")
+    #Lectura de Mangas y Zonas
+    cursor = mydb.cursor(dictionary=True)
+    ssql = "SELECT * FROM tarea WHERE es_eliminado = 0"
+    cursor.execute(ssql)
+    resultado = cursor.fetchall()
+    cursor.close()
 
-        #Lectura de aviones
-        cursor = mydb.cursor(dictionary=True)
-        ssql = "SELECT * FROM tavion"
-        cursor.execute(ssql)
-        aviones = cursor.fetchall()
-        hashAviones = dict()
-        for idAvion in range(len(aviones)):
-            hashAviones[aviones[idAvion]['iata']]=aviones[idAvion]
+    #Lectura de aviones
+    cursor = mydb.cursor(dictionary=True)
+    ssql = "SELECT * FROM tavion WHERE es_eliminado = 0"
+    cursor.execute(ssql)
+    aviones = cursor.fetchall()
+    hashAviones = dict()
+    for idAvion in range(len(aviones)):
+        hashAviones[aviones[idAvion]['iata']]=aviones[idAvion]
 
-        #Lectura de aeropuertos
-        cursor = mydb.cursor(dictionary=True)
-        ssql = "SELECT * FROM tciudad_aeropuerto"
-        cursor.execute(ssql)
-        aeropuertos = cursor.fetchall()
-        hashAeropuertos = dict()
-        for idAeropuerto in range(len(aeropuertos)):
-            hashAeropuertos[aeropuertos[idAeropuerto]['iata']]=aeropuertos[idAeropuerto] 
-    
-        #Lectura de tipoAviones
-        cursor = mydb.cursor(dictionary=True)
-        ssql = "SELECT * FROM ttipo_avion"
-        cursor.execute(ssql)
-        tAviones = cursor.fetchall()
-        hashTAviones = dict()
-        for idTAviones in range(len(tAviones)):
-            hashTAviones[aeropuertos[idTAviones]['iata']]=tAviones[idTAviones] 
-    except: 
-        return "Error de conexión con base de datos"
+    #Lectura de aeropuertos
+    cursor = mydb.cursor(dictionary=True)
+    ssql = "SELECT * FROM tciudad_aeropuerto"
+    cursor.execute(ssql)
+    aeropuertos = cursor.fetchall()
+    hashAeropuertos = dict()
+    for idAeropuerto in range(len(aeropuertos)):
+        hashAeropuertos[aeropuertos[idAeropuerto]['iata']]=aeropuertos[idAeropuerto] 
+
+    #Lectura de tipoAviones
+    cursor = mydb.cursor(dictionary=True)
+    ssql = "SELECT * FROM ttipo_avion WHERE es_eliminado = 0"
+    cursor.execute(ssql)
+    tAviones = cursor.fetchall()
+    hashTAviones = dict()
+    for idTAviones in range(len(tAviones)):
+        hashTAviones[tAviones[idTAviones]['id_tipo_avion']]=tAviones[idTAviones] 
+    # except: 
+    #     return "Error de conexión con base de datos"
+    cursor.close()
 
     listaAreas = []
     for i in range(len(resultado)):
@@ -100,7 +113,7 @@ def cargarVuelos(cargaMasiva):
         except:
             print("Carga de vuelos [",datetime.now(),"] - No hay servicio de aviation-edge, cargando archivo de configuración normal")
     else:    
-        with open("ArrivalLima190713 - 11.53am") as json_file:
+        with open("ArrivalLima190713 - 11.53am.txt") as json_file:
             data = json.loads(json_file.read().replace("\'", "\""))
     print(data)
     listaVuelos=[]
@@ -140,7 +153,7 @@ def cargarVuelos(cargaMasiva):
         aeropuerto = Clases.Aeropuerto()
         aeropuerto.addIata(jsonPartida['iataCode'])
         vuelo.addAeropuertoOrigen(aeropuerto)
-            
+
         jsonVuelo = flight['flight']
         vuelo.addNumeroVuelo(jsonVuelo['number'])
         vuelo.addIata(jsonVuelo['iataNumber'])
@@ -159,24 +172,60 @@ def cargarVuelos(cargaMasiva):
 
     #cargarBD y guardar en log\Vuelos_Simulador.txt
     log =""
-
+    cursor = mydb.cursor()
     for indiceVuelo in range(len(listaVuelos)): #area #avion #puerto de origen
         vuelo = listaVuelos[indiceVuelo]
-        #buscar ids
-        tipoAvion = Clases.TipoAvion()
-        indice = 0
-        for j in tamanos:
-            if (j == "de base de datos"):
-                break
-            indice +=1
+        #encontrar avion
+        try:
+            avionBD = hashAviones[vuelo.avion.iata]
+            indiceAvion = avionBD['id_Avion']
+            indiceTAvionBD = avionBD['ttipo_avion_id_tipo_avion']
+            tAvionBD = hashTAviones[indiceTAvionBD]
+
+            #encontrar tipo avion
+            tipoAvion = Clases.TipoAvion()
+            indice = 0
+            for j in tamanos:
+                if (j == tAvionBD['tamano']):
+                    break
+                indice +=1
+        except:
+            try:
+                avionBD = hashAviones['000']
+                indiceAvion = avionBD['id_Avion']
+            except:
+                return "No existe el avión base de iata 000"
+            indiceTAvionBD = avionBD['ttipo_avion_id_tipo_avion']
+            tAvionBD = hashTAviones[indiceTAvionBD]
+
+            #encontrar tipo avion
+            tipoAvion = Clases.TipoAvion()
+            indice = 0
+            for j in tamanos:
+                if (j == tAvionBD['tamano']):
+                    break
+                indice +=1
+            log += "No se ha encontrado el avión con iata: "+ str(vuelo.avion.iata) + \
+                ", se registrará el vuelo en base de datos con iataAvion = \'000\' "+ " y cuyo tamano será: " + str(tamanos[indice]) +"\n"
         tipoAvion.addTamano(tamanos[indice])
         tipoAvion.addIndice(indice)
         vuelo.avion.addTipoAvion(tipoAvion)
 
-
+        #encontrar aeropuerto
+        try:
+            aeropuertoBD = hashAeropuertos[vuelo.aeropuertoOrigen.iata]
+            indiceAeropuerto = aeropuertoBD['id_ciudad']
+        except:
+            try:
+                indiceAeropuerto = hashAeropuertos['00']['id_ciudad']
+            except:
+                return "No existe el aeropuerto base de iata 00"
+            log += "No se ha encontrado el aeropuerto con iata: "+ str(vuelo.aeropuertoOrigen.iata) + \
+                ", se registrará el vuelo en base de datos con iataCiudad = \'000\' "
+        
         #insertar
         args = [vuelo.iata,vuelo.icao,vuelo.numeroVuelo,vuelo.tiempoProgramado,vuelo.tiempoEstimado,vuelo.tiempoLlegada, vuelo.estado, \
-            vuelo.idAvion,vuelo.idAeropuerto,vuelo.idArea,0]
+            indiceAvion,indiceAeropuerto,vuelo.idArea,0]
         resultado = cursor.callproc("INSERTAR_VUELO",args)
 
     cursor.close()
@@ -193,4 +242,4 @@ def addVuelo(vuelo):
 def removeVuelo(idVuelo):
     return  "Se ha eliminado correctamente"
 
-application.run("192.168.214.177", port=9000, debug=True) #192.168.214.177
+application.run("localhost", port=Configuracion.puerto, debug=True) #192.168.214.177

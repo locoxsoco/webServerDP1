@@ -31,7 +31,7 @@ def corrida():
         
     #aleatorizar la muestra
     nRandom = listaA[round(random.random()*(len(listaA)-1))]
-    print (nRandom," invocado - - [",datetime.now(),"]")
+    print ("Archivo invocado - - [",datetime.now(),"] - - ",nRandom)
     with open(nRandom) as json_file:  #listaA[round(random.random()*3)]
         data = json.loads(json_file.read().replace("\'", "\""))
 
