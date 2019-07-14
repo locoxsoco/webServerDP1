@@ -242,4 +242,4 @@ def addVuelo(vuelo):
 def removeVuelo(idVuelo):
     return  "OK"
 
-application.run("localhost", port=Configuracion.puerto, debug=True) #192.168.214.177
+application.run("192.168.214.177", port=Configuracion.puerto, debug=True) #192.168.214.177
