@@ -231,7 +231,7 @@ def cargarVuelos(cargaMasiva):
     cursor.close()
 
     fWrite = open("test/Vuelos_Simulador.txt", "w+")
-    return log
+    return "Cambio exitoso"
 
 @application.route('/addVuelo/<vuelo>', methods=['POST'])
 def addVuelo(vuelo):
@@ -242,4 +242,4 @@ def addVuelo(vuelo):
 def removeVuelo(idVuelo):
     return  "Se ha eliminado correctamente"
 
-application.run("localhost", port=Configuracion.puerto, debug=True) #192.168.214.177
+application.run("192.168.214.177", port=Configuracion.puerto, debug=True) #192.168.214.177
