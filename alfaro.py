@@ -77,7 +77,7 @@ def carga (flag_Cambio):
             user="inf226",
             passwd="legion@666",
             database="inf226",
-            port="3307"
+            port="3306"
         )
         #Lectura de Mangas y Zonas
         cursor = mydb.cursor(dictionary=True)
@@ -368,4 +368,4 @@ def carga (flag_Cambio):
     cursor.close()
     return "OK"
 
-application.run("localhost", port=Configuracion.puerto, debug=True) #192.168.214.177
+application.run("192.168.214.177", port=Configuracion.puerto, debug=True) #192.168.214.177
