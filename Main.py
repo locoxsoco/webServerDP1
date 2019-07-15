@@ -25,14 +25,10 @@ def main ():
 def corrida():
     # r2 = requests.get(url='https://aviation-edge.com/v2/public/timetable?key=949de0-014c14&iataCode=LIM&type=arrival')
     # data = r2.json()
-    listaA = ["ArrivalLima190629 - 6pm","ArrivalLima190629 - 7.20pm","ArrivalLima190630 - 5.20pm","ArrivalLima190701 - 5.30pm","ArrivalLima190630 - 6.10pm","ArrivalLima190702 - 1.21am","ArrivalLima190709 - 9.23am", "ArrivalLima190709 - 10.03am"]
-    for c in range(len(listaA)):
-        listaA[c] += ".txt"
+    # listaA = ["ArrivalLima190629 - 6pm","ArrivalLima190629 - 7.20pm","ArrivalLima190630 - 5.20pm","ArrivalLima190701 - 5.30pm","ArrivalLima190630 - 6.10pm","ArrivalLima190702 - 1.21am","ArrivalLima190709 - 9.23am", "ArrivalLima190709 - 10.03am"]
         
-    #aleatorizar la muestra
-    nRandom = listaA[round(random.random()*(len(listaA)-1))]
-    print ("Archivo invocado - - [",datetime.now(),"] - - ",nRandom)
-    with open(nRandom) as json_file:  #listaA[round(random.random()*3)]
+    # nRandom = listaA[round(random.random()*(len(listaA)-1))]
+    with open("vuelos.txt") as json_file:  
         data = json.loads(json_file.read().replace("\'", "\""))
 
     data_filtered = list(filter(lambda x : x['status'] != 'landed' and x['status'] != 'cancelled', data))
@@ -164,6 +160,3 @@ def corrida():
     s+="] ] "
     
     return s
-
-if __name__ == '__main__':
-    main()
