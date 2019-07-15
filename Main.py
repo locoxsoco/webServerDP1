@@ -8,6 +8,7 @@ import numpy
 import Clases
 import Metaheuristico
 from datetime import datetime, date, timedelta
+from copy import deepcopy
 
 def main ():
     start = datetime.now()
@@ -28,39 +29,35 @@ def corrida():
     # listaA = ["ArrivalLima190629 - 6pm","ArrivalLima190629 - 7.20pm","ArrivalLima190630 - 5.20pm","ArrivalLima190701 - 5.30pm","ArrivalLima190630 - 6.10pm","ArrivalLima190702 - 1.21am","ArrivalLima190709 - 9.23am", "ArrivalLima190709 - 10.03am"]
         
     # nRandom = listaA[round(random.random()*(len(listaA)-1))]
-    with open("vuelos.txt") as json_file:  
-        data = json.loads(json_file.read().replace("\'", "\""))
-
-    data_filtered = list(filter(lambda x : x['status'] != 'landed' and x['status'] != 'cancelled', data))
-    data_ignored = list (filter(lambda x: x['status'] == 'cancelled' or x['status'] == 'landed',data))
     listaVuelos = []
     tamanos = ["Pequeno", "Mediano", "Grande"]
-    Clases.Vuelo.nVuelo =0
-    
+    with open("vuelos.txt") as json_file:
+        data = json.loads(json_file.read().replace("\'", "\"").replace(" ","").replace("\t"," ").replace("\n"," "))
+    #carga de vuelos a memoria
+    data_filtered = data[0]
+    data_ignored = data[1]
     for flight in data_filtered:
         vuelo = Clases.Vuelo()
-        jsonDestino = flight ['arrival']
-        anho = int(jsonDestino['scheduledTime'][0:4])
-        mes = int(jsonDestino['scheduledTime'][5:7])
-        dia = int(jsonDestino['scheduledTime'][8:10])
-        hora = int(jsonDestino['scheduledTime'][11:13])
-        minuto = int(jsonDestino['scheduledTime'][14:16])
-        segundo = int(jsonDestino['scheduledTime'][17:19])
+        anho = int(flight['tiempoProgramado'][0:4])
+        mes = int(flight['tiempoProgramado'][5:7])
+        dia = int(flight['tiempoProgramado'][8:10])
+        hora = int(flight['tiempoProgramado'][10:12])
+        minuto = int(flight['tiempoProgramado'][13:15])
+        segundo = int(flight['tiempoProgramado'][16:18])
         vuelo.setTiempoProgramado(datetime(year=anho, month=mes, day=dia, \
-                                   hour=hora, minute=minuto, second=segundo))
+                                hour=hora, minute=minuto, second=segundo))
         vuelo.setTiempoEstimado(datetime(year=anho, month=mes, day=dia, \
-                                   hour=hora, minute=minuto, second=segundo))
+                                hour=hora, minute=minuto, second=segundo))
         vuelo.setTiempoLlegada(datetime(year=anho, month=mes, day=dia, \
-                                   hour=hora, minute=minuto, second=segundo))
-        vuelo.setEstado(flight['status'])
-        vuelo.setLlego(False)
+                                hour=hora, minute=minuto, second=segundo))
+        vuelo.setEstado(flight['estado'])
         try:
-            anho = int(jsonDestino['estimatedTime'][0:4])
-            mes = int(jsonDestino['estimatedTime'][5:7])
-            dia = int(jsonDestino['estimatedTime'][8:10])
-            hora = int(jsonDestino['estimatedTime'][11:13])
-            minuto = int(jsonDestino['estimatedTime'][14:16])
-            segundo = int(jsonDestino['estimatedTime'][17:19])
+            anho = int(flight['tiempoEstimado'][0:4])
+            mes = int(flight['tiempoEstimado'][5:7])
+            dia = int(flight['tiempoEstimado'][8:10])
+            hora = int(flight['tiempoEstimado'][10:12])
+            minuto = int(flight['tiempoEstimado'][13:15])
+            segundo = int(flight['tiempoEstimado'][16:18])
             vuelo.setTiempoEstimado(datetime(year=anho, month=mes, day=dia, \
                                         hour=hora, minute=minuto, second=segundo))
             vuelo.setTiempoLlegada(datetime(year=anho, month=mes, day=dia, \
@@ -68,55 +65,46 @@ def corrida():
         except:
             pass
 
-        jsonPartida = flight['departure']
         aeropuerto = Clases.Aeropuerto()
-        aeropuerto.addIata(jsonPartida['iataCode'])
+        aeropuerto.addIata(flight['iataProcedencia'])
         vuelo.addAeropuertoOrigen(aeropuerto)
-            
-        jsonVuelo = flight['flight']
-        vuelo.addNumeroVuelo(jsonVuelo['number'])
-        vuelo.addIata(jsonVuelo['iataNumber'])
 
-        jsonAerolinea = flight['airline']
+        vuelo.addIata(flight['numeroVuelo'])
+
         aerolinea =Clases.TAerolinea()
-        aerolinea.addIata(jsonAerolinea['iataCode'])
-        aerolinea.addNombre(jsonAerolinea['name'])
+        aerolinea.addIata(flight['iataAerolinea'])
+        aerolinea.addNombre(flight['nombreAerolinea'])
 
         tipoAvion = Clases.TipoAvion()
-
-        indice = round(random.random()*2)
-        tipoAvion.addTamano(tamanos[indice])
-        tipoAvion.addIndice(indice)
-
+        tipoAvion.addIndice(int(flight['indiceAvion']))
+        tipoAvion.addTamano(flight['tamañoAvion'])
         avion = Clases.Avion()
-        avion.addTAerolinea(aerolinea)
         avion.addTipoAvion(tipoAvion)
+        avion.addTAerolinea(aerolinea)
+        # print(avion.iata)
         vuelo.setAvion(avion)
-
-        vuelo.asignarIDVuelo()
+        vuelo.setLlego(False)
         listaVuelos.append(vuelo)
 
-    # Creación de zonas y mangas
-    nMangas = 19
-    nZonas = 52
-    
-    listaZonas = []
-    listaMangas = []
-    for i in range(1,nMangas+1):
-        indice = round(random.random()*2)
-        area2 = Clases.Manga("Manga",tamanos[indice],i, random.random()*499+1,random.random()*499+1,10)
-        area2.addIndice(indice)
-        listaMangas.append(area2)
-        
-    for i in range(21,nZonas+21):
-        indice = round(random.random()*2)
-        area = Clases.Zona("Zona", tamanos[indice], i, random.random()*499+1, random.random()*499+1)
+    listaAreas = []
+    for area in data[2]:
+        indice = 0
+        for j in range(len(tamanos)):
+            if (tamanos[j] == area['tamano']):
+                break
+            indice +=1
+        tipo = area['tipoArea']
+        if (tipo == "Manga") :
+            area = Clases.Manga("Manga",tamanos[indice], \
+                area['idArea'], 0,0)
+        elif (tipo =="Zona"):
+            area = Clases.Zona("Zona",tamanos[indice], \
+                area['idArea'], 0,0)
         area.addIndice(indice)
-        listaZonas.append(area)
-
-    ## JSON asignacion antigua 
+        listaAreas.append(area)
     
-    ann = Metaheuristico.Annealer(listaVuelos,listaMangas,listaZonas)
+    ## JSON asignacion antigua     
+    ann = Metaheuristico.Annealer(listaVuelos,listaAreas)
     x,y = ann.anneal()
 
     listaV = []
@@ -125,7 +113,7 @@ def corrida():
             if (p.ocupado):
                 p.vuelo.asignarPuerta(area)
                 listaV.append(p.vuelo)
-    s=""
+    s= ""
     s+= "[ ["
     for i in range(len(listaV)):
         if (i!=0):

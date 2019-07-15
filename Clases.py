@@ -68,7 +68,6 @@ class TipoAvion:
         self.indice = indice
 
 class Vuelo: 
-    nVuelo = 0    
     def __init__ (self,  estado = None, avion =None,tiempoEstimado =None,tiempoProgramado=None, \
         tiempoLlegada=None,  icao=None, iata=None, \
         numeroVuelo=None,estaEnTierra=None,latitud=None,longitud=None, \
@@ -146,9 +145,9 @@ class Vuelo:
     def asignarPuerta (self, area):
         self.area = area 
 
-    def asignarIDVuelo(self):
-        Vuelo.nVuelo +=1
-        self.idVuelo = Vuelo.nVuelo
+    # def asignarIDVuelo(self):
+    #     Vuelo.nVuelo +=1
+    #     self.idVuelo = Vuelo.nVuelo
 
 class BloqueVuelo:
     def __init__(self):

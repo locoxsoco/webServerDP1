@@ -21,26 +21,38 @@ class Annealer(object):
     max_iter = 100
     listaTabu = []
 
-    def __init__(self,x,y,z):
+    def __init__(self,x,y):
         """
         Método FIFO para alcanzar una solución mas o menos óptima
         """
         self.listaVuelos = deepcopy(x)
-        self.listaAreas = y+z
+        self.listaAreas = y
 
         for vuelo in self.listaVuelos:
             asignado = False
-            for puertaZona in (self.listaAreas):
-                if (puertaZona.insertarVuelo(vuelo,vuelo.tiempoEstimado)!=-1):
+            for puertaZona in range(len(self.listaAreas))   :
+                if (self.listaAreas[puertaZona].insertarVuelo(vuelo,vuelo.tiempoEstimado)!=-1):
                     asignado = True
                     break
                     
             while(not asignado):
                 vuelo.setTiempoLlegada (vuelo.tiempoLlegada + timedelta(minutes = 1))                
-                for puertaZona in (self.listaAreas):
-                    if (puertaZona.insertarVuelo(vuelo,vuelo.tiempoLlegada)!=-1):
+                for puertaZona in range(len(self.listaAreas)):
+                    if (self.listaAreas[puertaZona].insertarVuelo(vuelo,vuelo.tiempoLlegada)!=-1):
                         asignado = True                        
                         break
+
+        # print(len(self.listaVuelos))        
+        # print(len(self.listaAreas))
+        # s=""
+        # for i in range(len(self.listaAreas)):
+        #     if(i!=0):
+        #         s+=","
+        #     s+=self.listaAreas[i].imprimirLista()
+        # f = open("xd.txt","w+")       
+        # f.write(s)
+        # f.close()
+
         self.state = deepcopy(self.listaAreas)
 
     def move(self,tabu = False): 
